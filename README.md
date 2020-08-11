@@ -46,3 +46,8 @@ pkgdown::build_site()
 ```
 
 ### install and run locally
+
+```r
+remotes::install_github("marinebon/nms4r")
+```
+
