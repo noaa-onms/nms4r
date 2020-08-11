@@ -1,0 +1,16 @@
+Package: nms4r
+Title: National Marine Sanctuaries tools for R
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Ben",
+           family = "Best",
+           role = c("aut", "cre"),
+           email = "ben@ecoquants.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: R package of common functions used across National Marine Sanctuaries for infographic development.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to
+    pick a license
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0
