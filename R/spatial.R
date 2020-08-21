@@ -86,7 +86,7 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   # https://github.com/rstudio/leaflet/issues/225#issuecomment-347721709
 
   # The date range to be considered
-  m_beg   <- ymd(glue("{year}-{month}-01"))
+  m_beg   <- lubridate::ymd(glue("{year}-{month}-01"))
   m_end   <- m_beg + days(days_in_month(m_beg)) - days(1)
   m_dates <- c(m_beg, m_end)
 
@@ -147,7 +147,7 @@ generate_latest_SST<- function(wrapper_sanctuary_code, wrapper_erddap_id, wrappe
   month <- as.numeric(substr(last_month, 6, 7))
 
   # The date range to be considered
-  m_beg   <- ymd(glue("{year}-{month}-01"))
+  m_beg   <- lubridate::ymd(glue("{year}-{month}-01"))
   m_end   <- m_beg + days(days_in_month(m_beg)) - days(1)
   m_dates <- c(m_beg, m_end)
 
