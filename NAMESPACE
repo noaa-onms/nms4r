@@ -2,4 +2,4 @@
 
 export()
 export(generate_latest_SST)
-export(ply2erddap)
+export(get_nms_ply)

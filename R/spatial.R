@@ -22,8 +22,20 @@ library(fs)
 library(tidyverse)
 library(lubridate)
 
+#' Generate statistics for raster data within NMS polygon
+#'
+#' @param sanctuary_code code for national marine sanctuary
+#' @param erddap_id the name of the satellite data set to be pulled from erddap servers
+#' @param erddap_fld the parameter to be pulled from the data set
+#' @param year year of requested data in integer form
+#' @param month month of requested data in integer form
+#' @param stats the statistics to be generated for the data set
+#'
+#' @return statistics
+#' @export
+#'
+#' @examples
 get_nms_ply <- function(nms, dir_pfx){
-# This function gets the polygons for a National Marine Sanctuary
 
  # nms_shp <- glue("{dir_shp}/{nms}_py.shp")
   nms_shp <- glue("{dir_pfx}/{nms}_py.shp")
@@ -43,20 +55,6 @@ get_nms_ply <- function(nms, dir_pfx){
   read_sf(nms_shp) %>%
     st_transform(4326)
 }
-
-#' Generate statistics for raster data within NMS polygon
-#'
-#' @param sanctuary_code code for national marine sanctuary
-#' @param erddap_id the name of the satellite data set to be pulled from erddap servers
-#' @param erddap_fld the parameter to be pulled from the data set
-#' @param year year of requested data in integer form
-#' @param month month of requested data in integer form
-#' @param stats the statistics to be generated for the data set
-#'
-#' @return statistics
-#' @export
-#'
-#' @examples
 
 ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
 
@@ -131,7 +129,6 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
 #' @export
 #'
 #' @examples
-
 generate_latest_SST<- function(wrapper_sanctuary_code, wrapper_erddap_id, wrapper_erddap_fld, wrapper_stats){
   # this function generates the SST statistics for the latest month of available data. It (hopefully) is
   # run near the beginning of the month and generates the SST statistics for the month before that.
