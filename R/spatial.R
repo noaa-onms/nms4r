@@ -44,16 +44,30 @@ get_nms_ply <- function(nms, dir_pfx){
     st_transform(4326)
 }
 
-# The following  function generates statistics for the SST for a national marine sanctuary for a given
+#' Generate statistics for raster data within NMS polygon
+#'
+#' @param sanctuary_code code for national marine sanctuary
+#' @param erddap_id the name of the satellite data set to be pulled from erddap servers
+#' @param erddap_fld the parameter to be pulled from the data set
+#' @param year year of requested data in integer form
+#' @param month month of requested data in integer form
+#' @param stats the statistics to be generated for the data set
+#'
+#' @return statistics
+#' @export
+#'
+#' @examples
+
+ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
+ 
+ # The following  function generates statistics for the SST for a national marine sanctuary for a given
 # month. For the moment, when we say "statistics", we mean the average SST and standard deviation.  
 # Parameters going into the function: 1) sanctuary_code: a string that describes a specific national marine sanctuary,
 # ("cinms" for Channel Islands Marine Sanctuary), 2) erddap_id: the name of the satellite data set to be pulled 
 # from erddap servers ("jplMURSST41mday" for Multi-scale Ultra-high Resolution SST Analysis), 3) erddap_fld: the parameter 
 # to be pulled from the data set ("sst" for sea surface temperature), 4) year: in integer form, 5) month: in integer form,
 # 6) stats: the statistics to be generated for the data set (c("mean", "sd"), to calculate mean and standard deviation).
-
-ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
-  
+ 
   # check inputs
   stopifnot(all(is.numeric(year), is.numeric(month)))
   
@@ -106,7 +120,19 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   sapply(stats, get_stat)
 }
 
-generate_latest_SST<- function(){
+#' Generate statistics for last month for NMS polygon
+#'
+#' @param wrapper_sanctuary_code code for national marine sanctuary
+#' @param wrapper_erddap_id the name of the satellite data set to be pulled from erddap servers
+#' @param wrapper_erddap_fld the parameter to be pulled from the data set
+#' @param wrapper_stats the statistics to be generated for the data set
+#'
+#' @return nothing
+#' @export
+#'
+#' @examples
+
+generate_latest_SST<- function(wrapper_sanctuary_code, wrapper_erddap_id, wrapper_erddap_fld, wrapper_stats){
   # this function generates the SST statistics for the latest month of available data. It (hopefully) is
   # run near the beginning of the month and generates the SST statistics for the month before that.
   
@@ -130,7 +156,7 @@ generate_latest_SST<- function(){
 
   # generate requested statistics using the ply2erddap function and then append the requested data to 
   # the csv file that has the data
-  write_out = ply2erddap(sanctuary_code = "cinms", erddap_id = "jplMURSST41mday", erddap_fld = "sst", year = year, month = month, stats = c("mean", "sd"))
+  write_out = ply2erddap(sanctuary_code = wrapper_sanctuary_code, erddap_id = wrapper_erddap_id, wrapper_erddap_fld, year = year, month = month, stats = wrapper_stats)
   write(paste0(year, "," , month, "," , round(write_out[1], 5), "," , round(write_out[2], 5)), file = SST_file, append = TRUE)
   return(invisible())
 }
