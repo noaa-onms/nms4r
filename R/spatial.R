@@ -11,13 +11,23 @@
 #' @export
 #'
 #' @examples
+
+library(here)
+library(rgdal)
+library(raster)
+library(rerddap)
+library(glue)
+library(sf)
+library(fs)
+library(tidyverse)
+library(lubridate)
+
 get_nms_ply <- function(nms, dir_pfx){
-  library(glue)
-  library(here)
-  library(sf)
+# This function gets the polygons for a National Marine Sanctuary
 
-  nms_shp <- glue("{dir_shp}/{nms}_py.shp")
-
+ # nms_shp <- glue("{dir_shp}/{nms}_py.shp")
+  nms_shp <- glue("{dir_pfx}/{nms}_py.shp")
+  
   if (!file.exists(nms_shp)){
     # download if needed
 
