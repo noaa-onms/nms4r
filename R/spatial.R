@@ -27,16 +27,16 @@
 #' @examples
 # This function gets the polygons for a National Marine Sanctuary
 get_nms_polygons <- function(nms){
-  
+
   nms_shp <- here::here(glue::glue("data/shp/{nms}_py.shp"))
-  
+
   # download if needed
   if (!file.exists(nms_shp)){
-    
+
     nms_url <- glue::glue("https://sanctuaries.noaa.gov/library/imast/{nms}_py2.zip")
     nms_zip <- here::here(glue::glue("data/{nms}.zip"))
     shp_dir <- here::here("data/shp")
-    
+
     download.file(nms_url, nms_zip)
     unzip(nms_zip, exdir = shp_dir)
     file_delete(nms_zip)
@@ -46,7 +46,23 @@ get_nms_polygons <- function(nms){
     sf::st_transform(4326)
 }
 
+
+#' Title
+#'
+#' @param sanctuary_code
+#' @param erddap_id
+#' @param erddap_fld
+#' @param year
+#' @param month
+#' @param stats
+#'
+#' @return
+#' @export
+#' @import glue
+#'
+#' @examples
 ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
+  #library(glue)
 
  # The following  function generates statistics for the SST for a national marine sanctuary for a given
 # month. For the moment, when we say "statistics", we mean the average SST and standard deviation.
