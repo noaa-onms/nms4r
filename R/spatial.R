@@ -85,7 +85,7 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
 
   # The date range to be considered
   m_beg   <- lubridate::ymd(glue("{year}-{month}-01"))
-  m_end   <- m_beg + days(days_in_month(m_beg)) - days(1)
+  m_end   <- m_beg + lubridate::days(lubridate::days_in_month(m_beg)) - lubridate::days(1)
   m_dates <- c(m_beg, m_end)
 
   # set the x and y limits of the raster to be pulled based upon the sanctuary polygons
