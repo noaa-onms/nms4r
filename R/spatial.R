@@ -78,7 +78,7 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   # as_Spatial()
 
   # Get the polygons for the sanctuary, written in the more traditional fashion (and does work)
-  sanctuary_ply <-   as_Spatial(st_union(get_nms_polygons(sanctuary_code)))
+  sanctuary_ply <-   sf::as_Spatial(sf::st_union(get_nms_polygons(sanctuary_code)))
 
   # TODO: deal with wrapping around dateline
   # https://github.com/rstudio/leaflet/issues/225#issuecomment-347721709
