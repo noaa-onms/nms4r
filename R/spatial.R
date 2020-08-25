@@ -28,14 +28,14 @@
 # This function gets the polygons for a National Marine Sanctuary
 get_nms_polygons <- function(nms){
   
-  nms_shp <- here:here(glue::glue("data/shp/{nms}_py.shp"))
+  nms_shp <- here::here(glue::glue("data/shp/{nms}_py.shp"))
   
   # download if needed
   if (!file.exists(nms_shp)){
     
     nms_url <- glue::glue("https://sanctuaries.noaa.gov/library/imast/{nms}_py2.zip")
-    nms_zip <- here:here(glue::glue("data/{nms}.zip"))
-    shp_dir <- here:here("data/shp")
+    nms_zip <- here::here(glue::glue("data/{nms}.zip"))
+    shp_dir <- here::here("data/shp")
     
     download.file(nms_url, nms_zip)
     unzip(nms_zip, exdir = shp_dir)
