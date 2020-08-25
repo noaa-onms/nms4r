@@ -12,16 +12,6 @@
 #'
 #' @examples
 
-library(here)
-library(rgdal)
-library(raster)
-library(rerddap)
-library(glue)
-library(sf)
-library(fs)
-library(tidyverse)
-library(lubridate)
-
 #' Generate statistics for raster data within NMS polygon
 #'
 #' @param sanctuary_code code for national marine sanctuary
@@ -38,14 +28,14 @@ library(lubridate)
 # This function gets the polygons for a National Marine Sanctuary
 get_nms_polygons <- function(nms){
   
-  nms_shp <- here(glue("data/shp/{nms}_py.shp"))
+  nms_shp <- here:here(glue::glue("data/shp/{nms}_py.shp"))
   
   # download if needed
   if (!file.exists(nms_shp)){
     
-    nms_url <- glue("https://sanctuaries.noaa.gov/library/imast/{nms}_py2.zip")
-    nms_zip <- here(glue("data/{nms}.zip"))
-    shp_dir <- here("data/shp")
+    nms_url <- glue::glue("https://sanctuaries.noaa.gov/library/imast/{nms}_py2.zip")
+    nms_zip <- here:here(glue::glue("data/{nms}.zip"))
+    shp_dir <- here:here("data/shp")
     
     download.file(nms_url, nms_zip)
     unzip(nms_zip, exdir = shp_dir)
