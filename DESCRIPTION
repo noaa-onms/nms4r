@@ -14,3 +14,14 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1.9000
+Imports: 
+    lubridate,
+    here,
+    rgdal,
+    raster,
+    rerddap,
+    glue,
+    sf,
+    fs
+Depends: 
+    tidyverse
