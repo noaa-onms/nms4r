@@ -145,7 +145,7 @@ generate_latest_SST<- function(wrapper_sanctuary_code, wrapper_erddap_id, wrappe
 
   # The date range to be considered
   m_beg   <- lubridate::ymd(glue::glue("{year}-{month}-01"))
-  m_end   <- m_beg + lubridate::days(lubridate::days_in_month(m_beg)) - days(1)
+  m_end   <- m_beg + lubridate::days(lubridate::days_in_month(m_beg)) - lubridate::days(1)
   m_dates <- c(m_beg, m_end)
 
   # write to this file
