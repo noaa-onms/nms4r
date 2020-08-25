@@ -35,21 +35,21 @@ library(lubridate)
 #' @export
 #'
 #' @examples
-get_nms_ply <- function(nms, dir_pfx){
-
- # nms_shp <- glue("{dir_shp}/{nms}_py.shp")
-  nms_shp <- glue("{dir_pfx}/{nms}_py.shp")
-
+# This function gets the polygons for a National Marine Sanctuary
+get_nms_polygons <- function(nms){
+  
+  nms_shp <- here(glue("data/shp/{nms}_py.shp"))
+  
+  # download if needed
   if (!file.exists(nms_shp)){
-    # download if needed
-
-    # https://sanctuaries.noaa.gov/library/imast_gis.html
+    
     nms_url <- glue("https://sanctuaries.noaa.gov/library/imast/{nms}_py2.zip")
-    nms_zip <- tempfile(fileext = ".zip")
-
+    nms_zip <- here(glue("data/{nms}.zip"))
+    shp_dir <- here("data/shp")
+    
     download.file(nms_url, nms_zip)
-    unzip(nms_zip, exdir = dir_shp)
-    unlink(nms_zip)
+    unzip(nms_zip, exdir = shp_dir)
+    file_delete(nms_zip)
   }
   # read and convert to standard geographic projection
   read_sf(nms_shp) %>%
