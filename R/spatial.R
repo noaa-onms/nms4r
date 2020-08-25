@@ -42,8 +42,8 @@ get_nms_polygons <- function(nms){
     file_delete(nms_zip)
   }
   # read and convert to standard geographic projection
-  read_sf(nms_shp) %>%
-    st_transform(4326)
+  sf::read_sf(nms_shp) %>%
+    sf::st_transform(4326)
 }
 
 ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
@@ -79,10 +79,10 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   m_dates <- c(m_beg, m_end)
 
   # set the x and y limits of the raster to be pulled based upon the sanctuary polygons
-  bb <- st_bbox(sanctuary_ply)
+  bb <- sf::st_bbox(sanctuary_ply)
 
   # pull the raster data
-  nc <- griddap(
+  nc <- rerddap::griddap(
     info(erddap_id),
     time = m_dates,
     latitude = c(bb$ymin, bb$ymax), longitude = c(bb$xmax, bb$xmin),
@@ -92,7 +92,7 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   # the following error, but the code still runs and produces output:
   # Error in as.Date(time, origin = startDate) : object 'startDate' not found
 
-  r <- raster(nc$summary$filename)
+  r <- raster::raster(nc$summary$filename)
 
   # The following get_stat function extracts a statistical value (eg. mean or standard deviation) from the raster
   # cells remaining after being overlaid with the sanctuary polygons
