@@ -23,6 +23,7 @@
 #'
 #' @return statistics
 #' @export
+#' @import glue sf magrittr
 #'
 #' @examples
 # This function gets the polygons for a National Marine Sanctuary
