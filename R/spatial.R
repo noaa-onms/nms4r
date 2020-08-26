@@ -26,7 +26,7 @@
 #'
 #' @examples
 # This function gets the polygons for a National Marine Sanctuary
-get_nms_polygons <- function(nms){
+get_nms_polygons <- function(nms="cinms"){
 
   nms_shp <- here::here(glue::glue("data/shp/{nms}_py.shp"))
 
