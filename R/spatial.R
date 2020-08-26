@@ -58,7 +58,7 @@ get_nms_polygons <- function(nms){
 #'
 #' @return
 #' @export
-#' @import glue
+#' @import glue rerddap
 #'
 #' @examples
 ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
@@ -90,7 +90,7 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   # https://github.com/rstudio/leaflet/issues/225#issuecomment-347721709
 
   # The date range to be considered
-  m_beg   <- lubridate::ymd(glue("{year}-{month}-01"))
+  m_beg   <- lubridate::ymd(glue::glue("{year}-{month}-01"))
   m_end   <- m_beg + lubridate::days(lubridate::days_in_month(m_beg)) - lubridate::days(1)
   m_dates <- c(m_beg, m_end)
 
@@ -99,7 +99,7 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
 
   # pull the raster data
   nc <- rerddap::griddap(
-    info(erddap_id),
+    rerddap::info(erddap_id),
     time = m_dates,
     latitude = c(bb$ymin, bb$ymax), longitude = c(bb$xmax, bb$xmin),
     fields = erddap_fld, fmt = 'nc')
