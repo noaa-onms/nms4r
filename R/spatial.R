@@ -161,6 +161,6 @@ generate_latest_SST<- function(wrapper_sanctuary_code, wrapper_erddap_id, wrappe
   # generate requested statistics using the ply2erddap function and then append the requested data to
   # the csv file that has the data
   write_out = ply2erddap(sanctuary_code = wrapper_sanctuary_code, erddap_id = wrapper_erddap_id, wrapper_erddap_fld, year = year, month = month, stats = wrapper_stats)
-  write(paste0(year, "," , month, "," , round(write_out[1], 5), "," , round(write_out[2], 5)), file = SST_file, append = TRUE)
+  write(paste0(year, "-" , month, "-16," , round(write_out[1], 5), "," , round(write_out[2], 5)), file = SST_file, append = TRUE)
   return(invisible())
 }
