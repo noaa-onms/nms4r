@@ -156,7 +156,7 @@ generate_latest_SST<- function(wrapper_sanctuary_code, wrapper_erddap_id, wrappe
   m_dates <- c(m_beg, m_end)
 
   # write to this file
-  SST_file <- paste0(here::here("data/oceano/"),"avg-sst_cinms.csv")
+  SST_file <- paste0(here::here("data/oceano/"),"avg-sst_", wrapper_sanctuary_code, ".csv")
 
   # generate requested statistics using the ply2erddap function and then append the requested data to
   # the csv file that has the data
