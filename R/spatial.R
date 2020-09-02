@@ -146,7 +146,7 @@ generate_latest_SST<- function(wrapper_sanctuary_code, wrapper_erddap_id, wrappe
   }
 
   # calculate the month and year of last month
-  last_month <- som(som(Sys.Date()) - 2)
+  last_month <- som(som(Sys.Date()) - 1)
   year <- as.numeric(substr(last_month, 1, 4))
   month <- as.numeric(substr(last_month, 6, 7))
 
