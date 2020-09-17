@@ -63,7 +63,6 @@ get_nms_polygons <- function(nms){
 #'
 #' @examples
 ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
-  #library(glue)
 
  # The following  function generates statistics for the SST for a national marine sanctuary for a given
 # month. For the moment, when we say "statistics", we mean the average SST and standard deviation.
@@ -76,40 +75,52 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   # check inputs
   stopifnot(all(is.numeric(year), is.numeric(month)))
 
-  # Get the polygons for the sanctuary. The first version of this, which is commented out below, is written in tidyverse
-  # form, but doesn't work. The following error is produced when the tidyverse version is run:
-  # Error in UseMethod("st_geometry") : no applicable method for 'st_geometry' applied to an object of class "c('SpatialPolygonsDataFrame', 'SpatialPolygons', 'Spatial', 'SpatialVector')"
-
-  # sanctuary_ply <- get_nms_ply(sanctuary_code, here("data/shp")) %>%
-  # st_union(sanctuary_ply) %>%
-  # as_Spatial()
-
-  # Get the polygons for the sanctuary, written in the more traditional fashion (and does work)
+  # Get the polygons for the sanctuary.
   sanctuary_ply <-   sf::as_Spatial(sf::st_union(nms4r::get_nms_polygons(sanctuary_code)))
-
-  # TODO: deal with wrapping around dateline
-  # https://github.com/rstudio/leaflet/issues/225#issuecomment-347721709
-
-  # The date range to be considered
-  m_beg   <- lubridate::ymd(glue::glue("{year}-{month}-01"))
-  m_end   <- m_beg + lubridate::days(lubridate::days_in_month(m_beg)) - lubridate::days(1)
-  m_dates <- c(m_beg, m_end)
 
   # set the x and y limits of the raster to be pulled based upon the sanctuary polygons
   bb <- sf::st_bbox(sanctuary_ply)
 
-  # pull the raster data
-  nc <- rerddap::griddap(
-    rerddap::info(erddap_id),
-    time = m_dates,
-    latitude = c(bb$ymin, bb$ymax), longitude = c(bb$xmax, bb$xmin),
-    fields = erddap_fld, fmt = 'nc')
+  # TODO: deal with wrapping around dateline
+  # https://github.com/rstudio/leaflet/issues/225#issuecomment-347721709
 
-  # Extract the raster from the data object. Confusingly, running the following line generates
-  # the following error, but the code still runs and produces output:
-  # Error in as.Date(time, origin = startDate) : object 'startDate' not found
+  # The dates to be considered (note that dates are handled differently when pulling different datasets)
+  m_beg   <- lubridate::ymd(glue::glue("{year}-{month}-01"))
+  m_end   <- m_beg + lubridate::days(lubridate::days_in_month(m_beg)) - lubridate::days(1)
 
-  r <- raster::raster(nc$summary$filename)
+  # pull data from errdap server, with the process handled differently based upon the dataset - the value of erddap_id
+  # (as the datasets are not structured identically)
+
+  if (erddap_id == "jplMURSST41mday"){ # pulling monthly sea surface temperature data
+    # set desired date range
+    m_dates <- c(m_beg, m_end)
+    # pull the raster data
+    nc <- rerddap::griddap(
+      rerddap::info(erddap_id),
+      time = m_dates,
+      latitude = c(bb$ymin, bb$ymax), longitude = c(bb$xmax, bb$xmin),
+      fields = erddap_fld, fmt = 'nc')
+    # Extract the raster from the data object.
+    r <- raster::raster(nc$summary$filename)
+  } else if (erddap_id == "nesdisVHNSQchlaMonthly") { # pulling monthly chlorophyll data
+    # set desired date range
+    m_dates <- c(m_beg, m_beg)
+    nc <- rerddap::griddap(
+      rerddap::info(erddap_id),
+      time = m_dates,
+      latitude = c(bb$ymin, bb$ymax), longitude = c(bb$xmax, bb$xmin),
+      fields = erddap_fld, fmt = 'nc')
+    lat <- nc$data$lat
+    lon <- nc$data$lon
+    ylim <- range(nc$data$lat, na.rm = TRUE)
+    xlim <- range(nc$data$lon, na.rm = TRUE)
+    ext <- raster::extent(xlim[1], xlim[2], ylim[1], ylim[2])
+    d <- dplyr::arrange(grid$data, desc(nc$data$lat), nc$data$lon)
+    r <- raster::raster(nrows = length(unique(nc$data$lat)), ncols = length(unique(nc$data$lon)),
+                        ext = ext, vals = d[,erddap_fld])
+  } else { # if errdap_id calls any other dataset, stop everything as who knows how this other dataset is structured
+    stop("Error in erddap_id: this function only currenly knows how to handle the datasets jplMURSST41mday and nesdisVHNSQchlaMonthly")
+  }
 
   # The following get_stat function extracts a statistical value (eg. mean or standard deviation) from the raster
   # cells remaining after being overlaid with the sanctuary polygons
