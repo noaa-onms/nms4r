@@ -92,6 +92,7 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   # (as the datasets are not structured identically)
 
   if (erddap_id == "jplMURSST41mday"){ # pulling monthly sea surface temperature data
+
     # set desired date range
     m_dates <- c(m_beg, m_end)
     # pull the raster data
@@ -102,24 +103,29 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
       fields = erddap_fld, fmt = 'nc')
     # Extract the raster from the data object.
     r <- raster::raster(nc$summary$filename)
+
   } else if (erddap_id == "nesdisVHNSQchlaMonthly") { # pulling monthly chlorophyll data
+
     # set desired date range
     m_dates <- c(m_beg, m_beg)
+    # pull the data
     nc <- rerddap::griddap(
       rerddap::info(erddap_id),
       time = m_dates,
       latitude = c(bb$ymin, bb$ymax), longitude = c(bb$xmax, bb$xmin),
       fields = erddap_fld, fmt = 'nc')
-    lat <- nc$data$lat
-    lon <- nc$data$lon
+    #set latitude and longitude limits of raster
     ylim <- range(nc$data$lat, na.rm = TRUE)
     xlim <- range(nc$data$lon, na.rm = TRUE)
     ext <- raster::extent(xlim[1], xlim[2], ylim[1], ylim[2])
-    d <- dplyr::arrange(grid$data, desc(nc$data$lat), nc$data$lon)
+
+    #create raster
+    d <- dplyr::arrange(nc$data, desc(nc$data$lat), nc$data$lon)
     r <- raster::raster(nrows = length(unique(nc$data$lat)), ncols = length(unique(nc$data$lon)),
                         ext = ext, vals = d[,erddap_fld])
+
   } else { # if errdap_id calls any other dataset, stop everything as who knows how this other dataset is structured
-    stop("Error in erddap_id: this function only currenly knows how to handle the datasets jplMURSST41mday and nesdisVHNSQchlaMonthly")
+    stop("Error in erddap_id: this function only currently knows how to handle the datasets jplMURSST41mday and nesdisVHNSQchlaMonthly")
   }
 
   # The following get_stat function extracts a statistical value (eg. mean or standard deviation) from the raster
