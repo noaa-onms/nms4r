@@ -118,7 +118,6 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
     #create raster
     d <- dplyr::arrange(nc$data, desc(nc$data$lat), nc$data$lon)
     r <- raster::raster(nrows = length(unique(nc$data$lat)), ncols = length(unique(nc$data$lon)),
-                        #ext = ext, vals = lazyeval::f_eval(var, d)) # plotdap:::get_raster
                         ext = ext, vals = d[,erddap_fld])
 
   } else { # if errdap_id calls any other dataset, stop everything as who knows how this other dataset is structured
