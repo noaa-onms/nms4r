@@ -132,7 +132,7 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
     fxn <- get(stat)
     raster::extract(
       r, sanctuary_ply, layer = 1,
-      method = "simple", fun = fxn)
+      method = "simple", na.rm=TRUE, fun = fxn)
   }
 
   # Let's run the function get_stat for every statistic asked for by the parameter value stats - this is the overall function output
