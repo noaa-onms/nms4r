@@ -92,7 +92,6 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   # (as the datasets are not structured identically)
 
   if (erddap_id == "jplMURSST41mday"){ # pulling monthly sea surface temperature data
-
     # set desired date range
     m_dates <- c(m_beg, m_end)
     # pull the raster data
@@ -103,12 +102,9 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
       fields = erddap_fld, fmt = 'nc')
     # Extract the raster from the data object.
     r <- raster::raster(nc$summary$filename)
-
   } else if (erddap_id == "nesdisVHNSQchlaMonthly") { # pulling monthly chlorophyll data
-
     # set desired date range
     m_dates <- c(m_beg, m_beg)
-    # pull the data
     nc <- rerddap::griddap(
       rerddap::info(erddap_id),
       time = m_dates,
@@ -122,6 +118,7 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
     #create raster
     d <- dplyr::arrange(nc$data, desc(nc$data$lat), nc$data$lon)
     r <- raster::raster(nrows = length(unique(nc$data$lat)), ncols = length(unique(nc$data$lon)),
+                        #ext = ext, vals = lazyeval::f_eval(var, d)) # plotdap:::get_raster
                         ext = ext, vals = d[,erddap_fld])
 
   } else { # if errdap_id calls any other dataset, stop everything as who knows how this other dataset is structured
