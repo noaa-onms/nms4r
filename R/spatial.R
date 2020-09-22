@@ -189,7 +189,6 @@ generate_latest_SST<- function(wrapper_sanctuary_code, wrapper_erddap_id, wrappe
 #' @export
 #'
 #' @examples
-
 calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   # The purpose of this function is to update csv files that hold a history of
   # satellite-derived metrics for a sanctuary. These csv files are then used as the basis
