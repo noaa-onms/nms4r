@@ -177,3 +177,106 @@ generate_latest_SST<- function(wrapper_sanctuary_code, wrapper_erddap_id, wrappe
   write(paste0(year, "-" , month, "-16," , round(write_out[1], 5), "," , round(write_out[2], 5)), file = SST_file, append = TRUE)
   return(invisible())
 }
+
+#' Generate statistics for any missing months for NMS Sanctuary
+#'
+#' @param wrapper_sanctuary code for national marine sanctuary
+#' @param wrapper_erddap_id the name of the satellite data set to be pulled from erddap servers
+#' @param wrapper_metric the parameter to be pulled from the data set
+#' @param csv_file the csv file containing the data for the given metric for the sanctuary
+#'
+#' @return nothing
+#' @export
+#'
+#' @examples
+
+calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
+  # The purpose of this function is to update csv files that hold a history of
+  # satellite-derived metrics for a sanctuary. These csv files are then used as the basis
+  # for graphs that plot the metric values over time. Currently, there are two such metrics
+  # being kept track of in the csv files: sea surface temperature and chlorophyll. This function is intended
+  # to be run each month in github actions, adding the latest month's data to the intended csv file - and additionally
+  # filling in any data holes that have crept in, in previous months. The reason for these data holes is
+  # that I have found the NOAA servers on which this satellite data is kept to be rather temperamental and often
+  # down. So, it is very possible that for a given moment at which github actions is attempting to run this function,
+  # the server will be down - meaning that for that month's run of this function, there will be no data. The hope is
+  # that in future months, the server will be up and will fill in the data holes.
+
+  # There are four parameters for this function: 1) sanctuary - the NMS sanctuary, with "cinms" currently doing
+  # anything, 2) erddap_id: the dataset, with two values defined so far "jplMURSST41mday" & "nesdisVHNSQchlaMonthly",
+  # 3) metric: the metric being pulled from the dataset with "sst" and "chlor_a" currently defined, and 4) csv_file:
+  # the csv file that holds the data to be updated.
+
+  # the first step is to set some variables depending on the dataset being called
+  if (erddap_id == "jplMURSST41mday"){
+    start_day <- 16
+    beginning_year <- 2002
+    beginning_month <- 6
+  } else if (erddap_id == "nesdisVHNSQchlaMonthly"){
+    start_day <- 1
+    beginning_year <- 2012
+    beginning_month <- 1
+  } else {
+    stop("Error in erddap_id: this function only currently knows how to handle the datasets jplMURSST41mday and nesdisVHNSQchlaMonthly")
+  }
+
+  # next, let's calculate the date range over which we want to find values. The date range is defined
+  # as the beginning of the satellite coverage for that dataset to current
+  som <- function(x) {
+    as.Date(format(x, "%Y/%m/01"))
+  }
+  last_month <- som(som(Sys.Date()) - 1)
+  end_year <- as.numeric(substr(last_month, 1, 4))
+  end_month <- as.numeric(substr(last_month, 6, 7))
+  start_date <- paste(beginning_year,beginning_month,start_day, sep = "/")
+  end_date <- paste(end_year,end_month,start_day, sep = "/")
+
+  # let's define the date sequence as every month in the date range
+  date_sequence <- seq(as.Date(start_date), as.Date(end_date), "months")
+
+  # load in the csv file
+  datafile <- here::here(paste0("/data/oceano/",csv_file))
+  read_in <- read.csv(datafile)
+
+  # Let's generate the data frame that will ultimately be written back out to overwrite the csv file.
+  # The data frame by default sets NA for all metric values for every month, to start. Later in this function, we'll change
+  # those values
+  write_out <- data.frame(date_sequence, "NA", "NA")
+  col2<- paste0("average_",metric)
+  col3<- paste0("standard_deviation_",metric)
+  names(write_out) <- c("date", col2, col3)
+
+  # let's go through every month in the date range
+  for (i in 1:length(date_sequence)){
+
+    # create a flag to keep track of whether the data for a particular month needs to be calculated
+    need_to_calculate = FALSE
+
+    # check to see if the month in question exists in the existing data
+    match_date <- which(read_in$date == date_sequence[i])
+    if (length(match_date)==0){ # if the month doesn't exist, we need to calculate the data for this month
+      need_to_calculate = TRUE
+    } else {
+      # additionally, if the date exists, but the data for that date is NA, we need to calculate the data for this month
+      if (is.na(read_in[match_date,2])==TRUE) {need_to_calculate = TRUE}
+    }
+
+    # if non NA data exists for a given month, copy that for the month in the data frame that is going to
+    # eventually write over the existing csv file
+    if (need_to_calculate==FALSE){
+      write_out[i, 2:3] = read_in[match_date, 2:3]
+    } else {
+      # if not, then we need to calculate the statistics from the satellite data, using the ply2erddap function
+      year <- as.numeric(substr(write_out$date[i],1,4))
+      month <- as.numeric(substr(write_out$date[i],6,7))
+      try(
+        # note the use of the try function, due to the flaky nature of the server holding the satellite
+        # data. If the server is down, this given month will retain NA until a future point that the server is up
+        write_out[i, 2:3]<-round(nms4r::ply2erddap(sanctuary, erddap_id, metric, year, month, c("mean", "sd")),5)
+      )
+    }
+  }
+  # overwrite the existing csv file with the output dataframe
+  write.table(write_out, file = datafile, sep =",", row.names=FALSE, quote = FALSE)
+  return(invisible())
+}
