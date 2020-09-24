@@ -241,7 +241,6 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   } else {
       datafile <- here::here(paste0(sanctuary,"/data/oceano/",csv_file))
   }
-  datafile <- here::here(paste0("data/oceano/",csv_file))
   read_in <- read.csv(datafile)
 
   # Let's generate the data frame that will ultimately be written back out to overwrite the csv file.
