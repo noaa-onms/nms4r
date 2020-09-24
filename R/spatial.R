@@ -29,15 +29,33 @@
 # This function gets the polygons for a National Marine Sanctuary
 get_nms_polygons <- function(nms){
   # nms_shp <- here::here(glue::glue("data/shp/cinms_py.shp"))
+  location<-here::here()
+  start_point <- nchar(location) - nchar(nms) +1
+  if (substr(location, start_point, nchar(location)) == nms){
+    sanctuary_in_path = TRUE
+  } else {
+    sanctuary_in_path = FALSE
+  }
+  
+  if (sanctuary_in_path == TRUE) {
    nms_shp <- here::here(glue::glue("data/shp/{nms}_py.shp"))
-
+  } else {
+    nms_shp <- paste0(location, "/", nms, "/data/shp/", nms, "_py.shp")
+  }
+    
   # download if needed
   if (!file.exists(nms_shp)){
 
     nms_url <- glue::glue("https://sanctuaries.noaa.gov/library/imast/{nms}_py2.zip")
-    nms_zip <- here::here(glue::glue("data/{nms}.zip"))
-    shp_dir <- here::here("data/shp")
-
+    
+    if (sanctuary_in_path == TRUE) {
+      nms_zip <- here::here(glue::glue("data/{nms}.zip"))
+      shp_dir <- here::here("data/shp")
+    } else {
+      nms_zip <- paste0(location, "/", nms, "/data/", nms, ".zip")
+      shp_dir <-paste0(location, "/", nms, "/data/shp")
+    }
+    
     download.file(nms_url, nms_zip)
     unzip(nms_zip, exdir = shp_dir)
     file_delete(nms_zip)
