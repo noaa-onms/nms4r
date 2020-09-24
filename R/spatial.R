@@ -36,18 +36,18 @@ get_nms_polygons <- function(nms){
   } else {
     sanctuary_in_path = FALSE
   }
-  
+
   if (sanctuary_in_path == TRUE) {
    nms_shp <- here::here(glue::glue("data/shp/{nms}_py.shp"))
   } else {
     nms_shp <- paste0(location, "/", nms, "/data/shp/", nms, "_py.shp")
   }
-    
+
   # download if needed
   if (!file.exists(nms_shp)){
 
     nms_url <- glue::glue("https://sanctuaries.noaa.gov/library/imast/{nms}_py2.zip")
-    
+
     if (sanctuary_in_path == TRUE) {
       nms_zip <- here::here(glue::glue("data/{nms}.zip"))
       shp_dir <- here::here("data/shp")
@@ -55,7 +55,7 @@ get_nms_polygons <- function(nms){
       nms_zip <- paste0(location, "/", nms, "/data/", nms, ".zip")
       shp_dir <-paste0(location, "/", nms, "/data/shp")
     }
-    
+
     download.file(nms_url, nms_zip)
     unzip(nms_zip, exdir = shp_dir)
     file_delete(nms_zip)
@@ -65,8 +65,7 @@ get_nms_polygons <- function(nms){
     sf::st_transform(4326)
 }
 
-
-#' Title
+#' Extract ERDDAP data from polygon
 #'
 #' @param sanctuary_code
 #' @param erddap_id
@@ -109,26 +108,25 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   # pull data from errdap server, with the process handled differently based upon the dataset - the value of erddap_id
   # (as the datasets are not structured identically)
 
-  if (erddap_id == "jplMURSST41mday"){ # pulling monthly sea surface temperature data
-    # set desired date range
-    m_dates <- c(m_beg, m_end)
-    # pull the raster data
-    nc <- rerddap::griddap(
+  # set desired date range
+  m_dates <- c(m_beg, m_end)
+
+  nc <- try(
+    rerddap::griddap(
       rerddap::info(erddap_id),
+      url = "https://coastwatch.pfeg.noaa.gov/erddap/",
       time = m_dates,
+      #time = c("2013-01-01", "2013-06-01"),
+      #time = "2013-04-01",
       latitude = c(bb$ymin, bb$ymax), longitude = c(bb$xmax, bb$xmin),
-      fields = erddap_fld, fmt = 'nc')
-    # Extract the raster from the data object.
-    r <- raster::raster(nc$summary$filename)
-  } else if (erddap_id == "nesdisVHNSQchlaMonthly") { # pulling monthly chlorophyll data
-    # set desired date range
-    m_dates <- c(m_beg, m_beg)
-    nc <- rerddap::griddap(
-      rerddap::info(erddap_id),
-      time = m_dates,
-      latitude = c(bb$ymin, bb$ymax), longitude = c(bb$xmax, bb$xmin),
-      fields = erddap_fld, fmt = 'nc')
-    #set latitude and longitude limits of raster
+      fields = erddap_fld, fmt = 'nc'))
+  if (class(nc) == "try-error"){
+    stats_na <- setNames(rep(NA, length(stats)), stats) %>% as.list()
+    return(stats_na)
+  }
+
+  if (erddap_id == "nesdisVHNSQchlaMonthly") { # pulling monthly chlorophyll data
+    # TODO: delete this chunk since this dataset now seems gone or renamed?, per https://coastwatch.pfeg.noaa.gov/erddap/griddap/nesdisVHNSQchlaMonthly.graph
     ylim <- range(nc$data$lat, na.rm = TRUE)
     xlim <- range(nc$data$lon, na.rm = TRUE)
     ext <- raster::extent(xlim[1], xlim[2], ylim[1], ylim[2])
@@ -137,9 +135,9 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
     d <- dplyr::arrange(nc$data, desc(nc$data$lat), nc$data$lon)
     r <- raster::raster(nrows = length(unique(nc$data$lat)), ncols = length(unique(nc$data$lon)),
                         ext = ext, vals = d[,erddap_fld])
-
   } else { # if errdap_id calls any other dataset, stop everything as who knows how this other dataset is structured
-    stop("Error in erddap_id: this function only currently knows how to handle the datasets jplMURSST41mday and nesdisVHNSQchlaMonthly")
+    # stop("Error in erddap_id: this function only currently knows how to handle the datasets jplMURSST41mday and nesdisVHNSQchlaMonthly")
+    r <- raster::raster(nc$summary$filename)
   }
 
   # The following get_stat function extracts a statistical value (eg. mean or standard deviation) from the raster
@@ -229,7 +227,8 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
     start_day <- 16
     beginning_year <- 2002
     beginning_month <- 6
-  } else if (erddap_id == "nesdisVHNSQchlaMonthly"){
+  #} else if (erddap_id == "nesdisVHNSQchlaMonthly"){ # unknown datasetID
+  } else if (erddap_id == "erdMWchlamday"){
     start_day <- 1
     beginning_year <- 2012
     beginning_month <- 1
@@ -302,4 +301,180 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   # overwrite the existing csv file with the output dataframe
   write.table(write_out, file = datafile, sep =",", row.names=FALSE, quote = FALSE)
   return(invisible())
+}
+
+get_box <- function(lon, lat, cells_wide){
+  w <- cells_wide * 0.01 / 2
+  box <- list(
+    lon = c(round(lon, 2) - w, round(lon, 2) + w),
+    lat = c(round(lat, 2) - w, round(lat, 2) + w))
+}
+
+get_dates <- function(info){
+  info$alldata$time %>%
+    filter(attribute_name=="actual_range") %>%
+    pull(value) %>%
+    str_split(", ", simplify = T) %>%
+    as.numeric() %>%
+    as.POSIXct(origin = "1970-01-01", tz = "GMT")
+}
+
+get_raster <- function(info, lon, lat, date="last", field="sst"){
+  g <- griddap(
+    info, longitude = lon, latitude = lat,
+    time = c(date, date), fields = field)
+  grid_to_raster(g, "sst") %>%
+    leaflet::projectRasterForLeaflet(method="ngb")
+
+}
+
+get_raster_2 <- function(info, lon, lat, date="last", field="chlor_a"){
+  g_2 <- griddap(
+    info, longitude = lon, latitude = lat,
+    time = c(date, date), fields = field)
+  grid_to_raster(g_2, "chlor_a") %>%
+    leaflet::projectRasterForLeaflet(method="ngb")
+}
+
+get_timeseries <- function(info, lon, lat, csv, field="sst"){
+
+  dates  <- get_dates(info)
+
+  if (file.exists(csv)){
+    d_prev <- read_csv(csv) %>%
+      arrange(date)
+    start_date <- read_csv(csv) %>%
+      tail(1) %>%
+      pull(date) %>%
+      as.POSIXct()
+  } else {
+    start_date <- dates[1]
+  }
+
+  v <- griddap(
+    info,
+    longitude = c(lon, lon), latitude = c(lat, lat),
+    time = c(start_date, dates[2]), fields = field)
+
+  d_now <- v$data %>%
+    as_tibble() %>%
+    mutate(
+      date = lubridate::as_date(time, "%Y-%m-%dT00:00:00Z")) %>%
+    select(date, field) %>%
+    arrange(date)
+
+  if (file.exists(csv)){
+    d <- bind_rows(d_prev, d_now) %>%
+      filter(!duplicated(date))
+  } else {
+    d <- d_now
+  }
+
+  d %>%
+    write_csv(csv)
+  d
+}
+
+grid_to_raster <- function (grid, var) {
+  # original: plotdap:::get_raster
+  # grid <- sst_grid
+  #library(magrittr)
+
+  times <- grid$summary$dim$time$vals
+  lats <- grid$summary$dim$latitude$vals
+  lons <- grid$summary$dim$longitude$vals
+  ylim <- range(lats, na.rm = TRUE)
+  xlim <- range(lons, na.rm = TRUE)
+  ext <- raster::extent(xlim[1], xlim[2], ylim[1], ylim[2])
+  r <- if (length(times) > 1) {
+    d <- dplyr::arrange(grid$data, time, desc(lat), lon)
+    b <- raster::brick(nl = length(times), nrows = length(lats),
+                       ncols = length(lons))
+    raster::values(b) <- lazyeval::f_eval(var, d)
+    raster::setExtent(b, ext)
+  }
+  else {
+    d <- dplyr::arrange(grid$data, desc(lat), lon)
+    r <- raster::raster(nrows = length(lats), ncols = length(lons),
+                        #ext = ext, vals = lazyeval::f_eval(var, d)) # plotdap:::get_raster
+                        ext = ext, vals = d[,var])
+  }
+  #browser()
+  #names(r) <- make.names(unique(grid$data$time) %||% "")
+  r
+}
+
+map_raster <- function(r, site_lon, site_lat, site_label, title){
+  pal <- colorNumeric(colors$temperature, values(r), na.color = "transparent")
+
+  leaflet() %>%
+    addProviderTiles(providers$Esri.OceanBasemap, group="Color") %>%
+    addProviderTiles(providers$Stamen.TonerLite, group="B&W") %>%
+    #addProviderTiles(providers$Stamen.TonerLabels) %>%
+    addRasterImage(r, colors = pal, opacity = 0.8, project=F, group="CHL") %>%
+    addMarkers(lng = site_lon, lat = site_lat, label = site_label) %>%
+    addLegend(pal = pal, values = values(r), title = title, position="bottomright") %>%
+    addLayersControl(
+      baseGroups = c("Color", "B&W"),
+      overlayGroups = c("SST"),
+      options = layersControlOptions(collapsed = T))
+}
+
+map_raster_2 <- function(r, site_lon, site_lat, site_label, title){
+  pal <- colorNumeric(colors$temperature, values(r), na.color = "transparent")
+
+  leaflet() %>%
+    addProviderTiles(providers$Esri.OceanBasemap, group="Color") %>%
+    addProviderTiles(providers$Stamen.TonerLite, group="B&W") %>%
+    #addProviderTiles(providers$Stamen.TonerLabels) %>%
+    addRasterImage(r, colors = pal, opacity = 0.8, project=F, group="CHL") %>%
+    addMarkers(lng = site_lon, lat = site_lat, label = site_label) %>%
+    addLegend(pal = pal, values = values(r), title = title, position="bottomright") %>%
+    addLayersControl(
+      baseGroups = c("Color", "B&W"),
+      overlayGroups = c("CHL"),
+      options = layersControlOptions(collapsed = T))
+}
+
+plot_metric_timeseries <- function(csv, metric){
+  # The purpose of this function is to generate figures showing the sea surface temperature time series
+  # for a Sanctuary (displaying both avg and standard deviation of temp). The function has two parameters: 1)
+  # csv: which is the path name for the csv data file to be plotted and 2) metric: which is the type of data
+  # to be plotted; currently only "sst" (for sea surface temperature) and "chl" (for chlorophyll) are recognized
+
+  # Read in the csv file
+  data_history <- read.csv(csv, header = TRUE)
+  dates<- data_history[,1]
+  average_value <- data_history[,2]
+  standard_deviation <- data_history[,3]
+
+  # create a data frame which lines up the data in the way that dygraph needs it
+  history <- data.frame(date = as.Date(dates, "%Y-%m-%d"), avg_value = average_value, lower = average_value - standard_deviation, upper = average_value + standard_deviation)
+  history <- xts(x = history[,-1], order.by = history$date)
+
+  # create the figure
+  if (metric == "sst"){ # plotting sea surface temperature
+    dygraph(history, main = "Sea Surface Temperature", xlab = "Date", ylab = "Temperature (°C)")%>%
+      dySeries(c("lower", "avg_value", "upper"), label = "Temperature (°C)", color = "Red")%>%
+      dyRangeSelector()
+  } else if (metric == "chl") { # plotting chlorophyll
+    dygraph(history, main = "Chlorophyll Concentration", xlab = "Date", ylab = "Chlorophyll Concentration, OC3 Algorithm (mg/m<sup>3</sup>)")%>%
+      dySeries(c("lower", "avg_value", "upper"), label = "Chlorophyll concentration", color = "Green")%>%
+      dyRangeSelector()
+  } else { # if any other metric is called, stop everything
+    stop("Error in metric: the function plot_metric_timeseries only currently knows how to handle the metrics sst and chl")
+  }
+}
+
+plot_timeseries <- function(d, title="SST", color="red", dyRangeSelector=T, ...){
+  p <- xts(select(d, -date), order.by=d$date) %>%
+    dygraph(main=title, ...) %>%
+    dyOptions(
+      colors = color,
+      fillGraph = TRUE, fillAlpha = 0.4)
+  if (dyRangeSelector){
+    p <- p %>%
+      dyRangeSelector()
+  }
+  p
 }
