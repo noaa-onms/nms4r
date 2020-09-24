@@ -2,7 +2,7 @@
 % Please edit documentation in R/spatial.R
 \name{ply2erddap}
 \alias{ply2erddap}
-\title{Title}
+\title{Extract ERDDAP data from polygon}
 \usage{
 ply2erddap(sanctuary_code, erddap_id, erddap_fld, year, month, stats)
 }
@@ -13,5 +13,5 @@ ply2erddap(sanctuary_code, erddap_id, erddap_fld, year, month, stats)
 
 }
 \description{
-Title
+Extract ERDDAP data from polygon
 }

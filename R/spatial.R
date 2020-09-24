@@ -303,6 +303,16 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   return(invisible())
 }
 
+#' get_box
+#'
+#' @param lon
+#' @param lat
+#' @param cells_wide
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_box <- function(lon, lat, cells_wide){
   w <- cells_wide * 0.01 / 2
   box <- list(
@@ -310,6 +320,14 @@ get_box <- function(lon, lat, cells_wide){
     lat = c(round(lat, 2) - w, round(lat, 2) + w))
 }
 
+#' get_dates
+#'
+#' @param info
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_dates <- function(info){
   info$alldata$time %>%
     filter(attribute_name=="actual_range") %>%
@@ -319,6 +337,18 @@ get_dates <- function(info){
     as.POSIXct(origin = "1970-01-01", tz = "GMT")
 }
 
+#' get_raster
+#'
+#' @param info
+#' @param lon
+#' @param lat
+#' @param date
+#' @param field
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_raster <- function(info, lon, lat, date="last", field="sst"){
   g <- griddap(
     info, longitude = lon, latitude = lat,
@@ -328,6 +358,18 @@ get_raster <- function(info, lon, lat, date="last", field="sst"){
 
 }
 
+#' get_raster_2
+#'
+#' @param info
+#' @param lon
+#' @param lat
+#' @param date
+#' @param field
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_raster_2 <- function(info, lon, lat, date="last", field="chlor_a"){
   g_2 <- griddap(
     info, longitude = lon, latitude = lat,
@@ -336,6 +378,18 @@ get_raster_2 <- function(info, lon, lat, date="last", field="chlor_a"){
     leaflet::projectRasterForLeaflet(method="ngb")
 }
 
+#' get_timeseries
+#'
+#' @param info
+#' @param lon
+#' @param lat
+#' @param csv
+#' @param field
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_timeseries <- function(info, lon, lat, csv, field="sst"){
 
   dates  <- get_dates(info)
@@ -375,6 +429,15 @@ get_timeseries <- function(info, lon, lat, csv, field="sst"){
   d
 }
 
+#' grid_to_raster
+#'
+#' @param grid
+#' @param var
+#'
+#' @return
+#' @export
+#'
+#' @examples
 grid_to_raster <- function (grid, var) {
   # original: plotdap:::get_raster
   # grid <- sst_grid
@@ -404,6 +467,18 @@ grid_to_raster <- function (grid, var) {
   r
 }
 
+#' map_raster
+#'
+#' @param r
+#' @param site_lon
+#' @param site_lat
+#' @param site_label
+#' @param title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 map_raster <- function(r, site_lon, site_lat, site_label, title){
   pal <- colorNumeric(colors$temperature, values(r), na.color = "transparent")
 
@@ -420,6 +495,18 @@ map_raster <- function(r, site_lon, site_lat, site_label, title){
       options = layersControlOptions(collapsed = T))
 }
 
+#' map_raster_2
+#'
+#' @param r
+#' @param site_lon
+#' @param site_lat
+#' @param site_label
+#' @param title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 map_raster_2 <- function(r, site_lon, site_lat, site_label, title){
   pal <- colorNumeric(colors$temperature, values(r), na.color = "transparent")
 
@@ -436,6 +523,15 @@ map_raster_2 <- function(r, site_lon, site_lat, site_label, title){
       options = layersControlOptions(collapsed = T))
 }
 
+#' plot_metric_timeseries
+#'
+#' @param csv
+#' @param metric
+#'
+#' @return
+#' @export
+#'
+#' @examples
 plot_metric_timeseries <- function(csv, metric){
   # The purpose of this function is to generate figures showing the sea surface temperature time series
   # for a Sanctuary (displaying both avg and standard deviation of temp). The function has two parameters: 1)
@@ -466,6 +562,18 @@ plot_metric_timeseries <- function(csv, metric){
   }
 }
 
+#' plot_timeseries
+#'
+#' @param d
+#' @param title
+#' @param color
+#' @param dyRangeSelector
+#' @param ...
+#'
+#' @return
+#' @export
+#'
+#' @examples
 plot_timeseries <- function(d, title="SST", color="red", dyRangeSelector=T, ...){
   p <- xts(select(d, -date), order.by=d$date) %>%
     dygraph(main=title, ...) %>%
