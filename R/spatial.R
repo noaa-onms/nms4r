@@ -234,7 +234,7 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   date_sequence <- seq(as.Date(start_date), as.Date(end_date), "months")
 
   # load in the csv file
-  datafile <- here::here(paste0("/data/oceano/",csv_file))
+  datafile <- here::here(paste0("data/oceano/",csv_file))
   read_in <- read.csv(datafile)
 
   # Let's generate the data frame that will ultimately be written back out to overwrite the csv file.
