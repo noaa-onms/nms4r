@@ -234,6 +234,13 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   date_sequence <- seq(as.Date(start_date), as.Date(end_date), "months")
 
   # load in the csv file
+  location<-here::here()
+  start_point <- nchar(location) - nchar(sanctuary) +1
+  if (substr(location, start_point, nchar(location)) == sanctuary){
+      datafile <- here::here(paste0("data/oceano/",csv_file))
+  } else {
+      datafile <- here::here(paste0(sanctuary,"/data/oceano/",csv_file))
+  }
   datafile <- here::here(paste0("data/oceano/",csv_file))
   read_in <- read.csv(datafile)
 
