@@ -65,29 +65,23 @@ get_nms_polygons <- function(nms){
     sf::st_transform(4326)
 }
 
-#' Extract ERDDAP data from polygon
+#' Extract ERDDAP statistics from polygon by year-month
 #'
-#' @param sanctuary_code
-#' @param erddap_id
-#' @param erddap_fld
-#' @param year
-#' @param month
-#' @param stats
+#' Extract satellite data in an ERDDAP dataset from national marine sanctuary polygon for a given year and month.
 #'
-#' @return
+#' @param sanctuary_code sanctuary code based on prefix to \href{https://sanctuaries.noaa.gov/library/imast_gis.html}{Sanctuary GIS files}, e.g. \code{"cinms"} for Channel Islands Marine Sanctuary
+#' @param erddap_id dataset ID of ERDDAP dataset (see \href{https://coastwatch.pfeg.noaa.gov/erddap/index.html}{coastwatch.pfeg.noaa.gov/erddap}), e.g. \code{"jplMURSST41mday"} for Multi-scale Ultra-high Resolution SST Analysis
+#' @param erddap_fld variable of ERDDAP dataset to extract, e.g. \code{"sst"}
+#' @param year 4-digit year
+#' @param month integer month (1-12)
+#' @param stats statistics to be generated for the data set \code{c("mean", "sd")}, to calculate mean and standard deviation)
+#'
+#' @return a list of values by statistic
 #' @export
 #' @import glue rerddap
 #'
 #' @examples
 ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
-
- # The following  function generates statistics for the SST for a national marine sanctuary for a given
-# month. For the moment, when we say "statistics", we mean the average SST and standard deviation.
-# Parameters going into the function: 1) sanctuary_code: a string that describes a specific national marine sanctuary,
-# ("cinms" for Channel Islands Marine Sanctuary), 2) erddap_id: the name of the satellite data set to be pulled
-# from erddap servers ("jplMURSST41mday" for Multi-scale Ultra-high Resolution SST Analysis), 3) erddap_fld: the parameter
-# to be pulled from the data set ("sst" for sea surface temperature), 4) year: in integer form, 5) month: in integer form,
-# 6) stats: the statistics to be generated for the data set (c("mean", "sd"), to calculate mean and standard deviation).
 
   # check inputs
   stopifnot(all(is.numeric(year), is.numeric(month)))

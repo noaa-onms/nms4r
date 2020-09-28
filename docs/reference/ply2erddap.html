@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract ERDDAP data from polygon — ply2erddap • nms4r</title>
+<title>Extract ERDDAP statistics from polygon by year-month — ply2erddap • nms4r</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Extract ERDDAP data from polygon — ply2erddap" />
-<meta property="og:description" content="Extract ERDDAP data from polygon" />
+<meta property="og:title" content="Extract ERDDAP statistics from polygon by year-month — ply2erddap" />
+<meta property="og:description" content="Extract satellite data in an ERDDAP dataset from national marine sanctuary polygon for a given year and month." />
 
 
 
@@ -108,13 +108,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract ERDDAP data from polygon</h1>
+    <h1>Extract ERDDAP statistics from polygon by year-month</h1>
     <small class="dont-index">Source: <a href='https://github.com/marinebon/nms4r/blob/master/R/spatial.R'><code>R/spatial.R</code></a></small>
     <div class="hidden name"><code>ply2erddap.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Extract ERDDAP data from polygon</p>
+    <p>Extract satellite data in an ERDDAP dataset from national marine sanctuary polygon for a given year and month.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ply2erddap</span>(<span class='no'>sanctuary_code</span>, <span class='no'>erddap_id</span>, <span class='no'>erddap_fld</span>, <span class='no'>year</span>, <span class='no'>month</span>, <span class='no'>stats</span>)</pre>
@@ -123,16 +123,34 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>sanctuary_code</th>
+      <td><p>sanctuary code based on prefix to <a href='https://sanctuaries.noaa.gov/library/imast_gis.html'>Sanctuary GIS files</a>, e.g. <code>"cinms"</code> for Channel Islands Marine Sanctuary</p></td>
+    </tr>
+    <tr>
+      <th>erddap_id</th>
+      <td><p>dataset ID of ERDDAP dataset (see <a href='https://coastwatch.pfeg.noaa.gov/erddap/index.html'>coastwatch.pfeg.noaa.gov/erddap</a>), e.g. <code>"jplMURSST41mday"</code> for Multi-scale Ultra-high Resolution SST Analysis</p></td>
+    </tr>
+    <tr>
+      <th>erddap_fld</th>
+      <td><p>variable of ERDDAP dataset to extract, e.g. <code>"sst"</code></p></td>
+    </tr>
+    <tr>
+      <th>year</th>
+      <td><p>4-digit year</p></td>
+    </tr>
+    <tr>
+      <th>month</th>
+      <td><p>integer month (1-12)</p></td>
+    </tr>
+    <tr>
       <th>stats</th>
-      <td></td>
+      <td><p>statistics to be generated for the data set <code><a href='https://rdrr.io/r/base/c.html'>c("mean", "sd")</a></code>, to calculate mean and standard deviation)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-
+    <p>a list of values by statistic</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

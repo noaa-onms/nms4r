@@ -2,7 +2,7 @@
 R package of common functions used across National Marine Sanctuaries for infographic development
 
 
-## developing an R package
+## developing the R package
 
 Links:
 * example [whalesafe4r](https://github.com/BenioffOceanInitiative/whalesafe4r/tree/ecacff311c8eb5040f26f57953b682aeb1d521dc)

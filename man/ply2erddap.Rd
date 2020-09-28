@@ -2,16 +2,26 @@
 % Please edit documentation in R/spatial.R
 \name{ply2erddap}
 \alias{ply2erddap}
-\title{Extract ERDDAP data from polygon}
+\title{Extract ERDDAP statistics from polygon by year-month}
 \usage{
 ply2erddap(sanctuary_code, erddap_id, erddap_fld, year, month, stats)
 }
 \arguments{
-\item{stats}{}
+\item{sanctuary_code}{sanctuary code based on prefix to \href{https://sanctuaries.noaa.gov/library/imast_gis.html}{Sanctuary GIS files}, e.g. \code{"cinms"} for Channel Islands Marine Sanctuary}
+
+\item{erddap_id}{dataset ID of ERDDAP dataset (see \href{https://coastwatch.pfeg.noaa.gov/erddap/index.html}{coastwatch.pfeg.noaa.gov/erddap}), e.g. \code{"jplMURSST41mday"} for Multi-scale Ultra-high Resolution SST Analysis}
+
+\item{erddap_fld}{variable of ERDDAP dataset to extract, e.g. \code{"sst"}}
+
+\item{year}{4-digit year}
+
+\item{month}{integer month (1-12)}
+
+\item{stats}{statistics to be generated for the data set \code{c("mean", "sd")}, to calculate mean and standard deviation)}
 }
 \value{
-
+a list of values by statistic
 }
 \description{
-Extract ERDDAP data from polygon
+Extract satellite data in an ERDDAP dataset from national marine sanctuary polygon for a given year and month.
 }
