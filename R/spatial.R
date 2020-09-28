@@ -258,7 +258,7 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   } else {
       datafile <- here::here(paste0(sanctuary,"/data/oceano/",csv_file))
   }
-  read_in <- read.csv(datafile)
+  read_in <- read.csv(datafile, stringsAsFactors = FALSE)
 
   # Let's generate the data frame that will ultimately be written back out to overwrite the csv file.
   # The data frame by default sets NA for all metric values for every month, to start. Later in this function, we'll change
