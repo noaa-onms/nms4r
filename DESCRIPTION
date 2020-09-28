@@ -6,10 +6,10 @@ Authors@R:
            family = "Best",
            role = c("aut", "cre"),
            email = "ben@ecoquants.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: R package of common functions used across National Marine Sanctuaries for infographic development.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+           comment = c(ORCID = "0000-0002-2686-0784"))
+Description: R package of common functions used across National Marine Sanctuaries 
+    for infographic development.
+License: MIT license
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -25,3 +25,5 @@ Imports:
     fs
 Depends: 
     tidyverse
+URL: https://github.com/marinebon/nms4r
+BugReports: https://github.com/marinebon/nms4r/issues
