@@ -23,7 +23,7 @@
 #'
 #' @return statistics
 #' @export
-#' @import glue sf magrittr dplyr
+#' @import glue sf magrittr dplyr here
 #'
 #' @examples
 # This function gets the polygons for a National Marine Sanctuary
@@ -197,6 +197,7 @@ generate_latest_SST<- function(wrapper_sanctuary_code, wrapper_erddap_id, wrappe
 #'
 #' @return nothing
 #' @export
+#' @import here
 #'
 #' @examples
 calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
