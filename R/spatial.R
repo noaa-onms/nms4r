@@ -455,7 +455,7 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
       #time = "2013-04-01",
       latitude = c(bb$ymin, bb$ymax), longitude = c(bb$xmax, bb$xmin),
       fields = erddap_fld, fmt = 'nc'))
-  if (class(nc) == "try-error"){
+  if ("try-error" %in% class(nc)){
     stats_na <- setNames(rep(NA, length(stats)), stats) %>% as.list()
     return(stats_na)
   }
