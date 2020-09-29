@@ -29,8 +29,8 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
     start_day <- 16
     beginning_year <- 2002
     beginning_month <- 6
-  #} else if (erddap_id == "nesdisVHNSQchlaMonthly"){ # unknown datasetID
-  } else if (erddap_id == "erdMWchlamday"){
+  } else if (erddap_id == "nesdisVHNSQchlaMonthly"){ # unknown datasetID
+  # } else if (erddap_id == "erdMWchlamday"){
     start_day <- 1
     beginning_year <- 2012
     beginning_month <- 1
