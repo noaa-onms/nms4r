@@ -3,7 +3,7 @@
 export(calculate_statistics)
 export(get_box)
 export(get_dates)
-export(get_nms_polygon)
+export(get_nms_polygons)
 export(get_raster)
 export(get_timeseries)
 export(grid_to_raster)

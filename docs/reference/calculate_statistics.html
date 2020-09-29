@@ -40,7 +40,16 @@
 
 
 <meta property="og:title" content="Generate statistics for any missing months for NMS Sanctuary — calculate_statistics" />
-<meta property="og:description" content="Generate statistics for any missing months for NMS Sanctuary" />
+<meta property="og:description" content="The purpose of this function is to update csv files that hold a history of
+satellite-derived metrics for a sanctuary. These csv files are then used as the basis
+for graphs that plot the metric values over time. Currently, there are two such metrics
+being kept track of in the csv files: sea surface temperature and chlorophyll. This function is intended
+to be run each month in github actions, adding the latest month's data to the intended csv file - and additionally
+filling in any data holes that have crept in, in previous months. The reason for these data holes is
+that I have found the NOAA servers on which this satellite data is kept to be rather temperamental and often
+down. So, it is very possible that for a given moment at which github actions is attempting to run this function,
+the server will be down - meaning that for that month's run of this function, there will be no data. The hope is
+that in future months, the server will be up and will fill in the data holes." />
 
 
 
@@ -114,7 +123,16 @@
     </div>
 
     <div class="ref-description">
-    <p>Generate statistics for any missing months for NMS Sanctuary</p>
+    <p>The purpose of this function is to update csv files that hold a history of
+satellite-derived metrics for a sanctuary. These csv files are then used as the basis
+for graphs that plot the metric values over time. Currently, there are two such metrics
+being kept track of in the csv files: sea surface temperature and chlorophyll. This function is intended
+to be run each month in github actions, adding the latest month's data to the intended csv file - and additionally
+filling in any data holes that have crept in, in previous months. The reason for these data holes is
+that I have found the NOAA servers on which this satellite data is kept to be rather temperamental and often
+down. So, it is very possible that for a given moment at which github actions is attempting to run this function,
+the server will be down - meaning that for that month's run of this function, there will be no data. The hope is
+that in future months, the server will be up and will fill in the data holes.</p>
     </div>
 
     <pre class="usage"><span class='fu'>calculate_statistics</span>(<span class='no'>sanctuary</span>, <span class='no'>erddap_id</span>, <span class='no'>metric</span>, <span class='no'>csv_file</span>)</pre>
@@ -123,20 +141,20 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>sanctuary</th>
+      <td><p>the NMS sanctuary, with only "cinms" currently doing anything</p></td>
+    </tr>
+    <tr>
+      <th>erddap_id</th>
+      <td><p>the dataset, with two values defined so far "jplMURSST41mday" &amp; "nesdisVHNSQchlaMonthly"</p></td>
+    </tr>
+    <tr>
+      <th>metric</th>
+      <td><p>the metric being pulled from the dataset with "sst" and "chlor_a" currently defined</p></td>
+    </tr>
+    <tr>
       <th>csv_file</th>
       <td><p>the csv file containing the data for the given metric for the sanctuary</p></td>
-    </tr>
-    <tr>
-      <th>wrapper_sanctuary</th>
-      <td><p>code for national marine sanctuary</p></td>
-    </tr>
-    <tr>
-      <th>wrapper_erddap_id</th>
-      <td><p>the name of the satellite data set to be pulled from erddap servers</p></td>
-    </tr>
-    <tr>
-      <th>wrapper_metric</th>
-      <td><p>the parameter to be pulled from the data set</p></td>
     </tr>
     </table>
 

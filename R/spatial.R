@@ -1,10 +1,21 @@
 
 #' Generate statistics for any missing months for NMS Sanctuary
 #'
-#' @param wrapper_sanctuary code for national marine sanctuary
-#' @param wrapper_erddap_id the name of the satellite data set to be pulled from erddap servers
-#' @param wrapper_metric the parameter to be pulled from the data set
+#' The purpose of this function is to update csv files that hold a history of
+#' satellite-derived metrics for a sanctuary. These csv files are then used as the basis
+#' for graphs that plot the metric values over time. Currently, there are two such metrics
+#' being kept track of in the csv files: sea surface temperature and chlorophyll. This function is intended
+#' to be run each month in github actions, adding the latest month's data to the intended csv file - and additionally
+#' filling in any data holes that have crept in, in previous months. The reason for these data holes is
+#' that I have found the NOAA servers on which this satellite data is kept to be rather temperamental and often
+#' down. So, it is very possible that for a given moment at which github actions is attempting to run this function,
+#' the server will be down - meaning that for that month's run of this function, there will be no data. The hope is
+#' that in future months, the server will be up and will fill in the data holes.
+#'
 #' @param csv_file the csv file containing the data for the given metric for the sanctuary
+#' @param sanctuary the NMS sanctuary, with only "cinms" currently doing anything
+#' @param erddap_id the dataset, with two values defined so far "jplMURSST41mday" & "nesdisVHNSQchlaMonthly"
+#' @param metric the metric being pulled from the dataset with "sst" and "chlor_a" currently defined
 #'
 #' @return nothing
 #' @export
@@ -12,21 +23,6 @@
 #'
 #' @examples
 calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
-  # The purpose of this function is to update csv files that hold a history of
-  # satellite-derived metrics for a sanctuary. These csv files are then used as the basis
-  # for graphs that plot the metric values over time. Currently, there are two such metrics
-  # being kept track of in the csv files: sea surface temperature and chlorophyll. This function is intended
-  # to be run each month in github actions, adding the latest month's data to the intended csv file - and additionally
-  # filling in any data holes that have crept in, in previous months. The reason for these data holes is
-  # that I have found the NOAA servers on which this satellite data is kept to be rather temperamental and often
-  # down. So, it is very possible that for a given moment at which github actions is attempting to run this function,
-  # the server will be down - meaning that for that month's run of this function, there will be no data. The hope is
-  # that in future months, the server will be up and will fill in the data holes.
-
-  # There are four parameters for this function: 1) sanctuary - the NMS sanctuary, with "cinms" currently doing
-  # anything, 2) erddap_id: the dataset, with two values defined so far "jplMURSST41mday" & "nesdisVHNSQchlaMonthly",
-  # 3) metric: the metric being pulled from the dataset with "sst" and "chlor_a" currently defined, and 4) csv_file:
-  # the csv file that holds the data to be updated.
 
   # the first step is to set some variables depending on the dataset being called
   if (erddap_id == "jplMURSST41mday"){
@@ -144,23 +140,23 @@ get_dates <- function(info){
     as.POSIXct(origin = "1970-01-01", tz = "GMT")
 }
 
-#' Get NMS polygon
+#' Get NMS polygons
 #'
 #' given NMS code (see
 #' \url{https://sanctuaries.noaa.gov/library/imast_gis.html}), download and
 #' extract zip, cache shapefile or read existing shapefile
 #'
 #' @param nms code for national marine sanctuary
-#' @param dir_shp directory to store cached shapefile
 #'
 #' @return sf object
 #' @export
 #'
 #' @examples
-get_nms_polygon <- function(nms){
+get_nms_polygons <- function(nms){
   # nms_shp <- here::here(glue::glue("data/shp/cinms_py.shp"))
   location<-here::here()
   start_point <- nchar(location) - nchar(nms) +1
+
   if (substr(location, start_point, nchar(location)) == nms){
     sanctuary_in_path = TRUE
   } else {

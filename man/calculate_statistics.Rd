@@ -7,17 +7,26 @@
 calculate_statistics(sanctuary, erddap_id, metric, csv_file)
 }
 \arguments{
+\item{sanctuary}{the NMS sanctuary, with only "cinms" currently doing anything}
+
+\item{erddap_id}{the dataset, with two values defined so far "jplMURSST41mday" & "nesdisVHNSQchlaMonthly"}
+
+\item{metric}{the metric being pulled from the dataset with "sst" and "chlor_a" currently defined}
+
 \item{csv_file}{the csv file containing the data for the given metric for the sanctuary}
-
-\item{wrapper_sanctuary}{code for national marine sanctuary}
-
-\item{wrapper_erddap_id}{the name of the satellite data set to be pulled from erddap servers}
-
-\item{wrapper_metric}{the parameter to be pulled from the data set}
 }
 \value{
 nothing
 }
 \description{
-Generate statistics for any missing months for NMS Sanctuary
+The purpose of this function is to update csv files that hold a history of
+satellite-derived metrics for a sanctuary. These csv files are then used as the basis
+for graphs that plot the metric values over time. Currently, there are two such metrics
+being kept track of in the csv files: sea surface temperature and chlorophyll. This function is intended
+to be run each month in github actions, adding the latest month's data to the intended csv file - and additionally
+filling in any data holes that have crept in, in previous months. The reason for these data holes is
+that I have found the NOAA servers on which this satellite data is kept to be rather temperamental and often
+down. So, it is very possible that for a given moment at which github actions is attempting to run this function,
+the server will be down - meaning that for that month's run of this function, there will be no data. The hope is
+that in future months, the server will be up and will fill in the data holes.
 }
