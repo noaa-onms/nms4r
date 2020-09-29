@@ -4,10 +4,10 @@
 \alias{plot_metric_timeseries}
 \title{plot_metric_timeseries}
 \usage{
-plot_metric_timeseries(csv, metric)
+plot_metric_timeseries(csv, metric, ...)
 }
 \arguments{
-\item{metric}{}
+\item{...}{additional parameters to pass to \link[dygraphs]{dygraph}}
 }
 \value{
 
