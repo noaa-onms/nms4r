@@ -19,24 +19,22 @@
 #'
 #' @return nothing
 #' @export
-#' @import here
+#' @import here rerddap
 #'
 #' @examples
 calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
 
-  # the first step is to set some variables depending on the dataset being called
-  if (erddap_id == "jplMURSST41mday"){
-    start_day <- 16
-    beginning_year <- 2002
-    beginning_month <- 6
-  } else if (erddap_id == "nesdisVHNSQchlaMonthly"){ # unknown datasetID
-  # } else if (erddap_id == "erdMWchlamday"){
-    start_day <- 1
-    beginning_year <- 2012
-    beginning_month <- 1
-  } else {
+  # the first step is to check if the function knows how to handle the dataset being called. If it doesn't, stop everything.
+  if (!(erddap_id == "jplMURSST41mday" | erddap_id == "nesdisVHNSQchlaMonthly")) {
     stop("Error in erddap_id: this function only currently knows how to handle the datasets jplMURSST41mday and nesdisVHNSQchlaMonthly")
-  }
+   }
+  
+  # Next, let's pull in the starting date of the dataset
+  dataset_info <- rerddap::info(erddap_id)
+  dataset_start <- dataset_info$alldata$NC_GLOBAL$value[38]
+  beginning_year <- as.numeric(substr(dataset_start,1,4))
+  beginning_month <- as.numeric(substr(dataset_start,6,7))
+  start_day <- as.numeric(substr(dataset_start,9,10))
 
   # next, let's calculate the date range over which we want to find values. The date range is defined
   # as the beginning of the satellite coverage for that dataset to current
@@ -52,7 +50,10 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   # let's define the date sequence as every month in the date range
   date_sequence <- seq(as.Date(start_date), as.Date(end_date), "months")
 
-  # load in the csv file
+  # load in the csv file. The problem here is that there are a couple of possibilities of how our current path relates to the datafiles we want to access. 
+  # There are two possibilities accounted for here: 1 (the top half of the if statement): the path includes the sanctuary at the end, 2 (the else half of the if statement):
+  # the path doesn't include the sanctuary at the end (in which case we need to add it)
+
   location<-here::here()
   start_point <- nchar(location) - nchar(sanctuary) +1
   if (substr(location, start_point, nchar(location)) == sanctuary){
@@ -60,6 +61,8 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   } else {
       datafile <- here::here(paste0(sanctuary,"/data/oceano/",csv_file))
   }
+  
+  # load in the csv file containing the SST or chlorophyll data for a given sanctuary
   read_in <- read.csv(datafile, stringsAsFactors = FALSE)
 
   # Let's generate the data frame that will ultimately be written back out to overwrite the csv file.
