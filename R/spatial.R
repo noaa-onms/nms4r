@@ -22,35 +22,38 @@
 #' @import here rerddap
 #'
 #' @examples
+#' calculate_statistics("cinms", "jplMURSST41mday", "sst", "avg-sst_cinms.csv")
+#' calculate_statistics("cinms", "nesdisVHNSQchlaMonthly", "chlor_a", "avg-chl_cinms.csv")
 calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
 
   # the first step is to check if the function knows how to handle the dataset being called. If it doesn't, stop everything.
   if (!(erddap_id == "jplMURSST41mday" | erddap_id == "nesdisVHNSQchlaMonthly")) {
     stop("Error in erddap_id: this function only currently knows how to handle the datasets jplMURSST41mday and nesdisVHNSQchlaMonthly")
-   }
-  
-  # Next, let's pull in the starting date of the dataset
-  dataset_info <- rerddap::info(erddap_id)
-  dataset_start <- dataset_info$alldata$NC_GLOBAL$value[38]
-  beginning_year <- as.numeric(substr(dataset_start,1,4))
-  beginning_month <- as.numeric(substr(dataset_start,6,7))
-  start_day <- as.numeric(substr(dataset_start,9,10))
-
-  # next, let's calculate the date range over which we want to find values. The date range is defined
-  # as the beginning of the satellite coverage for that dataset to current
-  som <- function(x) {
-    as.Date(format(x, "%Y/%m/01"))
   }
-  last_month <- som(som(Sys.Date()) - 1)
-  end_year <- as.numeric(substr(last_month, 1, 4))
-  end_month <- as.numeric(substr(last_month, 6, 7))
-  start_date <- paste(beginning_year,beginning_month,start_day, sep = "/")
-  end_date <- paste(end_year,end_month,start_day, sep = "/")
+
+  # devtools::load_all()
+  # erddap_id = "jplMURSST41mday"
+  #browser()
+
+  # Next, let's pull in the starting date of the dataset
+  dataset_info   <- rerddap::info(erddap_id)
+  dataset_global <- dataset_info$alldata$NC_GLOBAL
+  tt <- dataset_global[
+    dataset_global$attribute_name %in%
+      c('time_coverage_end','time_coverage_start'), "value", ]
+  t_beg = strptime(tt[2], "%Y-%m-%dT%H:%M:%SZ", tz = "GMT") %>% as.Date()
+  t_end = strptime(tt[1], "%Y-%m-%dT%H:%M:%SZ", tz = "GMT") %>% as.Date()
 
   # let's define the date sequence as every month in the date range
-  date_sequence <- seq(as.Date(start_date), as.Date(end_date), "months")
+  date_sequence <- seq.Date(t_beg, t_end, by = 'month') # , len = 12)
+  # TODO: get list of dates in dataset
+  #date_sequence <- read_csv("https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41mday.csv?time[(2002-06-16):1:(2020-08-16T00:00:00Z)]")
+  # lon <- read_csv("https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41mday.csv?latitude[(-89.99):1:(89.99)]")
+  # lat <- read_csv("https://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41mday.csv?longitude[(-179.99):1:(180.0)]")
 
-  # load in the csv file. The problem here is that there are a couple of possibilities of how our current path relates to the datafiles we want to access. 
+
+
+  # load in the csv file. The problem here is that there are a couple of possibilities of how our current path relates to the datafiles we want to access.
   # There are two possibilities accounted for here: 1 (the top half of the if statement): the path includes the sanctuary at the end, 2 (the else half of the if statement):
   # the path doesn't include the sanctuary at the end (in which case we need to add it)
 
@@ -61,7 +64,7 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   } else {
       datafile <- here::here(paste0(sanctuary,"/data/oceano/",csv_file))
   }
-  
+
   # load in the csv file containing the SST or chlorophyll data for a given sanctuary
   read_in <- read.csv(datafile, stringsAsFactors = FALSE)
 
