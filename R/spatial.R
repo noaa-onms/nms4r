@@ -27,8 +27,8 @@
 calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
 
   # the first step is to check if the function knows how to handle the dataset being called. If it doesn't, stop everything.
-  if (!(erddap_id == "jplMURSST41mday" | erddap_id == "nesdisVHNSQchlaMonthly")) {
-    stop("Error in erddap_id: this function only currently knows how to handle the datasets jplMURSST41mday and nesdisVHNSQchlaMonthly")
+  if (!(erddap_id == "jplMURSST41mday" | erddap_id == "nesdisVHNSQchlaMonthly" | erddap_id == "erdMWchlamday")) {
+    stop("Error in erddap_id: this function only currently knows how to handle the datasets jplMURSST41mday, erdMWchlamday, and nesdisVHNSQchlaMonthly")
   }
 
   # devtools::load_all()
