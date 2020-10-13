@@ -452,6 +452,14 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   # set desired date range
   m_dates <- c(m_beg, m_end)
 
+  latitude_range <- c(bb$ymin, bb$ymax)
+  
+  if (erddap_id == "erdMWchlamday"){
+    longitude_range <- c(360 + bb$xmax, 360 + bb$xmin)
+  } else {
+    longitude_range <- c(bb$ymin, bb$ymax)
+  }
+  
   nc <- try(
     rerddap::griddap(
       rerddap::info(erddap_id),
@@ -459,7 +467,7 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
       time = m_dates,
       #time = c("2013-01-01", "2013-06-01"),
       #time = "2013-04-01",
-      latitude = c(bb$ymin, bb$ymax), longitude = c(bb$xmax, bb$xmin),
+      latitude = latitude_range, longitude = longitude_range,
       fields = erddap_fld, fmt = 'nc'))
   if ("try-error" %in% class(nc)){
     stats_na <- setNames(rep(NA, length(stats)), stats) %>% as.list()
