@@ -452,12 +452,16 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   # set desired date range
   m_dates <- c(m_beg, m_end)
 
+  # Let's define the latitude and longitude box for the raster we want to create. The dataset erdMWchlamday defines longitude in positive
+  # degrees east, while the other two datasets considered so far (jplMURSST41mday & nesdisVHNSQchlaMonthly) define longitude in negative degrees west.
+  # Since the polygons for the Sanctuary have their longitude defined in negative degrees west (as pulled in the variable bb), 
+  # longitude translation is required for the erdMWchlamday dataset
   latitude_range <- c(bb$ymin, bb$ymax)
   
   if (erddap_id == "erdMWchlamday"){
     longitude_range <- c(360 + bb$xmax, 360 + bb$xmin)
   } else {
-    longitude_range <- c(bb$ymin, bb$ymax)
+    longitude_range <- c(bb$xmax, bb$xmin)
   }
   
   nc <- try(
