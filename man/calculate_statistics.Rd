@@ -30,3 +30,7 @@ down. So, it is very possible that for a given moment at which github actions is
 the server will be down - meaning that for that month's run of this function, there will be no data. The hope is
 that in future months, the server will be up and will fill in the data holes.
 }
+\examples{
+calculate_statistics("cinms", "jplMURSST41mday", "sst", "avg-sst_cinms.csv")
+calculate_statistics("cinms", "nesdisVHNSQchlaMonthly", "chlor_a", "avg-chl_cinms.csv")
+}
