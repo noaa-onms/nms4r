@@ -25,3 +25,6 @@ a list of values by statistic
 \description{
 Extract satellite data in an ERDDAP dataset from national marine sanctuary polygon for a given year and month.
 }
+\examples{
+
+}

@@ -271,6 +271,137 @@ get_timeseries <- function(info, lon, lat, csv, field="sst"){
   d
 }
 
+#' Insert html tags for glossary tooltips into md files
+#'
+#' The purpose of this function is to insert the html tags required for glossary tooltip functionality into
+#' a given md file
+#'
+#' @param md the md file where the tags are to be inserted
+#' @param md_out the md output file
+#'
+#' @return nothing
+#' @export
+#' @import readr stringr
+#'
+#' @examples
+glossarize_md <- function(md, md_out = md){
+  # The purpose of this function is to insert the html tags required for  glossary tooltip functionality into
+  # a given md file
+
+  # read the markdown file
+  tx  <- readLines(md)
+
+  # only go forward with the glossarizing if the file contains more than "data to be added soon"
+  if (length(tx) > 12) {
+
+    # load in the glossary that will be used to create the tooltips.  Reverse alphabetize the glossary, which will come in handy later
+    glossary_csv = "https://docs.google.com/spreadsheets/d/1yEuI7BT9fJEcGAFNPM0mCq16nFsbn0b-bNirYPU5W8c/gviz/tq?tqx=out:csv&sheet=glossary"
+    glossary <- readr::read_csv(glossary_csv)
+    glossary <- glossary[order(glossary$term, decreasing = TRUE),]
+
+    # initialize the string variable that will hold the javascript tooltip
+    script_tooltip = ""
+
+    # go through each row of the glossary
+    for (q in 1:nrow(glossary)) {
+
+      # set a variable to zero that is used to keep track of whether a particular glossary word is in the modal window
+      flag = 0
+
+      # load in a specific glossary term
+      search_term = glossary$term[q]
+
+      # the css to be wrapped around any glossary word
+      span_definition = paste0('<span aria-describedby="tooltip', q, '" tabindex="0" style="border-bottom: 1px dashed #000000; font-size:100%" id="tooltip', q, '">')
+
+      # let's look to see if the glossary term is a subset of a longer glossary term (that is: "aragonite" and "aragonite saturation")
+      # if it is a subset, we want to identify the longer term (so that we don't put the tooltip for the
+      # shorter term with the longer term). Here is why the prior alphabetizing of the glossary matters
+      glossary_match = glossary$term[startsWith (glossary$term, search_term)]
+
+      if (length(glossary_match)>1){
+        longer_term = glossary_match[1]
+      }
+
+      # let's go through every line of the markdown file looking for glossary words. We are skipping the first several
+      # lines in order to avoid putting any tooltips in the modal window description
+      for (i in 12:length(tx)) {
+
+        # We want to avoid putting in tooltips in several situations that would cause the window to break.
+        # 1. No tooltips on tabs (that is what the searching for "#" takes care of)
+        # 2. No tooltips in the gray bar above the image (that is what the searching for the "</i>" and "</div> tags
+        # take care of)
+        # 3. No tooltips on lines where there is a link for a data download
+        if (substr(tx[i],1,1) != "#" && str_sub(tx[i],-4) != "</i>" && str_sub(tx[i],-5) != "</div>" && substr(tx[i], 1, 24) != "Download timeseries data"){
+
+          # We also want to avoid inserting tooltips into the path of the image file, which is what the following
+          # image_start is looking for. If a line does contain an image path, we want to separate that from the rest of
+          # the line, do a glossary word replace on the image-less line, and then - later in this code - paste the image back on to the line
+          image_start = regexpr(pattern = "/img/cinms_cr", tx[i])[1] - 4
+
+          if (image_start > 1) {
+            line_content = substr(tx[i], 1, image_start)
+            image_link = str_sub(tx[i], -(nchar(tx[i])-image_start))
+          }
+          else {
+            line_content = tx[i]
+          }
+
+          # here is where we keep track of whether a glossary word shows up in the modal window - this will be used later
+          if (grepl(pattern = search_term, x = line_content, ignore.case = TRUE) ==TRUE){
+            flag = 1
+          }
+
+          # If the text contains a glossary term that is a shorter subset of another glossary term, we first
+          # split the text by the longer glossary term and separately save the longer glossary terms (to preserve
+          # the pattern of capitalization). We then run the split text through the tooltip function to add the required
+          # span tags around the glossary terms and then paste the split text back together
+          if (length(glossary_match)>1){
+
+            split_text_longer <- stringr::str_split(line_content, regex(longer_term, ignore_case = TRUE))[[1]]
+            save_glossary_terms_longer <- c(stringr::str_extract_all(line_content, regex(longer_term, ignore_case = TRUE))[[1]],"")
+
+            for (s in 1:length(split_text_longer)){
+              split_text_longer[s] <- insert_tooltip(split_text_longer[s], search_term, span_definition)
+            }
+            line_content<- paste0(split_text_longer, save_glossary_terms_longer, collapse="")
+          }
+
+          else {
+            # In the case that the glossary term is not a shorter subset, life is much easier. We just run the line of content
+            # through the insert tooltip function
+            line_content <- insert_tooltip(line_content, search_term, span_definition)
+          }
+
+          # if we separated the image path, let's paste it back on
+          if (image_start > 1) {
+            tx[i] = paste0(line_content, image_link)
+          }
+          else {
+            tx[i] = line_content
+          }
+        }
+      }
+
+      #if a glossary word was found in a modal window, let's add the javascript for that tooltip in
+      if (flag == 1){
+        script_tooltip = paste0(script_tooltip, '<script>tippy ("#tooltip', q, '",{content: "', glossary$definition[q], '"});</script>\r\n')
+      }
+    }
+
+    # let's replace the markdown file with the modified version of the markdown file that contains all of the tooltip stuff
+    # (if any)
+    writeLines(tx, con=md_out)
+
+    # if any glossary words are found, let's add in the javascript needed to make this all go
+    if (script_tooltip != ""){
+      load_script=' <script src="https://unpkg.com/@popperjs/core@2"></script><script src="https://unpkg.com/tippy.js@6"></script>\r\n'
+      write(   load_script, file=md_out, append=TRUE)
+      write(script_tooltip, file=md_out, append=TRUE)
+    }
+  }
+}
+
 #' grid_to_raster
 #'
 #' @param grid
@@ -307,6 +438,49 @@ grid_to_raster <- function (grid, var) {
   #browser()
   #names(r) <- make.names(unique(grid$data$time) %||% "")
   r
+}
+
+#' Insert tooltips into text
+#'
+#' Draft version of code to render modal windows with tooltips. The overall idea is to generate a markdown file from a
+#' given modal rmd file. Within that markdown file, we then insert the javascript package tippy as well as inserting the
+#' specific tippy tooltip. We then generate a html file for the modal window from the modified markdown file and then
+#' delete the markdown file
+
+#' The purpose of the following function is, for a provided section of text, to insert the required tooltip css around a
+#' provided glossary term. The function preserves the pattern of capitalization of the glossary term that already exists.
+#' The function requires three parameters: 1) text: the section of text where we are looking to add tooltips, 2)
+#' glossary_term: the glossary term that we are looking for, 3) span_css: the css tags to add before the glossary term
+
+#' @param text the section of text where we are looking to add tooltips
+#' @param glossary_term the glossary term that we are looking for
+#' @param span_css the css tags to add before the glossary term
+#'
+#' @return paste0(split_text, save_glossary_terms, collapse="")
+#' @export
+#' @import stringr
+#'
+#' @examples
+insert_tooltip<- function(text, glossary_term, span_css){
+
+  # We start by splitting the text by the glossary term and then separately saving the glossary terms. This is done
+  # so that we can preserve the pattern of capitalization of the glossary term
+  split_text <- stringr::str_split(text, regex(glossary_term, ignore_case = TRUE))[[1]]
+  save_glossary_terms <- c(stringr::str_extract_all(text, regex(glossary_term, ignore_case = TRUE))[[1]],"")
+
+  # Let's go through every section of the split text and add the required css tags
+  for (q in 1:length(split_text)){
+    if (q>1){
+      split_text[q] = paste0("</span>", split_text[q])
+    }
+
+    if (q<length(split_text)){
+      split_text[q] = paste0(split_text[q], span_css)
+    }
+  }
+
+  # put the split text and the glossary terms back together again and then return that as the output
+  return (paste0(split_text, save_glossary_terms, collapse=""))
 }
 
 #' map_raster
@@ -427,7 +601,7 @@ plot_timeseries <- function(d, title="SST", color="red", dyRangeSelector=T, ...)
 #' @import glue sf magrittr dplyr here rerddap
 #'
 #' @examples
-# This function gets the polygons for a National Marine Sanctuary
+#'
 ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
 
   # check inputs
@@ -454,16 +628,16 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
 
   # Let's define the latitude and longitude box for the raster we want to create. The dataset erdMWchlamday defines longitude in positive
   # degrees east, while the other two datasets considered so far (jplMURSST41mday & nesdisVHNSQchlaMonthly) define longitude in negative degrees west.
-  # Since the polygons for the Sanctuary have their longitude defined in negative degrees west (as pulled in the variable bb), 
+  # Since the polygons for the Sanctuary have their longitude defined in negative degrees west (as pulled in the variable bb),
   # longitude translation is required for the erdMWchlamday dataset
   latitude_range <- c(bb$ymin, bb$ymax)
-  
+
   if (erddap_id == "erdMWchlamday"){
     longitude_range <- c(360 + bb$xmax, 360 + bb$xmin)
   } else {
     longitude_range <- c(bb$xmax, bb$xmin)
   }
-  
+
   nc <- try(
     rerddap::griddap(
       rerddap::info(erddap_id),
@@ -505,4 +679,41 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
 
   # Let's run the function get_stat for every statistic asked for by the parameter value stats - this is the overall function output
   sapply(stats, get_stat)
+}
+
+#' Render html for rmd files, including glossary tooltips
+#'
+#' @param rmd the rmd file to be rendered into html
+#'
+#' @return nothing
+#' @export
+#' @import fs markdown
+#'
+#' @examples
+rmd2html <- function(rmd){
+
+  md1  <- fs::path_ext_set(rmd, "md")
+  md2  <- paste0(fs::path_ext_remove(rmd), ".glossarized.md")
+  htm1 <- paste0(fs::path_ext_remove(rmd), ".glossarized.html")
+  htm2 <- fs::path_ext_set(rmd, "html")
+
+  # create the intermediary markdown file (with disposable html)
+  markdown::render(
+    rmd, output_file = htm1,
+    output_format    = "html_document",
+    output_options   = list(self_contained = F, keep_md = T))
+
+  # glossarize
+  glossarize_md(md2, md2)
+
+  # create the final html file
+  markdown::render(
+    md2, output_file = htm2,
+    output_format    = "html_document",
+    output_options   = list(self_contained = F), clean = F)
+
+  # final cleanup
+  file.remove(htm1)
+  file.remove(md2)
+  file.remove(paste0(substring(md2,1,str_length(md2)-3),".utf8.md"))
 }
