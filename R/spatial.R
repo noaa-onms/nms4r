@@ -602,7 +602,7 @@ plot_timeseries <- function(d, title="SST", color="red", dyRangeSelector=T, ...)
 #'
 #' @examples
 #'
-ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
+ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month) { # }, stats) {
 
   # check inputs
   stopifnot(all(is.numeric(year), is.numeric(month)))
@@ -677,8 +677,12 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
       method = "simple", na.rm=TRUE, fun = fxn)
   }
 
+  # calculating different quantiles for raster, which is the new function output
+  get_values <- raster::extract(r, sanctuary_ply, layer = 1, method = "simple", na.rm=TRUE)
+  quantile(get_values,probs=c(0.05,0.5,0.95))
+
   # Let's run the function get_stat for every statistic asked for by the parameter value stats - this is the overall function output
-  sapply(stats, get_stat)
+  # sapply(stats, get_stat)
 }
 
 #' Render html for rmd files, including glossary tooltips
