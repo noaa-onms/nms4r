@@ -4,7 +4,7 @@
 \alias{ply2erddap}
 \title{Extract ERDDAP statistics from polygon by year-month}
 \usage{
-ply2erddap(sanctuary_code, erddap_id, erddap_fld, year, month, stats)
+ply2erddap(sanctuary_code, erddap_id, erddap_fld, year, month)
 }
 \arguments{
 \item{sanctuary_code}{sanctuary code based on prefix to \href{https://sanctuaries.noaa.gov/library/imast_gis.html}{Sanctuary GIS files}, e.g. \code{"cinms"} for Channel Islands Marine Sanctuary}
@@ -16,8 +16,6 @@ ply2erddap(sanctuary_code, erddap_id, erddap_fld, year, month, stats)
 \item{year}{4-digit year}
 
 \item{month}{integer month (1-12)}
-
-\item{stats}{statistics to be generated for the data set \code{c("mean", "sd")}, to calculate mean and standard deviation)}
 }
 \value{
 a list of values by statistic
