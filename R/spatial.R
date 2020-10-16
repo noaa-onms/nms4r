@@ -593,7 +593,6 @@ plot_timeseries <- function(d, title="SST", color="red", dyRangeSelector=T, ...)
 #' @param erddap_fld variable of ERDDAP dataset to extract, e.g. \code{"sst"}
 #' @param year 4-digit year
 #' @param month integer month (1-12)
-#' @param stats statistics to be generated for the data set \code{c("mean", "sd")}, to calculate mean and standard deviation)
 #'
 #' @return a list of values by statistic
 #'
