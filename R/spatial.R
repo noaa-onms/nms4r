@@ -602,12 +602,13 @@ plot_timeseries <- function(d, title="SST", color="red", dyRangeSelector=T, ...)
 #' @examples
 #'
 ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month) { # }, stats) {
+  # sanctuary_code = "cinms"; erddap_id = "jplMURSST41mday"; erddap_fld = "sst"; year = 2010; month = 6; stats = c("mean", "sd")
 
   # check inputs
   stopifnot(all(is.numeric(year), is.numeric(month)))
 
   # Get the polygons for the sanctuary.
-  sanctuary_ply <-   sf::as_Spatial(sf::st_union(nms4r::get_nms_polygons(sanctuary_code)))
+  sanctuary_ply <-   sf::as_Spatial(sf::st_union(get_nms_polygons(sanctuary_code)))
 
   # set the x and y limits of the raster to be pulled based upon the sanctuary polygons
   bb <- sf::st_bbox(sanctuary_ply)
@@ -669,19 +670,30 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month) { # 
   # The following get_stat function extracts a statistical value (eg. mean or standard deviation) from the raster
   # cells remaining after being overlaid with the sanctuary polygons
 
-  get_stat <- function(stat){
-    fxn <- get(stat)
-    raster::extract(
-      r, sanctuary_ply, layer = 1,
-      method = "simple", na.rm=TRUE, fun = fxn)
+  get_stat <- function(stat, v){
+    # stat <- "mean"
+    # stat <- "q95"
+
+    q_pct <- stringr::str_match(stat, "^q([0-9]+)$")[2] %>%
+      as.numeric()
+
+    if (!is.na(q_pct)){
+      quantile(v, q_pct/100)
+    } else {
+      fxn <- get(stat)
+      fxn(v)
+    }
   }
 
-  # calculating different quantiles for raster, which is the new function output
-  get_values <- raster::extract(r, sanctuary_ply, layer = 1, method = "simple", na.rm=TRUE)
-  quantile(get_values,probs=c(0.05,0.5,0.95))
-
   # Let's run the function get_stat for every statistic asked for by the parameter value stats - this is the overall function output
-  # sapply(stats, get_stat)
+  # stats = c("mean", "sd", "q5", "q95")
+  r_v <- raster::extract(
+    r, sanctuary_ply, layer = 1,
+    method = "simple", na.rm=TRUE)[[1]]
+
+  out <- purrr::map_dbl(stats, get_stat, v = r_v)
+  names(out) <- stats
+  out
 }
 
 #' Render html for rmd files, including glossary tooltips
