@@ -71,7 +71,7 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   # Let's generate the data frame that will ultimately be written back out to overwrite the csv file.
   # The data frame by default sets NA for all metric values for every month, to start. Later in this function, we'll change
   # those values
-  write_out <- data.frame(date_sequence, "NA", "NA", stringsAsFactors = FALSE)
+  write_out <- data.frame(date_sequence, "NA", "NA", "NA", "NA", "NA", stringsAsFactors = FALSE)
   col2<- paste0("average_",metric)
   col3<- paste0("standard_deviation_",metric)
   col4<-paste0("median_",metric)
