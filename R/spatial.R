@@ -593,6 +593,7 @@ plot_timeseries <- function(d, title="SST", color="red", dyRangeSelector=T, ...)
 #' @param erddap_fld variable of ERDDAP dataset to extract, e.g. \code{"sst"}
 #' @param year 4-digit year
 #' @param month integer month (1-12)
+#' @stats statistics to be calculated
 #'
 #' @return a list of values by statistic
 #'
@@ -601,7 +602,7 @@ plot_timeseries <- function(d, title="SST", color="red", dyRangeSelector=T, ...)
 #'
 #' @examples
 #'
-ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month) { # }, stats) {
+ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
   # sanctuary_code = "cinms"; erddap_id = "jplMURSST41mday"; erddap_fld = "sst"; year = 2010; month = 6; stats = c("mean", "sd")
 
   # check inputs

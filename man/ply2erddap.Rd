@@ -4,7 +4,7 @@
 \alias{ply2erddap}
 \title{Extract ERDDAP statistics from polygon by year-month}
 \usage{
-ply2erddap(sanctuary_code, erddap_id, erddap_fld, year, month)
+ply2erddap(sanctuary_code, erddap_id, erddap_fld, year, month, stats)
 }
 \arguments{
 \item{sanctuary_code}{sanctuary code based on prefix to \href{https://sanctuaries.noaa.gov/library/imast_gis.html}{Sanctuary GIS files}, e.g. \code{"cinms"} for Channel Islands Marine Sanctuary}
