@@ -94,6 +94,7 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
       if (is.na(read_in[match_date,2])==TRUE) {need_to_calculate = TRUE}
     }
 
+    need_to_calculate= TRUE
     # if non NA data exists for a given month, copy that for the month in the data frame that is going to
     # eventually write over the existing csv file
     if (need_to_calculate==FALSE){
