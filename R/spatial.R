@@ -74,7 +74,10 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   write_out <- data.frame(date_sequence, "NA", "NA", stringsAsFactors = FALSE)
   col2<- paste0("average_",metric)
   col3<- paste0("standard_deviation_",metric)
-  names(write_out) <- c("date", col2, col3)
+  col4<-paste0("median_",metric)
+  col5<-paste0("quantile5_",metric)
+  col6<-paste0("quantile95_",metric)
+  names(write_out) <- c("date", col2, col3, col4, col5, col6)
 
   # let's go through every month in the date range
   for (i in 1:length(date_sequence)){
@@ -94,7 +97,7 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
     # if non NA data exists for a given month, copy that for the month in the data frame that is going to
     # eventually write over the existing csv file
     if (need_to_calculate==FALSE){
-      write_out[i, 2:3] = read_in[match_date, 2:3]
+      write_out[i, 2:6] = read_in[match_date, 2:6]
     } else {
       # if not, then we need to calculate the statistics from the satellite data, using the ply2erddap function
       year <- as.numeric(substr(write_out$date[i],1,4))
@@ -102,7 +105,7 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
       try(
         # note the use of the try function, due to the flaky nature of the server holding the satellite
         # data. If the server is down, this given month will retain NA until a future point that the server is up
-        write_out[i, 2:3]<-round(nms4r::ply2erddap(sanctuary, erddap_id, metric, year, month, c("mean", "sd")),5)
+        write_out[i, 2:6]<-round(nms4r::ply2erddap(sanctuary, erddap_id, metric, year, month, c("mean", "sd", "median", "q5", "q95")),5)
       )
     }
   }
