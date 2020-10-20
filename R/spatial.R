@@ -535,10 +535,13 @@ plot_metric_timeseries <- function(csv, metric, ...){
   data_history <- read.csv(csv, header = TRUE)
   dates<- data_history[,1]
   average_value <- data_history[,2]
-  standard_deviation <- data_history[,3]
+  #standard_deviation <- data_history[,3]
+  lower_value <- data_history[,5]
+  upper_value <- data_history[,6]
 
   # create a data frame which lines up the data in the way that dygraph needs it
-  history <- data.frame(date = as.Date(dates, "%Y-%m-%d"), avg_value = average_value, lower = average_value - standard_deviation, upper = average_value + standard_deviation)
+  # history <- data.frame(date = as.Date(dates, "%Y-%m-%d"), avg_value = average_value, lower = average_value - standard_deviation, upper = average_value + standard_deviation)
+  history <- data.frame(date = as.Date(dates, "%Y-%m-%d"), avg_value = average_value, lower = lower_value, upper = upper_value)
   history <- xts(x = history[,-1], order.by = history$date)
 
   # create the figure
