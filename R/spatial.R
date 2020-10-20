@@ -702,6 +702,11 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
     r, sanctuary_ply, layer = 1,
     method = "simple", na.rm=TRUE)[[1]]
 
+  # The raster::extract function above is supposed to remove NA values, but (at least
+  # in the case of the nesdisVHNSQchlaMonthly dataset) it doesn't. I have no idea why.
+  # So, let's get rid of NA values for sure
+  r_v <- na.omit(r_v)
+
   out <- purrr::map_dbl(stats, get_stat, v = r_v)
   names(out) <- stats
   out
