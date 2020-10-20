@@ -709,6 +709,8 @@ map_raster <- function(r, site_lon, site_lat, site_label, title){
 #'
 #' @examples
 md_caption <- function(title, md = here::here("modals/_captions.md"), get_details = F){
+  # setwd("~/github/nms4r"); devtools::load_all()
+  # title = "Figure Ux.Ocean.SST.ERD.map."; md = "~/github/cinms/modals/_captions.md"; get_details = F
 
   stopifnot(file.exists(md))
 
@@ -768,7 +770,7 @@ md_caption <- function(title, md = here::here("modals/_captions.md"), get_detail
   expanded_caption = paste('<details>\n  <summary>Click for Details</summary>\n\\1 For more information, consult', title,
                            'in the [CINMS 2016 Condition Report](https://nmssanctuaries.blob.core.windows.net/sanctuaries-prod/media/docs/2016-condition-report-channel-islands-nms.pdf){target="_blank"}.</details>')
 
-  details_md <- dplyr::tbl %>%
+  details_md <- tbl %>%
     dplyr::filter(is_details) %>%
     dplyr::filter(ln != "") %>%
     dplyr::pull(ln) %>%
