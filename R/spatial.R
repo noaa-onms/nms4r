@@ -622,14 +622,20 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   # https://github.com/rstudio/leaflet/issues/225#issuecomment-347721709
 
   # The dates to be considered (note that dates are handled differently when pulling different datasets)
-  m_beg   <- lubridate::ymd(glue::glue("{year}-{month}-01"))
-  m_end   <- m_beg + lubridate::days(lubridate::days_in_month(m_beg)) - lubridate::days(1)
-
-  # pull data from errdap server, with the process handled differently based upon the dataset - the value of erddap_id
-  # (as the datasets are not structured identically)
+  # Additionally, the end date for the dataset nesdisVHNSQchlaMonthly needs to be set close to the beginning
+  # date or multiple time slices of data will be called. I don't know why nesdisVHNSQchlaMonthly behaves this way.
+    m_beg   <- lubridate::ymd(glue::glue("{year}-{month}-01"))
+  if (erddap_id == "nesdisVHNSQchlaMonthly"){
+    m_end   <- m_beg + 1
+   } else{
+    m_end   <- m_beg + lubridate::days(lubridate::days_in_month(m_beg)) - lubridate::days(1)
+  }
 
   # set desired date range
   m_dates <- c(m_beg, m_end)
+
+  # pull data from errdap server, with the process handled differently based upon the dataset - the value of erddap_id
+  # (as the datasets are not structured identically)
 
   # Let's define the latitude and longitude box for the raster we want to create. The dataset erdMWchlamday defines longitude in positive
   # degrees east, while the other two datasets considered so far (jplMURSST41mday & nesdisVHNSQchlaMonthly) define longitude in negative degrees west.
