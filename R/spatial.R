@@ -215,6 +215,49 @@ get_dates <- function(info){
     as.POSIXct(origin = "1970-01-01", tz = "GMT")
 }
 
+#' get_modal_info
+#'
+#' @param rmd
+#' @param info_modal_links_csv
+#'
+#' @return
+#' @export
+#' @import knitr fs readr
+#'
+get_modal_info <- function(
+  rmd = knitr::current_input(),
+  info_modal_links_csv = "https://docs.google.com/spreadsheets/d/1yEuI7BT9fJEcGAFNPM0mCq16nFsbn0b-bNirYPU5W8c/gviz/tq?tqx=out:csv&sheet=info_modal_links"){
+
+  # rmd = "infauna.Rmd"
+  # rmd = "key-human-activities.Rmd"
+  modal_id <- basename(fs::path_ext_remove(rmd))
+
+  #message(glue("modal_id: {modal_id}"))
+
+  # modal_id = "ochre-stars"
+  row <- readr::read_csv(info_modal_links_csv) %>%
+    filter(modal == modal_id)
+
+  if (nrow(row) == 0) stop("Need link in cinms_content:info_modal_links Google Sheet!")
+
+  icons_html = NULL
+  if (!is.na(row$url_info)){
+    icons_html =
+      a(icon("info-circle"), href=row$url_info, target='_blank')
+  }
+  if (!is.na(row$url_photo)){
+    icons_html = tagList(
+      icons_html,
+      a(icon("camera"), href=row$url_photo, target='_blank'))
+  }
+
+  div(
+    div(tagList(icons_html), style = "margin-top: 10px;margin-bottom: 10px; margin-right: 10px; flex: 1;"), div(
+      ifelse(!is.na(row$tagline), row$tagline, ""), style = "margin: 10px; font-style: italic; flex: 20; "), style="display: flex"
+
+  )
+}
+
 #' Get NMS polygons
 #'
 #' given NMS code (see
