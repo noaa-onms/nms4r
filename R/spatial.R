@@ -621,6 +621,93 @@ map_raster <- function(r, site_lon, site_lat, site_label, title){
       options = layersControlOptions(collapsed = T))
 }
 
+#' md_caption
+#'
+#' @param title
+#' @param md
+#' @param get_details
+#'
+#' @return
+#' @export
+#' @import tibble dplyr stringr glue tidyr
+#'
+#' @examples
+md_caption <- function(title, md = here::here("modals/_captions.md"), get_details = F){
+
+  stopifnot(file.exists(md))
+
+  tbl <- tibble::tibble(
+    # read lines of markdown in _captions.md
+    ln = readLines(md) %>% stringr::str_trim()) %>%
+    # detect header with title, set rest to NA
+    dplyr::mutate(
+      is_hdr = stringr::str_detect(
+        ln,
+        glue::glue('^## {str_replace_all(title, fixed("."), "\\\\.")}'))
+      %>% dplyr::na_if(FALSE)) %>%
+    # fill down so capturing all starting with title header
+    tidyr::fill(is_hdr) %>%
+    # filter for title header down, removing previous lines
+    dplyr::filter(is_hdr) %>%
+    # remove title header
+    dplyr::slice(-1) %>%
+    # detect subsequent headers
+    dplyr::mutate(
+      is_hdr = stringr::str_detect(ln, "^## ") %>% dplyr::na_if(F)) %>%
+    # fill down
+    tidyr::fill(is_hdr) %>%
+    dplyr::mutate(
+      is_hdr = tidyr::replace_na(is_hdr, FALSE)) %>%
+    # filter for not header down, removing subsequent lines outside caption
+    dplyr::filter(!is_hdr) %>%
+    # replace links in markdown with html to open in new tab
+    dplyr::mutate(
+      ln = stringr::str_replace_all(ln, "\\[(.*?)\\]\\((.*?)\\)", "<a href='\\2' target='_blank'>\\1</a>")) %>%
+    # details
+    mutate(
+      is_details = stringr::str_detect(ln, "^### Details") %>% dplyr::na_if(F)) %>%
+    # fill down
+    tidyr::fill(is_details)
+
+
+  simple_md <- tbl %>%
+    dplyr::filter(is.na(is_details)) %>%
+    dplyr::filter(ln != "") %>%
+    dplyr::pull(ln) %>%
+    paste0(collapse = "\n") %>%
+    stringr::str_trim()
+
+  # Remove spaces around figure title.
+
+  title <- stringr::str_trim(title)
+
+  # If the last character of the figure title is a period, delete it. This will improve how the title looks when embedded into the text.
+
+  if (substring(title, nchar(title))=="."){
+    title<- substring(title,0,nchar(title)-1)
+  }
+
+  # Append figure title (like App.F.13.2) to the end of expanded figure caption and add link to condition report
+
+  expanded_caption = paste('<details>\n  <summary>Click for Details</summary>\n\\1 For more information, consult', title,
+                           'in the [CINMS 2016 Condition Report](https://nmssanctuaries.blob.core.windows.net/sanctuaries-prod/media/docs/2016-condition-report-channel-islands-nms.pdf){target="_blank"}.</details>')
+
+  details_md <- dplyr::tbl %>%
+    dplyr::filter(is_details) %>%
+    dplyr::filter(ln != "") %>%
+    dplyr::pull(ln) %>%
+    paste0(collapse = "\n") %>%
+    stringr::str_replace("### Details\n(.*)", expanded_caption) %>%
+    stringr::str_trim()
+
+  if (get_details == T){
+    return(details_md)
+  } else {
+    return(simple_md)
+  }
+
+}
+
 #' plot_metric_timeseries
 #'
 #' @param csv
