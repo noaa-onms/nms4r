@@ -215,6 +215,82 @@ get_dates <- function(info){
     as.POSIXct(origin = "1970-01-01", tz = "GMT")
 }
 
+#' get_figure_info
+#'
+#' The purpose of this function is to generate the hyperlinks for the monitoring program and data
+#' associated with a figure and then to insert them into a gray bar above the figure in the modal window.
+#'
+#' @param figure_id
+#'
+#' @return
+#' @export
+#' @import readr dplyr tibble stringr shiny
+#'
+#' @examples
+#' calculate_statistics("cinms", "jplMURSST41mday", "sst", "avg-sst_cinms.csv")
+#' calculate_statistics("cinms", "nesdisVHNSQchlaMonthly", "chlor_a", "avg-chl_cinms.csv")
+
+get_figure_info <- function (figure_id){
+
+  #figure_id = "Figure App.E.10.22."
+
+  info_csv = "https://docs.google.com/spreadsheets/d/1yEuI7BT9fJEcGAFNPM0mCq16nFsbn0b-bNirYPU5W8c/gviz/tq?tqx=out:csv&sheet=info_figure_links"
+
+  d <- readr::read_csv(info_csv)  %>%
+    dplyr::filter(md_caption == figure_id)
+
+  if (nrow(d) == 0){
+    warning(paste("Need link in cinms_content:info_figure_links Google Sheet for", figure_id))
+    return("")
+  }
+
+  html  <- NULL
+  no_ws <- c("before","after","outside","after-begin","before-end")
+
+  icons <- tibble::tribble(
+    ~description_bkup   ,    ~css,            ~icon,         ~fld_url, ~fld_description,
+    "Monitoring Program",  "left", "clipboard-list", "url_monitoring", "title_monitoring",
+    "Data"              , "right", "database"      ,       "url_data", "title_data")
+
+  for (i in 1:nrow(icons)){  # i=1
+
+    h           <- icons[i,]
+    url         <- d[h$fld_url]
+    description <- d[h$fld_description]
+
+    if(!is.na(url) & substr(url,0,4) == "http"){
+      if (is.na(description)){
+        description <- h$description_bkup
+      } else {
+        description <- substr(stringr::str_trim(description), 0, 45)
+      }
+
+      html <- shiny::tagList(
+        html,
+        div(
+          .noWS = no_ws,
+          style = glue("text-align:{h$css}; display:table-cell;"),
+          a(
+            .noWS = no_ws,
+            href = url, target = '_blank',
+            icon(h$icon), description)))
+    }
+  }
+
+  if (is.null(html))
+    return("")
+
+  shiny::tagList(
+    div(
+      .noWS = no_ws,
+      style = "background:LightGrey; width:100%; display:table; font-size:120%; padding: 10px 10px 10px 10px; margin-bottom: 10px;",
+      div(
+        .noWS = no_ws,
+        style = "display:table-row",
+        html)))
+}
+
+
 #' get_modal_info
 #'
 #' @param rmd
@@ -906,6 +982,34 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   names(out) <- stats
   out
 }
+
+#' render_figure
+#'
+#' @param figure_id
+#' @param figure_img
+#'
+#' @return
+#'
+#' @export
+#' @import glue
+#'
+#' @examples
+#'
+render_figure <- function(figure_id, figure_img){
+
+  # figure_id = "Figure App.F.12.2."
+  # figure_img = "../img/cinms_cr/App.E.10.22.jpg"
+
+  glue:glue(
+    "
+  {get_figure_info(figure_id)}
+
+  ![{md_caption(figure_id)}]({figure_img})
+
+  {md_caption(figure_id, get_details=T)}
+  ")
+}
+
 
 #' Render html for rmd files, including glossary tooltips
 #'
