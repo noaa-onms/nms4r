@@ -1039,7 +1039,7 @@ rmd2html <- function(rmd){
   glossarize_md(md2, md2)
 
   # create the final html file
-  markdown::render(
+  rmarkdown::render(
     md2, output_file = htm2,
     output_format    = "html_document",
     output_options   = list(self_contained = F), clean = F)
