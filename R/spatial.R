@@ -1002,13 +1002,13 @@ render_figure <- function(figure_id, figure_img){
   # figure_id = "Figure App.F.12.2."
   # figure_img = "../img/cinms_cr/App.E.10.22.jpg"
 
-  glue:glue(
+  glue::glue(
     "
-  {get_figure_info(figure_id)}
+  {nms4r::get_figure_info(figure_id)}
 
-  ![{md_caption(figure_id)}]({figure_img})
+  ![{nms4r::md_caption(figure_id)}]({figure_img})
 
-  {md_caption(figure_id, get_details=T)}
+  {nms4r::md_caption(figure_id, get_details=T)}
   ")
 }
 
