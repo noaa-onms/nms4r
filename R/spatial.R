@@ -1030,7 +1030,7 @@ rmd2html <- function(rmd){
   htm2 <- fs::path_ext_set(rmd, "html")
 
   # create the intermediary markdown file (with disposable html)
-  markdown::render(
+  rmarkdown::render(
     rmd, output_file = htm1,
     output_format    = "html_document",
     output_options   = list(self_contained = F, keep_md = T))
