@@ -786,6 +786,109 @@ md_caption <- function(title, md = here::here("modals/_captions.md"), get_detail
 
 }
 
+#' plot_intertidal_nms
+#'
+#' @param d_csv
+#' @param NMS
+#' @param spp
+#' @param sp_name
+#' @param spp_targets
+#' @param fld_val
+#' @param label_y
+#' @param label_x
+#' @param nms_skip_regions
+#'
+#' @return
+#' @export
+#' @import dplyr dygraphs glue magrittr mapview RColorBrewer readr tidyr
+#'
+#' @examples
+plot_intertidal_nms <- function(
+  d_csv, NMS, spp, sp_name, spp_targets = NULL,
+  fld_val = "pct_cover", label_y = "Annual Mean Percent Cover (%)",
+  label_x = "Year", nms_skip_regions = c("OCNMS","MBNMS")){
+
+  d <- readr::read_csv(d_csv) %>%
+    dplyr::filter(nms == NMS, sp %in% spp) %>%
+    dplyr::rename(v = !!fld_val)
+
+  if (!is.null(spp_targets)){
+    d <- d %>%
+      dplyr::filter(sp_target %in% spp_targets)
+  }
+
+  d <- d %>%
+    dplyr::group_by(site, date) %>%
+    dplyr::summarize(
+      v = mean(v)) %>%
+    dplyr::ungroup()
+
+  if (!NMS %in% nms_skip_regions){
+    sites_no_rgn <- d %>% dplyr::filter(site != NMS) %>% dplyr::anti_join(nms_rgns, by="site") %>% dplyr::pull(site) %>% unique()
+    stopifnot(length(sites_no_rgn) == 0)
+    rgns <- nms_rgns %>% dplyr::filter(nms == NMS) %>% dplyr::pull(rgn) %>% unique()
+  } else {
+    rgns = character(0)
+  }
+
+  if (length(rgns) > 0){
+    # avg by region
+    d_sites <- d %>%
+      dplyr::filter(site != NMS) %>%
+      dplyr::left_join(nms_rgns, by="site") %>%
+      dplyr::group_by(rgn, date) %>%
+      dplyr::summarize(
+        v = mean(v)) %>%
+      dplyr::ungroup()
+
+    d_allsites <- d %>%
+      dplyr::filter(site == NMS) %>%
+      dplyr::mutate(
+        rgn = site) %>%
+      dplyr::select(rgn, date, v)
+
+    d <- dplyr::bind_rows(d_sites, d_allsites)
+  } else {
+    d <- d %>%
+      dplyr::mutate(
+        rgn = site) %>%
+      dplyr::select(rgn, date, v)
+  }
+
+  # avg by year and spread
+  d <- d %>%
+    dplyr::mutate(
+      yr = year(date)) %>%
+    dplyr::group_by(rgn, yr) %>%
+    dplyr::summarize(
+      v = mean(v)) %>%
+    tidyr::spread(rgn, v) # View(d)
+
+  # line colors
+  if (ncol(d) - 1 > 12){
+    pal <- mapview::colorRampPalette(RColorBrewer::brewer.pal(12, "Set1"))
+    ln_colors <- pal(ncol(d) - 1)
+  } else {
+    ln_colors <- RColorBrewer::brewer.pal(ncol(d) - 1, "Set3")
+  }
+  #filled.contour(volcano, col=ln_colors)
+  ln_colors[which(names(d) == NMS) - 1] <- "black"
+
+  # plot dygraph
+  dygraphs::dygraph(
+    #x,
+    d,
+    main = glue::glue("{sp_name} in {NMS}"),
+    xlab = label_x,
+    ylab = label_y) %>%
+    dygraphs::dyOptions(
+      connectSeparatedPoints = TRUE,
+      colors = ln_colors) %>%
+    dygraphs::dySeries(NMS, strokeWidth = 3) %>%
+    dygraphs::dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
+    dygraphs::dyRangeSelector(fillColor = " #FFFFFF", strokeColor = "#FFFFFF")
+}
+
 #' plot_metric_timeseries
 #'
 #' @param csv
@@ -834,31 +937,6 @@ plot_metric_timeseries <- function(csv, metric, ...){
   } else { # if any other metric is called, stop everything
     stop("Error in metric: the function plot_metric_timeseries only currently knows how to handle the metrics sst and chl")
   }
-}
-
-#' plot_timeseries
-#'
-#' @param d
-#' @param title
-#' @param color
-#' @param dyRangeSelector
-#' @param ...
-#'
-#' @return
-#' @export
-#'
-#' @examples
-plot_timeseries <- function(d, title="SST", color="red", dyRangeSelector=T, ...){
-  p <- xts(select(d, -date), order.by=d$date) %>%
-    dygraph(main=title, ...) %>%
-    dyOptions(
-      colors = color,
-      fillGraph = TRUE, fillAlpha = 0.4)
-  if (dyRangeSelector){
-    p <- p %>%
-      dyRangeSelector()
-  }
-  p
 }
 
 #' Extract ERDDAP statistics from polygon by year-month
