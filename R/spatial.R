@@ -669,6 +669,71 @@ insert_tooltip<- function(text, glossary_term, span_css){
   return (paste0(split_text, save_glossary_terms, collapse=""))
 }
 
+#' make_sites_csv
+#'
+#' @param raw_csv
+#' @param sites_csv
+#'
+#' @return
+#' @export
+#' @import dplyr magrittr readr sf xts
+#'
+#' @examples
+make_sites_csv <- function(raw_csv, sites_csv){
+  raw <- read_csv_fmt(raw_csv, raw_fmt)
+
+  sites_pts <- raw %>%
+    dplyr::rename(
+      site = marine_site_name) %>%
+    dplyr::group_by(site) %>%
+    dplyr::summarize(
+      lat = xts::first(latitude),
+      lon = xts::first(longitude)) %>%
+    sf::st_as_sf(coords = c("lon", "lat"), crs = 4326, remove = F)
+
+  sites_pts %>%
+    sf::st_set_geometry(NULL) %>%
+    readr::write_csv(sites_csv)
+}
+
+#' map_nms_sites
+#'
+#' @param nms
+#'
+#' @return
+#' @export
+#' @import glue magrittr mapview readr sf stringr
+#'
+#' @examples
+map_nms_sites <- function(nms){
+  # nms <- "cinms" # mbnms" # "ocnms"
+  NMS <- stringr::str_to_upper(nms)
+
+  # get sites in nms
+  sites_nms_shp <- glue::glue("{dir_shp}/{NMS}_sites.shp")
+  nms_ply <- get_nms_polygons(nms)
+
+  if (!file.exists(sites_nms_shp)){
+    if (!file.exists(sites_csv)) make_sites_csv(raw_csv, sites_csv)
+
+    sites_pts <- readr::read_csv(sites_csv) %>%
+      sf::st_as_sf(coords = c("lon", "lat"), crs = 4326, remove = F)
+
+    sites_nms_pts <- sites_pts %>%
+      sf::st_intersection(
+        nms_ply %>%
+          sf::st_buffer(0.01)) # 0.01 dd ≈ 1.11 km
+    sf::write_sf(sites_nms_pts, sites_nms_shp)
+  }
+  sites_nms_pts <- sf::read_sf(sites_nms_shp)
+
+  mapview::mapview(
+    nms_ply, legend = TRUE, layer.name = "Sanctuary", zcol = "SANCTUARY") +
+    mapview::mapview(
+      sites_nms_pts, legend = TRUE, layer.name = "Site",
+      zcol = "site", col.regions = colorRampPalette(brewer.pal(11, "Set3")))
+}
+
 #' map_raster
 #'
 #' @param r
@@ -1061,6 +1126,35 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   out <- purrr::map_dbl(stats, get_stat, v = r_v)
   names(out) <- stats
   out
+}
+
+#' read_csv_fmt
+#'
+#' @param csv
+#' @param erddap_format
+#'
+#' @return
+#' @export
+#' @import magrittr readr stringr
+#'
+#' @examples
+read_csv_fmt <- function(csv, erddap_format = "csv"){
+  # erddap_format = "csv" # or "csvp"
+
+  stopifnot(erddap_format %in% c("csv", "csvp"))
+
+  if (erddap_format == "csv"){
+    # ERDDAP: csv format, remove units from 2nd row
+    hdr <- readr::read_csv(csv, n_max=1)
+    d <- readr::read_csv(csv, skip = 2, col_names = names(hdr))
+  }
+
+  if (erddap_format == "csvp"){
+    # ERDDAP: csvp format; remove ' (units)' suffix
+    d <- readr::read_csv(csv)
+    names(d) <- names(d) %>% stringr::str_replace(" \\(.*\\)", "")
+  }
+  d
 }
 
 #' render_figure
