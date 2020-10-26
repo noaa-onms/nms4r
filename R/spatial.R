@@ -710,6 +710,10 @@ map_nms_sites <- function(nms){
   NMS <- stringr::str_to_upper(nms)
 
   # get sites in nms
+  dir_gdrive <- "/Volumes/GoogleDrive/Shared drives/NMS/data"
+  dir_pfx     <- file.path(dir_gdrive, "github_info-intertidal_data")
+  dir_shp     <- file.path(dir_pfx, "shp")
+
   sites_nms_shp <- glue::glue("{dir_shp}/{NMS}_sites.shp")
   nms_ply <- get_nms_polygons(nms)
 
