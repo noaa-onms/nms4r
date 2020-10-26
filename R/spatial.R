@@ -687,8 +687,8 @@ make_sites_csv <- function(raw_csv, sites_csv){
       site = marine_site_name) %>%
     dplyr::group_by(site) %>%
     dplyr::summarize(
-      lat = xts::first(latitude),
-      lon = xts::first(longitude)) %>%
+      lat = dplyr::first(latitude),
+      lon = dplyr::first(longitude)) %>%
     sf::st_as_sf(coords = c("lon", "lat"), crs = 4326, remove = F)
 
   sites_pts %>%
