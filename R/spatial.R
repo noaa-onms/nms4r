@@ -88,6 +88,7 @@ calcofi_plot <- function(
 
   g <- ggplot2::ggplot(d, ggplot2::aes(x = x, y = y)) +
     ggplot2::annotate(
+      "rect",
       xmin = max(d$x) - lubridate::years(yrs_recent), xmax = max(d$x) + months(6),
       ymin = y_r[1], ymax = y_r[2],
       fill  = "lightblue", alpha=0.5) +
