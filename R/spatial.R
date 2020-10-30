@@ -869,7 +869,7 @@ md_caption <- function(title, md = here::here("modals/_captions.md"), get_detail
 #'
 #' @return
 #' @export
-#' @import dplyr dygraphs glue magrittr mapview RColorBrewer readr tidyr
+#' @import dplyr dygraphs glue lubridate magrittr mapview RColorBrewer readr tidyr
 #'
 #' @examples
 plot_intertidal_nms <- function(
