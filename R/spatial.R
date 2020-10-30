@@ -873,7 +873,7 @@ md_caption <- function(title, md = here::here("modals/_captions.md"), get_detail
 #'
 #' @examples
 plot_intertidal_nms <- function(
-  d_csv, NMS, spp, sp_name, spp_targets = NULL,
+  d_csv, NMS, spp, sp_name, nms_rgns, spp_targets = NULL,
   fld_val = "pct_cover", label_y = "Annual Mean Percent Cover (%)",
   label_x = "Year", nms_skip_regions = c("OCNMS","MBNMS")){
 
