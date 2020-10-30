@@ -88,7 +88,7 @@ calcofi_plot <- function(
 
   g <- ggplot2::ggplot(d, ggplot2::aes(x = x, y = y)) +
     ggplot2::annotate(
-      xmin = max(d$x) - lubridate::years(yrs_recent), xmax = max(d$x) + lubridate::months(6),
+      xmin = max(d$x) - lubridate::years(yrs_recent), xmax = max(d$x) + months(6),
       ymin = y_r[1], ymax = y_r[2],
       fill  = "lightblue", alpha=0.5) +
     ggplot2::geom_line() +
@@ -99,8 +99,8 @@ calcofi_plot <- function(
       color       = "darkblue") +
     ggplot2::coord_cartesian(
       xlim = c(
-        min(d$x) - lubridate::months(6),
-        max(d$x) + lubridate::months(6)), expand = F) +
+        min(d$x) - months(6),
+        max(d$x) + months(6)), expand = F) +
     ggplot2::theme_light() +
     ggplot2::labs(
       x     = x_lab,
