@@ -927,7 +927,7 @@ plot_intertidal_nms <- function(
   # avg by year and spread
   d <- d %>%
     dplyr::mutate(
-      yr = year(date)) %>%
+      yr = lubridate::year(date)) %>%
     dplyr::group_by(rgn, yr) %>%
     dplyr::summarize(
       v = mean(v)) %>%
