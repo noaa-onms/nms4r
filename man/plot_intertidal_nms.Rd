@@ -9,6 +9,7 @@ plot_intertidal_nms(
   NMS,
   spp,
   sp_name,
+  nms_rgns,
   spp_targets = NULL,
   fld_val = "pct_cover",
   label_y = "Annual Mean Percent Cover (\%)",

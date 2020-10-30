@@ -1,3 +1,128 @@
+#' calcofi_map
+#'
+#' @param geo
+#' @param filter_str
+#' @param colors
+#'
+#' @return
+#' @export
+#' @import dplyr leaflet magrittr rlang sf units
+#'
+calcofi_map <- function(
+  geo        = "https://raw.githubusercontent.com/marinebon/calcofi-analysis/master/data/plys_cinms.geojson",
+  filter_str = 'ply_code != "SoCal"',
+  colors     = c("red", "yellow")
+){
+  plys <- sf::read_sf(geo)
+
+  if (!any(is.na(filter_str), is.null(filter_str), nchar(filter_str)==0)){
+    # https://edwinth.github.io/blog/dplyr-recipes/
+    expr <- rlang::parse_expr(filter_str)
+    plys <- dplyr::filter(plys, !! expr)
+    plys <- plys %>%
+      dplyr::mutate(
+        area_km2 = sf::st_area(geometry) %>% units::set_units(km^2),
+        color    = !!colors) %>%
+      dplyr::arrange(desc(area_km2))
+  }
+
+  leaflet::leaflet(
+    data = plys,
+    options = leaflet::leafletOptions(
+      attributionControl = F)) %>%
+    leaflet::addProviderTiles(providers$Esri.OceanBasemap) %>%
+    leaflet::addPolygons(
+      label = ~ply_code,
+      color = ~color, fillColor = ~color,
+      fillOpacity = 0.4, weight = 2) %>%
+    leaflet::addLegend(
+      colors = ~color,
+      labels = ~ply_code)
+}
+
+#' calcofi_plot
+#'
+#' @param csv
+#' @param x_fld
+#' @param y_fld
+#' @param y_trans
+#' @param x_lab
+#' @param y_lab
+#' @param title
+#' @param yrs_recent
+#' @param interactive
+#' @param in_loop
+#'
+#' @return
+#' @export
+#' @import dplyr ggplot2 htmltools lubridate magrittr plotly readr rlang scales stringr
+#'
+calcofi_plot <- function(
+  csv,
+  x_fld       = "year",
+  y_fld       = "avg_larvae_count_per_volume_sampled",
+  y_trans     = "log(y + 1)",
+  x_lab       = "Year",
+  y_lab       = "ln(mean abundance + 1)",
+  title       = NULL,
+  yrs_recent  = 5,
+  interactive = T,
+  in_loop     = F){
+
+  d <- csv %>%
+    stringr::str_replace_all(" ", "%20") %>%
+    readr::read_csv()
+
+  if (nrow(d) == 0) return(NULL)
+
+  flds <- list(x = rlang::sym(x_fld), y = rlang::sym(y_fld))
+  d <- dplyr::select(d, !!!flds)
+
+  if (!is.null(y_trans))
+    d <- dplyr::mutate(d, y = !! rlang::parse_expr(y_trans))
+
+  z <- dplyr::filter(d, x < max(x) - lubridate::years(yrs_recent))
+  y_avg <- mean(z$y)
+  y_sd  <- sd(z$y)
+  y_r   <- scales::expand_range(range(d$y), mul=0.05)
+
+  g <- ggplot2::ggplot(d, ggplot2::aes(x = x, y = y)) +
+    ggplot2::annotate(
+      xmin = max(d$x) - lubridate::years(yrs_recent), xmax = max(d$x) + lubridate::months(6),
+      ymin = y_r[1], ymax = y_r[2],
+      fill  = "lightblue", alpha=0.5) +
+    ggplot2::geom_line() +
+    ggplot2::geom_point() +
+    ggplot2::geom_hline(
+      yintercept = c(y_avg + y_sd, y_avg,  y_avg - y_sd),
+      linetype   = c("solid", "dashed", "solid"),
+      color       = "darkblue") +
+    ggplot2::coord_cartesian(
+      xlim = c(
+        min(d$x) - lubridate::months(6),
+        max(d$x) + lubridate::months(6)), expand = F) +
+    ggplot2::theme_light() +
+    ggplot2::labs(
+      x     = x_lab,
+      y     = y_lab,
+      title = title)
+
+  if (interactive){
+    p <- plotly::ggplotly(g)
+    if (in_loop){
+      # [`ggplotly` from inside `for` loop in `.Rmd` file does not work · Issue #570 · ropensci/plotly](https://github.com/ropensci/plotly/issues/570)
+      print(htmltools::tagList(p))
+      message(
+        "need to add dependencies in R chunk per: \n",
+        " - https://github.com/marinebon/calcofi-analysis/blob/6c678b052ded628cf149d5e37a1560e9f5efa6e5/docs/index.Rmd#L595-L615\n",
+        " - [`ggplotly` from inside `for` loop in `.Rmd` file does not work · Issue #570 · ropensci/plotly](https://github.com/ropensci/plotly/issues/570)")
+    } else {
+      p
+    }
+  } else {
+    print(g)
+  }
+}
 
 #' Generate statistics for any missing months for NMS Sanctuary
 #'
