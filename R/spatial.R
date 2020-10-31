@@ -704,7 +704,8 @@ glossarize_md <- function(md, md_out = md){
         # 2. No tooltips in the gray bar above the image (that is what the searching for the "</i>" and "</div> tags
         # take care of)
         # 3. No tooltips on lines where there is a link for a data download
-        if (substr(tx[i],1,1) != "#" && str_sub(tx[i],-4) != "</i>" && str_sub(tx[i],-5) != "</div>" && substr(tx[i], 1, 24) != "Download timeseries data"){
+        # 4. No tooltips on lines that create interactive graphs (no line starting with "<script")
+        if (substr(tx[i],1,1) != "#" && str_sub(tx[i],-4) != "</i>" && str_sub(tx[i],-5) != "</div>" && substr(tx[i], 1, 24) != "Download timeseries data" && substr(tx[i], 1, 7) != "<script"){
 
           # We also want to avoid inserting tooltips into the path of the image file, which is what the following
           # image_start is looking for. If a line does contain an image path, we want to separate that from the rest of
