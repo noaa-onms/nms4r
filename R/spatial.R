@@ -263,19 +263,39 @@ generate_html_4_interactive_rmd <- function (nms){
     location <- paste(location, nms, sep = "/")
   }
   modal_dir<- paste0(location,"/modals/")
-  modal_list<-list.files(path = modal_dir)
+  #modal_list<-list.files(path = modal_dir)
 
   # Now, let's generate a list of rmd files that need to be worked on.
 
+  interactive_rmd <- c("algal-groups.Rmd",
+  "barnacles.Rmd",
+  "deep-seafloor_key-climate-ocean.Rmd",
+  "forage-assemblage.Rmd",
+  "forage-fish.Rmd",
+  "forage-inverts.Rmd",
+  "kelp-forest_key-climate-ocean.Rmd",
+  "key-climate-ocean.Rmd",
+  "mussels.Rmd",
+  "ochre-stars.Rmd",
+  "pelagic_key-climate-ocean.Rmd",
+  "rocky-map.Rmd",
+  "rocky-shore_key-climate-ocean.Rmd",
+  "sandy-beach_key-climate-ocean.Rmd",
+  "sandy-seafloor_key-climate-ocean.Rmd",
+  "tar.Rmd")
+
   # Step 1. find Rmd files that have _key-climate-ocean.Rmd in them
-  keep_modals<-grep("key-climate-ocean.Rmd",modal_list, ignore.case = TRUE)
+  #keep_modals<-grep("key-climate-ocean.Rmd",modal_list, ignore.case = TRUE)
 
   # Step 2.  find the Rmd files that is ONLY _key-climate-ocean.Rmd (which we want to ignore)
-  throw_out_modal<-grep("^_key-climate-ocean.Rmd$",modal_list, ignore.case = TRUE)
+  #throw_out_modal<-grep("^_key-climate-ocean.Rmd$",modal_list, ignore.case = TRUE)
 
   # Step 3. create list of Rmds that we want to render and append full path to those file names
-  oceano_Rmds<-modal_list[keep_modals[!(keep_modals==throw_out_modal)]]
-  oceano_Rmds<-paste0(modal_dir,oceano_Rmds)
+  #oceano_Rmds<-modal_list[keep_modals[!(keep_modals==throw_out_modal)]]
+
+
+  #oceano_Rmds<-paste0(modal_dir,oceano_Rmds)
+  oceano_Rmds<-paste0(modal_dir, interactive_rmd)
 
   # let's go through every rmd file to be worked on
   for (i in 1:length(oceano_Rmds)){
