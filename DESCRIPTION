@@ -1,6 +1,6 @@
 Package: nms4r
 Title: National Marine Sanctuaries tools for R
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person(given = "Ben",
            family = "Best",
@@ -15,14 +15,23 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1.9000
 Imports: 
-    lubridate,
-    here,
-    rgdal,
-    raster,
-    rerddap,
+    dygraphs,
+    fs,
     glue,
+    here,
+    htmltools,
+    knitr,
+    leaflet,
+    lubridate,
+    plotly,
+    raster,
+    rerddap,   
+    rgdal,
+    rlang,
+    scales,
     sf,
-    fs
+    shiny,
+    xts
 Depends: 
     tidyverse
 URL: https://github.com/marinebon/nms4r

@@ -591,58 +591,6 @@ get_raster <- function(info, lon, lat, date="last", field="sst"){
 
 }
 
-
-#' get_timeseries
-#'
-#' @param info
-#' @param lon
-#' @param lat
-#' @param csv
-#' @param field
-#'
-#' @return
-#' @export
-#'
-#' @examples
-get_timeseries <- function(info, lon, lat, csv, field="sst"){
-
-  dates  <- get_dates(info)
-
-  if (file.exists(csv)){
-    d_prev <- read_csv(csv) %>%
-      arrange(date)
-    start_date <- read_csv(csv) %>%
-      tail(1) %>%
-      pull(date) %>%
-      as.POSIXct()
-  } else {
-    start_date <- dates[1]
-  }
-
-  v <- griddap(
-    info,
-    longitude = c(lon, lon), latitude = c(lat, lat),
-    time = c(start_date, dates[2]), fields = field)
-
-  d_now <- v$data %>%
-    as_tibble() %>%
-    mutate(
-      date = lubridate::as_date(time, "%Y-%m-%dT00:00:00Z")) %>%
-    select(date, field) %>%
-    arrange(date)
-
-  if (file.exists(csv)){
-    d <- bind_rows(d_prev, d_now) %>%
-      filter(!duplicated(date))
-  } else {
-    d <- d_now
-  }
-
-  d %>%
-    write_csv(csv)
-  d
-}
-
 #' Insert html tags for glossary tooltips into md files
 #'
 #' The purpose of this function is to insert the html tags required for glossary tooltip functionality into
