@@ -236,11 +236,9 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
 #' @param nms the NMS sanctuary
 #'
 #' @return nothing
-#' @export
 #' @import here rmarkdown
 #'
 generate_html_4_interactive_rmd <- function (nms){
-  # The purpose of generate_html is to create the html for rmd files with interactive figures.
 
   # the following mini-function where_is_head has two simple purposes. When fed in a html file, which has already been brought in
   # to R via readLines, the function will tell you the line number of the html file that contains "</html>" and
@@ -263,38 +261,27 @@ generate_html_4_interactive_rmd <- function (nms){
     location <- paste(location, nms, sep = "/")
   }
   modal_dir<- paste0(location,"/modals/")
-  #modal_list<-list.files(path = modal_dir)
 
   # Now, let's generate a list of rmd files that need to be worked on.
+  if (nms == "cinms"){
+    interactive_rmd <- c("algal-groups.Rmd",
+    "barnacles.Rmd",
+    "deep-seafloor_key-climate-ocean.Rmd",
+    "forage-assemblage.Rmd",
+    "forage-fish.Rmd",
+    "forage-inverts.Rmd",
+    "kelp-forest_key-climate-ocean.Rmd",
+    "key-climate-ocean.Rmd",
+    "mussels.Rmd",
+    "ochre-stars.Rmd",
+    "pelagic_key-climate-ocean.Rmd",
+    "rocky-map.Rmd",
+    "rocky-shore_key-climate-ocean.Rmd",
+    "sandy-beach_key-climate-ocean.Rmd",
+    "sandy-seafloor_key-climate-ocean.Rmd",
+    "tar.Rmd")
+  }
 
-  interactive_rmd <- c("algal-groups.Rmd",
-  "barnacles.Rmd",
-  "deep-seafloor_key-climate-ocean.Rmd",
-  "forage-assemblage.Rmd",
-  "forage-fish.Rmd",
-  "forage-inverts.Rmd",
-  "kelp-forest_key-climate-ocean.Rmd",
-  "key-climate-ocean.Rmd",
-  "mussels.Rmd",
-  "ochre-stars.Rmd",
-  "pelagic_key-climate-ocean.Rmd",
-  "rocky-map.Rmd",
-  "rocky-shore_key-climate-ocean.Rmd",
-  "sandy-beach_key-climate-ocean.Rmd",
-  "sandy-seafloor_key-climate-ocean.Rmd",
-  "tar.Rmd")
-
-  # Step 1. find Rmd files that have _key-climate-ocean.Rmd in them
-  #keep_modals<-grep("key-climate-ocean.Rmd",modal_list, ignore.case = TRUE)
-
-  # Step 2.  find the Rmd files that is ONLY _key-climate-ocean.Rmd (which we want to ignore)
-  #throw_out_modal<-grep("^_key-climate-ocean.Rmd$",modal_list, ignore.case = TRUE)
-
-  # Step 3. create list of Rmds that we want to render and append full path to those file names
-  #oceano_Rmds<-modal_list[keep_modals[!(keep_modals==throw_out_modal)]]
-
-
-  #oceano_Rmds<-paste0(modal_dir,oceano_Rmds)
   oceano_Rmds<-paste0(modal_dir, interactive_rmd)
 
   # let's go through every rmd file to be worked on
@@ -326,6 +313,59 @@ generate_html_4_interactive_rmd <- function (nms){
 
     # let's delete the temp html file that we created
     file.remove(paste(modal_dir, "temp_file.html", sep ="/"))
+  }
+}
+
+#' This function generates the html for rmd files with non-interactive figures.
+#'
+#' @param nms the NMS sanctuary
+#'
+#' @return nothing
+#' @import here
+#'
+generate_html_4_noninteractive_rmd <- function (nms){
+
+  # Let's figure out where we are. In my local environment, I am in the directory for
+  # the sanctuary. In a docker container though, I won't be. So the following section of
+  # code attempts to put us in the right directory if we aren't there already.
+  location <- here::here()
+  start_point <- nchar(location) - nchar(nms) +1
+  if (!(substr(location, start_point, nchar(location)) == nms)){
+    location <- paste(location, nms, sep = "/")
+  }
+  modal_dir<- paste0(location,"/modals/")
+
+  # let's get a list of all rmd files in the directory
+  modal_list<-list.files(path = modal_dir, pattern = ".Rmd", ignore.case = TRUE)
+
+  # Now, let's generate a list of rmd files that need to be skipped.
+  if (nms == "cinms"){
+    skip_rmd <- c("_key-climate-ocean.Rmd",
+      "algal-groups.Rmd",
+      "barnacles.Rmd",
+      "deep-seafloor_key-climate-ocean.Rmd",
+      "forage-assemblage.Rmd",
+      "forage-fish.Rmd",
+      "forage-inverts.Rmd",
+      "kelp-forest_key-climate-ocean.Rmd",
+      "key-climate-ocean.Rmd",
+      "key-climate-ocean_seascape.Rmd",
+      "mussels.Rmd",
+      "ochre-stars.Rmd",
+      "pelagic_key-climate-ocean.Rmd",
+      "rocky-map.Rmd",
+      "rocky-shore_key-climate-ocean.Rmd",
+      "sandy-beach_key-climate-ocean.Rmd",
+      "sandy-seafloor_key-climate-ocean.Rmd",
+      "tar.Rmd")
+    }
+  # Let's create the final list of non=interactive rmd files to be rendered
+  oceano_Rmds<-setdiff(modal_list, skip_rmd)
+  oceano_Rmds<-paste0(modal_dir,oceano_Rmds)
+
+  # let's render every rmd file to be worked on
+  for (i in 1:length(oceano_Rmds)){
+    rmd2html(oceano_Rmds[i])
   }
 }
 
@@ -1334,6 +1374,17 @@ render_figure <- function(figure_id, figure_img){
   ")
 }
 
+#' This function generates the html for all rmd files in the modal directory.
+#'
+#' @param NMS the NMS sanctuary
+#'
+#' @return nothing
+#' @export
+#'
+render_modal_windows <- function (NMS) {
+  generate_html_4_noninteractive_rmd(NMS)
+  generate_html_4_interactive_rmd(NMS)
+}
 
 #' Render html for rmd files, including glossary tooltips
 #'
