@@ -124,6 +124,62 @@ calcofi_plot <- function(
     print(g)
   }
 }
+#' Calculate SST anomaly.
+#'
+#' This function calculates the SST anomaly for every month of SST data and then
+#' writes that out to a csv file that will later be used to produce a SST anomaly figure. The
+#' approach used here is based on [Reed et al. 2016, Nature Communications](https://www.nature.com/articles/ncomms13757).
+#' Using the first 15 full years of data from the SST data set (2003-2017), an average SST value is
+#' generated for every month of the year. Then the average SST value for the appropriate month is
+#' subtracted from every value in the SST dataset.
+#'
+#' @param sanct the NMS sanctuary, with only "cinms" currently doing anything
+#'
+#' @return nothing
+#' @export
+#' @import here
+#'
+#' @examples
+#' calculate_SST_anomaly("cinms")
+calculate_SST_anomaly <-function(sanct) {
+
+  # The following mini-function generates the full path for a file in the data directory
+  get_filepath <- function(csv_file, sanctuary){
+    location<-here::here()
+    start_point <- nchar(location) - nchar(sanctuary) +1
+    if (substr(location, start_point, nchar(location)) == sanctuary){
+      datafile <- here::here(paste0("data/oceano/",csv_file))
+    } else {
+      datafile <- here::here(paste0(sanctuary,"/data/oceano/",csv_file))
+    }
+    return(datafile)
+  }
+
+  # Let's read in the SST data file and then pull the data from 2003-2017
+  SST_filepath <- get_filepath("statistics_sst_cinms.csv", sanct)
+  SST_data<-read.csv(SST_filepath, header = T)
+  right_dates <- SST_data[SST_data$date >= "2003-01-01" & SST_data$date <= "2017-12-31", ]
+
+  # Now let's define a data frame, where for every month of the year, an average SST value is calculated
+  SST_avg <- data.frame(Month = month.name, SST_Average_2003_2017 = 0)
+  for (i in 1:12){
+    month_slice <- right_dates[months(as.Date(right_dates$date)) == month.name[i],]
+    SST_avg$SST_Average_2003_2017[i] <- round(mean(month_slice$average_sst),5)
+  }
+
+  # Now let's define a data frame, where for every SST in the dataset, we subtract the average SST for the
+  # relevant month from that SST. This is the anomaly value.
+  SST_anom <- data.frame(date = SST_data$date, sst_anomaly = 0)
+  for (q in 1:length(SST_anom$date)){
+    correct_month<-which(SST_avg$Month == months(as.Date((SST_anom[q,]$date))))
+    SST_anomaly <- SST_data$average_sst[q] - SST_avg$SST_Average_2003_2017[correct_month]
+    SST_anom$sst_anomaly[q] <- SST_anomaly
+  }
+
+  # Let's write the anomaly data frame to a file
+  write_filepath <- get_filepath("sst_anomaly_cinms.csv", sanct)
+  write.csv(SST_anom, file = write_filepath, quote= F, row.names = F)
+}
 
 #' Generate statistics for any missing months for NMS Sanctuary
 #'

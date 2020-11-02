@@ -1,6 +1,6 @@
 Package: nms4r
 Title: National Marine Sanctuaries tools for R
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: 
     person(given = "Ben",
            family = "Best",

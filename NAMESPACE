@@ -2,6 +2,7 @@
 
 export(calcofi_map)
 export(calcofi_plot)
+export(calculate_SST_anomaly)
 export(calculate_statistics)
 export(get_box)
 export(get_dates)
