@@ -173,7 +173,7 @@ calculate_SST_anomaly <-function(sanct) {
   for (q in 1:length(SST_anom$date)){
     correct_month<-which(SST_avg$Month == months(as.Date((SST_anom[q,]$date))))
     SST_anomaly <- SST_data$average_sst[q] - SST_avg$SST_Average_2003_2017[correct_month]
-    SST_anom$sst_anomaly[q] <- SST_anomaly
+    SST_anom$sst_anomaly[q] <- round(SST_anomaly,5)
   }
 
   # Let's write the anomaly data frame to a file
