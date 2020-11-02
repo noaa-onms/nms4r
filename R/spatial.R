@@ -292,7 +292,6 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
 #' @param nms the NMS sanctuary
 #'
 #' @return nothing
-#' @export
 #' @import here rmarkdown
 #'
 generate_html_4_interactive_rmd <- function (nms){
@@ -342,8 +341,7 @@ generate_html_4_interactive_rmd <- function (nms){
   oceano_Rmds<-paste0(modal_dir, interactive_rmd)
 
   # let's go through every rmd file to be worked on
-#  for (i in 1:length(oceano_Rmds)){
-  i<-8
+  for (i in 1:length(oceano_Rmds)){
     # for a given rmd file, let's generate the html for it in two ways. Way 1 is via
     # rmd2html which gives us the glossary tooltip working right (but where the interactive
     # figures don't work). Way 2 is via render which gives us the interactive figures working
@@ -371,7 +369,7 @@ generate_html_4_interactive_rmd <- function (nms){
 
     # let's delete the temp html file that we created
     file.remove(paste(modal_dir, "temp_file.html", sep ="/"))
-#  }
+  }
 }
 
 #' This function generates the html for rmd files with non-interactive figures.
