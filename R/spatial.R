@@ -292,6 +292,7 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
 #' @param nms the NMS sanctuary
 #'
 #' @return nothing
+#' @export
 #' @import here rmarkdown
 #'
 generate_html_4_interactive_rmd <- function (nms){
