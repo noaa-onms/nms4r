@@ -552,12 +552,12 @@ get_modal_info <- function(
   icons_html = NULL
   if (!is.na(row$url_info)){
     icons_html =
-      a(icon("info-circle"), href=row$url_info, target='_blank')
+      htmltools::a(icon("info-circle"), href=row$url_info, target='_blank')
   }
   if (!is.na(row$url_photo)){
-    icons_html = tagList(
+    icons_html = htmltools::tagList(
       icons_html,
-      a(icon("camera"), href=row$url_photo, target='_blank'))
+      htmltools::a(icon("camera"), href=row$url_photo, target='_blank'))
   }
 
   div(
