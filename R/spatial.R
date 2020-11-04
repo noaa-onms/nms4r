@@ -560,8 +560,8 @@ get_modal_info <- function(
       htmltools::a(shiny::icon("camera"), href=row$url_photo, target='_blank'))
   }
 
-  div(
-    div(tagList(icons_html), style = "margin-top: 10px;margin-bottom: 10px; margin-right: 10px; flex: 1;"), div(
+  htmltools::div(
+    htmltools::div(htmltools::tagList(icons_html), style = "margin-top: 10px;margin-bottom: 10px; margin-right: 10px; flex: 1;"), div(
       ifelse(!is.na(row$tagline), row$tagline, ""), style = "margin: 10px; font-style: italic; flex: 20; "), style="display: flex"
 
   )
