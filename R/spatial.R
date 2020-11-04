@@ -1269,8 +1269,7 @@ read_csv_fmt <- function(csv, erddap_format = "csv"){
 #' @return The output is a string containing the html tags to display the figure and figure caption.
 #' @export
 #' @import glue
-#' @examples
-#' render_figure("Figure App.D.6.5.", "../img/cinms_cr/App.D.6.5.png")`
+#' @examples render_figure("Figure App.D.6.5.", "../img/cinms_cr/App.D.6.5.png")`
 #'
 render_figure <- function(figure_id, figure_img){
   glue::glue(
