@@ -552,7 +552,7 @@ get_modal_info <- function(
   icons_html = NULL
   if (!is.na(row$url_info)){
     icons_html =
-      htmltools::a(shiny::icon("info-circle"), href=row$url_info, target='_blank')
+      htmltools::a(shiny::icon("calendar"), href=row$url_info, target='_blank')
   }
   if (!is.na(row$url_photo)){
     icons_html = htmltools::tagList(
