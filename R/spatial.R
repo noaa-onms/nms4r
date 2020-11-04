@@ -507,7 +507,7 @@ get_figure_info <- function (figure_id){
         htmltools::div(
           .noWS = no_ws,
           style = glue("text-align:{h$css}; display:table-cell;"),
-          a(
+          htmltools::a(
             .noWS = no_ws,
             href = url, target = '_blank',
             shiny::icon(h$icon), description)))
