@@ -2,18 +2,22 @@
 % Please edit documentation in R/spatial.R
 \name{get_nms_polygons}
 \alias{get_nms_polygons}
-\title{Get NMS polygons}
+\title{Get National Marine Sanctuary polygons}
 \usage{
 get_nms_polygons(nms)
 }
 \arguments{
-\item{nms}{code for national marine sanctuary}
+\item{nms}{The code for a national marine sanctuary.}
 }
 \value{
-sf object
+The function returns a sf object containing the polygons of a sanctuary.
 }
 \description{
-given NMS code (see
+Given NMS code (see
 \url{https://sanctuaries.noaa.gov/library/imast_gis.html}), download and
-extract zip, cache shapefile or read existing shapefile
+extract zip, cache shapefile or read existing shapefile.
+}
+\examples{
+get_nms_polygons("cinms")
+
 }

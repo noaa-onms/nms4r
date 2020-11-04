@@ -2,7 +2,7 @@
 % Please edit documentation in R/spatial.R
 \name{plot_intertidal_nms}
 \alias{plot_intertidal_nms}
-\title{plot_intertidal_nms}
+\title{Generate a plot of intertidal monitoring data}
 \usage{
 plot_intertidal_nms(
   d_csv,
@@ -18,11 +18,41 @@ plot_intertidal_nms(
 )
 }
 \arguments{
-\item{nms_skip_regions}{}
+\item{d_csv}{A csv file containing the time series data.}
+
+\item{NMS}{The National Marine Sanctuary code.}
+
+\item{spp}{BEN}
+
+\item{sp_name}{The species name to be plotted.}
+
+\item{nms_rgns}{BEN}
+
+\item{spp_targets}{BEN}
+
+\item{fld_val}{The column of data to provide the y-axis to be plotted.}
+
+\item{label_y}{The label for the y-axis for the plot.}
+
+\item{label_x}{The label for the x-axis for the plot.}
+
+\item{nms_skip_regions}{National Marine Sanctuaries to be skipped (using sanctuary codes).}
 }
 \value{
-
+This function returns a dygraph object of the plotted time series data.
 }
 \description{
-plot_intertidal_nms
+This function generates a plot of time series data collected by the Rocky Intertidal
+Monitoring program.
+}
+\examples{
+nms <- "cinms"
+d_csv <- "/Volumes/GoogleDrive/Shared drives/NMS/data/github_info-intertidal_data/sanctuary_species_percentcover.csv"
+nms_rgns_csv    <- file.path(dir_pfx, "MARINe_graphs.xlsx - sites in regions.csv")
+nms_rgns1 <- readr::read_csv(nms_rgns_csv) \%>\%
+  tidyr::fill(nms) \%>\%
+  dplyr::group_by(nms) \%>\%
+  tidyr::fill(region) \%>\%
+  dplyr::mutate(rgn = region)
+plot_intertidal_nms(d_csv, "CINMS", "MYTCAL", "California Mussels", nms_rgns1)
 }

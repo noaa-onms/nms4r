@@ -7,7 +7,7 @@
 make_sites_csv(raw_csv, sites_csv)
 }
 \arguments{
-\item{sites_csv}{}
+\item{raw_csv}{BEN}
 }
 \value{
 

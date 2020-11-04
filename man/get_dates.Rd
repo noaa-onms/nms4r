@@ -2,16 +2,21 @@
 % Please edit documentation in R/spatial.R
 \name{get_dates}
 \alias{get_dates}
-\title{get_dates}
+\title{Get date range for an ERDDAP data set}
 \usage{
 get_dates(info)
 }
 \arguments{
-\item{info}{}
+\item{info}{A rerddap::info() object.}
 }
 \value{
-
+This function outputs a string vector, with the first element being the start date and the last element being the end date.
 }
 \description{
-get_dates
+This function provides the first and last dates for which data is available for
+an ERDDAP data set.
+}
+\examples{
+get_dates(rerddap::info('jplMURSST41mday'))
+
 }

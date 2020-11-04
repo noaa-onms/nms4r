@@ -2,16 +2,30 @@
 % Please edit documentation in R/spatial.R
 \name{generate_html_4_interactive_rmd}
 \alias{generate_html_4_interactive_rmd}
-\title{This function generates the html for rmd files with interactive figures.}
+\title{Generate the html for rmd files with interactive figures}
 \usage{
 generate_html_4_interactive_rmd(nms)
 }
 \arguments{
-\item{nms}{the NMS sanctuary}
+\item{nms}{The NMS sanctuary, with only "cinms" currently doing anything.}
 }
 \value{
-nothing
+The function outputs a html file for every rmd file containing interactive figures.
 }
 \description{
-This function generates the html for rmd files with interactive figures.
+Rmd files with interactive figures present a special problem in terms of rendering
+them into html. The problem is that, if one uses the markdown library to
+create the html, the figures will turn out fine but the glossary tooltip functionality
+will be missing. This tooltip functionality is created by the function rmd2html,
+described in this package. If one uses rmd2html to render a rmd file containing
+interactive figures, the tooltips will turn out fine but the figures won't show
+up. The problem with rmd2html is that the appropriate javascript libraries are
+not loaded into the resulting <head> section of the final html. This function
+solves the problem (thereby producing html with both working figures and tooltips)
+by rendering the rmd using both the markdown and rmd2html approaches and then rewriting
+the <head> section of the rmd2html version with the markdown version.
+}
+\examples{
+generate_html_4_interactive_rmd("cinms")
+
 }

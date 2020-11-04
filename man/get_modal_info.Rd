@@ -2,7 +2,7 @@
 % Please edit documentation in R/spatial.R
 \name{get_modal_info}
 \alias{get_modal_info}
-\title{get_modal_info}
+\title{Generate introductory info for the html of a modal window}
 \usage{
 get_modal_info(
   rmd = knitr::current_input(),
@@ -11,11 +11,19 @@ get_modal_info(
 )
 }
 \arguments{
-\item{info_modal_links_csv}{}
+\item{rmd}{The name of an input file passed to knit().}
+
+\item{info_modal_links_csv}{A hyperlink to the google sheet, in csv format, that contains the modal links info.}
 }
 \value{
-
+The function returns a string that is a set of html tags to be inserted into a html file.
 }
 \description{
-get_modal_info
+This function generates the html tags for the top portion of a rmd modal window,
+containing the introductory information about that window. This function only
+will work within a rmd file to be knitted.
+}
+\examples{
+ get_modal_info()
+
 }

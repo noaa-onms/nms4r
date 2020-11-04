@@ -2,21 +2,20 @@
 % Please edit documentation in R/spatial.R
 \name{get_figure_info}
 \alias{get_figure_info}
-\title{get_figure_info}
+\title{Generate hyperlinked gray bar above figure}
 \usage{
 get_figure_info(figure_id)
 }
 \arguments{
-\item{figure_id}{}
+\item{figure_id}{The name of a row in the following google sheet cinms_content::info_figure_links}
 }
 \value{
-
+The output is a set of html tags to be inserted into a html file.
 }
 \description{
 The purpose of this function is to generate the hyperlinks for the monitoring program and data
 associated with a figure and then to insert them into a gray bar above the figure in the modal window.
 }
 \examples{
-calculate_statistics("cinms", "jplMURSST41mday", "sst", "avg-sst_cinms.csv")
-calculate_statistics("cinms", "nesdisVHNSQchlaMonthly", "chlor_a", "avg-chl_cinms.csv")
+get_figure_info("Figure App.E.11.8.")
 }

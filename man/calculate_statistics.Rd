@@ -16,7 +16,7 @@ calculate_statistics(sanctuary, erddap_id, metric, csv_file)
 \item{csv_file}{the csv file containing the data for the given metric for the sanctuary}
 }
 \value{
-nothing
+The output is a csv file that contains a time series of satellite-data-derived statistics.
 }
 \description{
 The purpose of this function is to update csv files that hold a history of
@@ -33,4 +33,5 @@ that in future months, the server will be up and will fill in the data holes.
 \examples{
 calculate_statistics("cinms", "jplMURSST41mday", "sst", "avg-sst_cinms.csv")
 calculate_statistics("cinms", "nesdisVHNSQchlaMonthly", "chlor_a", "avg-chl_cinms.csv")
+
 }

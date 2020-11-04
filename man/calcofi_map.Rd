@@ -2,7 +2,7 @@
 % Please edit documentation in R/spatial.R
 \name{calcofi_map}
 \alias{calcofi_map}
-\title{Map of CALCOFI sites.}
+\title{Map of CALCOFI sites}
 \usage{
 calcofi_map(
  

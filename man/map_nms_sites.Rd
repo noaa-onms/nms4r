@@ -2,16 +2,21 @@
 % Please edit documentation in R/spatial.R
 \name{map_nms_sites}
 \alias{map_nms_sites}
-\title{map_nms_sites}
+\title{Produce a map of where rocky intertidal data was collected}
 \usage{
 map_nms_sites(nms)
 }
 \arguments{
-\item{nms}{}
+\item{nms}{The National Marine Sanctuary code.}
 }
 \value{
-
+This function returns a mapview object displaying data collection sites.
 }
 \description{
-map_nms_sites
+This function produces an interactive map showing where rocky intertidal data
+was collected by the MARINe consortium.
+}
+\examples{
+map_nms_sites("cinms")
+
 }

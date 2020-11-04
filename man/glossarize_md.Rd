@@ -7,14 +7,15 @@
 glossarize_md(md, md_out = md)
 }
 \arguments{
-\item{md}{the md file where the tags are to be inserted}
+\item{md}{The markdown file where the tags are to be inserted.}
 
-\item{md_out}{the md output file}
+\item{md_out}{The markdown output file.}
 }
 \value{
-nothing
+The output of this function is html tags inserted into a markdown file.
 }
 \description{
-The purpose of this function is to insert the html tags required for glossary tooltip functionality into
-a given md file
+The purpose of this function is to insert the html tags required for glossary
+tooltip functionality into a given markdown file. The function glossarize_md
+is used by the function rmd2html described in this package.
 }

@@ -2,15 +2,15 @@
 % Please edit documentation in R/spatial.R
 \name{calculate_SST_anomaly}
 \alias{calculate_SST_anomaly}
-\title{Calculate SST anomaly.}
+\title{Calculate SST anomaly}
 \usage{
 calculate_SST_anomaly(sanct)
 }
 \arguments{
-\item{sanct}{the NMS sanctuary, with only "cinms" currently doing anything}
+\item{sanct}{The NMS sanctuary, with only the value "cinms" currently doing anything.}
 }
 \value{
-nothing
+The output is a csv file containing the time series anomaly data.
 }
 \description{
 This function calculates the SST anomaly for every month of SST data and then
@@ -22,4 +22,5 @@ subtracted from every value in the SST dataset.
 }
 \examples{
 calculate_SST_anomaly("cinms")
+
 }

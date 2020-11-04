@@ -2,7 +2,7 @@
 % Please edit documentation in R/spatial.R
 \name{calcofi_plot}
 \alias{calcofi_plot}
-\title{Produces plots of CALCOFI data.}
+\title{Produces plots of CALCOFI data}
 \usage{
 calcofi_plot(
   csv,

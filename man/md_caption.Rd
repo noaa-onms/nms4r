@@ -2,16 +2,24 @@
 % Please edit documentation in R/spatial.R
 \name{md_caption}
 \alias{md_caption}
-\title{md_caption}
+\title{Generate the caption for a figure}
 \usage{
 md_caption(title, md = here::here("modals/_captions.md"), get_details = F)
 }
 \arguments{
-\item{get_details}{}
+\item{title}{The name of a figure.}
+
+\item{md}{The md file containing the list of captions.}
+
+\item{get_details}{A Boolean variable indicating whether a short or expanded caption is required.}
 }
 \value{
-
+A string containing the caption, with html tags inserted.
 }
 \description{
-md_caption
+This function generates either a short or expanded caption for a given figure.
+}
+\examples{
+md_caption("Figure Ux.Ocean.SST.ERD.map.", get_details = T)
+
 }

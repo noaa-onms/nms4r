@@ -1,4 +1,4 @@
-#' Map of CALCOFI sites.
+#' Map of CALCOFI sites
 #'
 #' This function generates an interactive figure that shows the area in which
 #' CALCOFI spring season net samples were located.
@@ -6,7 +6,6 @@
 #' @param geo A geojson object that defines the polygons to be mapped.
 #' @param filter_str A string used to filter in (or out) particular polygons.
 #' @param colors A string vector that defines the colors of the mapped polygons.
-#'
 #' @return The output is an interactive map of CALCOFI sites overlaid on a coastal map of Southern California.
 #' @export
 #' @import dplyr leaflet magrittr rlang sf units
@@ -44,7 +43,7 @@ calcofi_map <- function(
       labels = ~ply_code)
 }
 
-#' Produces plots of CALCOFI data.
+#' Produces plots of CALCOFI data
 #'
 #' This function produces plots of CALCOFI-originated time series data.
 #'
@@ -58,7 +57,6 @@ calcofi_map <- function(
 #' @param yrs_recent The number of most recent years to be shaded in the plot.
 #' @param interactive A Boolean variable indicating whether the plot is to be interactive or not.
 #' @param in_loop A Boolean variable indicating whether an error condition exists.
-#'
 #' @return The output is a plot of time series data.
 #' @export
 #' @import dplyr ggplot2 htmltools lubridate magrittr plotly readr rlang scales stringr
@@ -131,7 +129,7 @@ calcofi_plot <- function(
     print(g)
   }
 }
-#' Calculate SST anomaly.
+#' Calculate SST anomaly
 #'
 #' This function calculates the SST anomaly for every month of SST data and then
 #' writes that out to a csv file that will later be used to produce a SST anomaly figure. The
@@ -140,14 +138,12 @@ calcofi_plot <- function(
 #' generated for every month of the year. Then the average SST value for the appropriate month is
 #' subtracted from every value in the SST dataset.
 #'
-#' @param sanct the NMS sanctuary, with only "cinms" currently doing anything
-#'
-#' @return nothing
+#' @param sanct The NMS sanctuary, with only the value "cinms" currently doing anything.
+#' @return The output is a csv file containing the time series anomaly data.
 #' @export
 #' @import here
+#' @examples calculate_SST_anomaly("cinms")
 #'
-#' @examples
-#' calculate_SST_anomaly("cinms")
 calculate_SST_anomaly <-function(sanct) {
 
   # The following mini-function generates the full path for a file in the data directory
@@ -205,14 +201,13 @@ calculate_SST_anomaly <-function(sanct) {
 #' @param sanctuary the NMS sanctuary, with only "cinms" currently doing anything
 #' @param erddap_id the dataset, with two values defined so far "jplMURSST41mday" & "nesdisVHNSQchlaMonthly"
 #' @param metric the metric being pulled from the dataset with "sst" and "chlor_a" currently defined
-#'
-#' @return nothing
+#' @return The output is a csv file that contains a time series of satellite-data-derived statistics.
 #' @export
 #' @import here rerddap
-#'
 #' @examples
 #' calculate_statistics("cinms", "jplMURSST41mday", "sst", "avg-sst_cinms.csv")
 #' calculate_statistics("cinms", "nesdisVHNSQchlaMonthly", "chlor_a", "avg-chl_cinms.csv")
+#'
 calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
 
   # the first step is to check if the function knows how to handle the dataset being called. If it doesn't, stop everything.
@@ -294,13 +289,25 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   return(invisible())
 }
 
-#' This function generates the html for rmd files with interactive figures.
+#' Generate the html for rmd files with interactive figures
 #'
-#' @param nms the NMS sanctuary
+#' Rmd files with interactive figures present a special problem in terms of rendering
+#' them into html. The problem is that, if one uses the markdown library to
+#' create the html, the figures will turn out fine but the glossary tooltip functionality
+#' will be missing. This tooltip functionality is created by the function rmd2html,
+#' described in this package. If one uses rmd2html to render a rmd file containing
+#' interactive figures, the tooltips will turn out fine but the figures won't show
+#' up. The problem with rmd2html is that the appropriate javascript libraries are
+#' not loaded into the resulting <head> section of the final html. This function
+#' solves the problem (thereby producing html with both working figures and tooltips)
+#' by rendering the rmd using both the markdown and rmd2html approaches and then rewriting
+#' the <head> section of the rmd2html version with the markdown version.
 #'
-#' @return nothing
+#' @param nms The NMS sanctuary, with only "cinms" currently doing anything.
+#' @return The function outputs a html file for every rmd file containing interactive figures.
 #' @export
 #' @import here rmarkdown
+#' @examples generate_html_4_interactive_rmd("cinms")
 #'
 generate_html_4_interactive_rmd <- function (nms){
 
@@ -380,12 +387,18 @@ generate_html_4_interactive_rmd <- function (nms){
   }
 }
 
-#' This function generates the html for rmd files with non-interactive figures.
+#' Generate the html for rmd files with non-interactive figures
 #'
-#' @param nms the NMS sanctuary
+#' The purpose of this function is to insert the glossary tooltips into the html
+#' for a rmd file (not containing interactive figures, which are dealt with by another
+#' function as they present special complications). The function works by converting
+#' a rmd file to a markdown file, inserting the relevant tooltip tags and scripts
+#' into that markdown file, and then creating a html file from that markdown file.
 #'
-#' @return nothing
+#' @param nms The NMS sanctuary with only "cinms" currently doing anything.
+#' @return The function outputs a html file for every rmd file not containing interactive figures.
 #' @import here
+#' @examples generate_html_4_noninteractive_rmd("cinms")
 #'
 generate_html_4_noninteractive_rmd <- function (nms){
 
@@ -433,56 +446,37 @@ generate_html_4_noninteractive_rmd <- function (nms){
   }
 }
 
-#' get_box
+#' Get date range for an ERDDAP data set
 #'
-#' @param lon
-#' @param lat
-#' @param cells_wide
-#'
-#' @return
+#' This function provides the first and last dates for which data is available for
+#' an ERDDAP data set.
+#' @param info A rerddap::info() object.
+#' @return This function outputs a string vector, with the first element being the start date and the last element being the end date.
 #' @export
-#'
-get_box <- function(lon, lat, cells_wide){
-  w <- cells_wide * 0.01 / 2
-  box <- list(
-    lon = c(round(lon, 2) - w, round(lon, 2) + w),
-    lat = c(round(lat, 2) - w, round(lat, 2) + w))
-}
-
-#' get_dates
-#'
-#' @param info
-#'
-#' @return
-#' @export
+#' @import dplyr
+#' @examples get_dates(rerddap::info('jplMURSST41mday'))
 #'
 get_dates <- function(info){
   info$alldata$time %>%
-    filter(attribute_name=="actual_range") %>%
+    dplyr::filter(attribute_name=="actual_range") %>%
     pull(value) %>%
     str_split(", ", simplify = T) %>%
     as.numeric() %>%
     as.POSIXct(origin = "1970-01-01", tz = "GMT")
 }
 
-#' get_figure_info
+#' Generate hyperlinked gray bar above figure
 #'
 #' The purpose of this function is to generate the hyperlinks for the monitoring program and data
 #' associated with a figure and then to insert them into a gray bar above the figure in the modal window.
 #'
-#' @param figure_id
-#'
-#' @return
+#' @param figure_id The name of a row in the following google sheet cinms_content::info_figure_links
+#' @return The output is a set of html tags to be inserted into a html file.
 #' @export
 #' @import readr dplyr tibble stringr shiny
-#'
-#' @examples
-#' calculate_statistics("cinms", "jplMURSST41mday", "sst", "avg-sst_cinms.csv")
-#' calculate_statistics("cinms", "nesdisVHNSQchlaMonthly", "chlor_a", "avg-chl_cinms.csv")
+#' @examples get_figure_info("Figure App.E.11.8.")
 
 get_figure_info <- function (figure_id){
-
-  #figure_id = "Figure App.E.10.22."
 
   info_csv = "https://docs.google.com/spreadsheets/d/1yEuI7BT9fJEcGAFNPM0mCq16nFsbn0b-bNirYPU5W8c/gviz/tq?tqx=out:csv&sheet=info_figure_links"
 
@@ -540,29 +534,26 @@ get_figure_info <- function (figure_id){
         html)))
 }
 
-
-#' get_modal_info
+#' Generate introductory info for the html of a modal window
 #'
-#' @param rmd
-#' @param info_modal_links_csv
+#' This function generates the html tags for the top portion of a rmd modal window,
+#' containing the introductory information about that window. This function only
+#' will work within a rmd file to be knitted.
 #'
-#' @return
+#' @param rmd  The name of an input file passed to knit().
+#' @param info_modal_links_csv A hyperlink to the google sheet, in csv format, that contains the modal links info.
+#' @return The function returns a string that is a set of html tags to be inserted into a html file.
 #' @export
-#' @import knitr fs readr
+#' @import dplyr knitr fs readr
+#' @examples  get_modal_info()
 #'
 get_modal_info <- function(
   rmd = knitr::current_input(),
   info_modal_links_csv = "https://docs.google.com/spreadsheets/d/1yEuI7BT9fJEcGAFNPM0mCq16nFsbn0b-bNirYPU5W8c/gviz/tq?tqx=out:csv&sheet=info_modal_links"){
 
-  # rmd = "infauna.Rmd"
-  # rmd = "key-human-activities.Rmd"
   modal_id <- basename(fs::path_ext_remove(rmd))
-
-  #message(glue("modal_id: {modal_id}"))
-
-  # modal_id = "ochre-stars"
   row <- readr::read_csv(info_modal_links_csv) %>%
-    filter(modal == modal_id)
+    dplyr::filter(modal == modal_id)
 
   if (nrow(row) == 0) stop("Need link in cinms_content:info_modal_links Google Sheet!")
 
@@ -584,19 +575,19 @@ get_modal_info <- function(
   )
 }
 
-#' Get NMS polygons
+#' Get National Marine Sanctuary polygons
 #'
-#' given NMS code (see
+#' Given NMS code (see
 #' \url{https://sanctuaries.noaa.gov/library/imast_gis.html}), download and
-#' extract zip, cache shapefile or read existing shapefile
+#' extract zip, cache shapefile or read existing shapefile.
 #'
-#' @param nms code for national marine sanctuary
-#'
-#' @return sf object
+#' @param nms The code for a national marine sanctuary.
+#' @return The function returns a sf object containing the polygons of a sanctuary.
+#' @import here sf
 #' @export
+#' @examples get_nms_polygons("cinms")
 #'
 get_nms_polygons <- function(nms){
-  # nms_shp <- here::here(glue::glue("data/shp/cinms_py.shp"))
   location<-here::here()
   start_point <- nchar(location) - nchar(nms) +1
 
@@ -634,43 +625,17 @@ get_nms_polygons <- function(nms){
     sf::st_transform(4326)
 }
 
-
-#' get_raster
-#'
-#' @param info
-#' @param lon
-#' @param lat
-#' @param date
-#' @param field
-#'
-#' @return
-#' @export
-#'
-get_raster <- function(info, lon, lat, date="last", field="sst"){
-  g <- griddap(
-    info, longitude = lon, latitude = lat,
-    time = c(date, date), fields = field)
-  grid_to_raster(g, "sst") %>%
-    leaflet::projectRasterForLeaflet(method="ngb")
-
-}
-
 #' Insert html tags for glossary tooltips into md files
 #'
-#' The purpose of this function is to insert the html tags required for glossary tooltip functionality into
-#' a given md file
+#' The purpose of this function is to insert the html tags required for glossary
+#' tooltip functionality into a given markdown file. The function glossarize_md
+#' is used by the function rmd2html described in this package.
 #'
-#' @param md the md file where the tags are to be inserted
-#' @param md_out the md output file
-#'
-#' @return nothing
-#' @export
+#' @param md The markdown file where the tags are to be inserted.
+#' @param md_out The markdown output file.
+#' @return The output of this function is html tags inserted into a markdown file.
 #' @import readr stringr
-#'
-#' @examples
 glossarize_md <- function(md, md_out = md){
-  # The purpose of this function is to insert the html tags required for  glossary tooltip functionality into
-  # a given md file
 
   # read the markdown file
   tx  <- readLines(md)
@@ -787,65 +752,20 @@ glossarize_md <- function(md, md_out = md){
   }
 }
 
-#' grid_to_raster
-#'
-#' @param grid
-#' @param var
-#'
-#' @return
-#' @export
-#'
-#' @examples
-grid_to_raster <- function (grid, var) {
-  # original: plotdap:::get_raster
-  # grid <- sst_grid
-  #library(magrittr)
-
-  times <- grid$summary$dim$time$vals
-  lats <- grid$summary$dim$latitude$vals
-  lons <- grid$summary$dim$longitude$vals
-  ylim <- range(lats, na.rm = TRUE)
-  xlim <- range(lons, na.rm = TRUE)
-  ext <- raster::extent(xlim[1], xlim[2], ylim[1], ylim[2])
-  r <- if (length(times) > 1) {
-    d <- dplyr::arrange(grid$data, time, desc(lat), lon)
-    b <- raster::brick(nl = length(times), nrows = length(lats),
-                       ncols = length(lons))
-    raster::values(b) <- lazyeval::f_eval(var, d)
-    raster::setExtent(b, ext)
-  }
-  else {
-    d <- dplyr::arrange(grid$data, desc(lat), lon)
-    r <- raster::raster(nrows = length(lats), ncols = length(lons),
-                        #ext = ext, vals = lazyeval::f_eval(var, d)) # plotdap:::get_raster
-                        ext = ext, vals = d[,var])
-  }
-  #browser()
-  #names(r) <- make.names(unique(grid$data$time) %||% "")
-  r
-}
-
 #' Insert tooltips into text
 #'
-#' Draft version of code to render modal windows with tooltips. The overall idea is to generate a markdown file from a
-#' given modal rmd file. Within that markdown file, we then insert the javascript package tippy as well as inserting the
-#' specific tippy tooltip. We then generate a html file for the modal window from the modified markdown file and then
-#' delete the markdown file
-
-#' The purpose of the following function is, for a provided section of text, to insert the required tooltip css around a
-#' provided glossary term. The function preserves the pattern of capitalization of the glossary term that already exists.
-#' The function requires three parameters: 1) text: the section of text where we are looking to add tooltips, 2)
-#' glossary_term: the glossary term that we are looking for, 3) span_css: the css tags to add before the glossary term
-
-#' @param text the section of text where we are looking to add tooltips
-#' @param glossary_term the glossary term that we are looking for
-#' @param span_css the css tags to add before the glossary term
+#' The purpose of the following function is, for a provided section of text, to
+#' insert the required tooltip css around a provided glossary term. The function
+#' preserves the pattern of capitalization of the glossary term that already exists.
+#' This function is used by the function glossarize_md also described in this
+#' package.
 #'
-#' @return paste0(split_text, save_glossary_terms, collapse="")
-#' @export
+#' @param text The section of text where tooltips are to be added.
+#' @param glossary_term The glossary term to be looked for.
+#' @param span_css The css tags to add before the glossary term.
+#' @return The function outputs a string containing the text section with html tags inserted.
 #' @import stringr
 #'
-#' @examples
 insert_tooltip<- function(text, glossary_term, span_css){
 
   # We start by splitting the text by the glossary term and then separately saving the glossary terms. This is done
@@ -870,14 +790,11 @@ insert_tooltip<- function(text, glossary_term, span_css){
 
 #' make_sites_csv
 #'
-#' @param raw_csv
-#' @param sites_csv
-#'
+#' @param raw_csv BEN
+#' @param sites_csv BEN
 #' @return
-#' @export
 #' @import dplyr magrittr readr sf xts
 #'
-#' @examples
 make_sites_csv <- function(raw_csv, sites_csv){
   raw <- read_csv_fmt(raw_csv, raw_fmt)
 
@@ -895,17 +812,19 @@ make_sites_csv <- function(raw_csv, sites_csv){
     readr::write_csv(sites_csv)
 }
 
-#' map_nms_sites
+#' Produce a map of where rocky intertidal data was collected
 #'
-#' @param nms
+#' This function produces an interactive map showing where rocky intertidal data
+#' was collected by the MARINe consortium.
 #'
-#' @return
+#' @param nms The National Marine Sanctuary code.
+#' @return This function returns a mapview object displaying data collection sites.
 #' @export
 #' @import glue magrittr mapview readr sf stringr
+#' @examples map_nms_sites("cinms")
 #'
-#' @examples
 map_nms_sites <- function(nms){
-  # nms <- "cinms" # mbnms" # "ocnms"
+
   NMS <- stringr::str_to_upper(nms)
 
   # get sites in nms
@@ -937,48 +856,19 @@ map_nms_sites <- function(nms){
       zcol = "site", col.regions = colorRampPalette(brewer.pal(11, "Set3")))
 }
 
-#' map_raster
+#' Generate the caption for a figure
 #'
-#' @param r
-#' @param site_lon
-#' @param site_lat
-#' @param site_label
-#' @param title
+#' This function generates either a short or expanded caption for a given figure.
 #'
-#' @return
-#' @export
-#'
-#' @examples
-map_raster <- function(r, site_lon, site_lat, site_label, title){
-  pal <- colorNumeric(colors$temperature, values(r), na.color = "transparent")
-
-  leaflet() %>%
-    addProviderTiles(providers$Esri.OceanBasemap, group="Color") %>%
-    addProviderTiles(providers$Stamen.TonerLite, group="B&W") %>%
-    #addProviderTiles(providers$Stamen.TonerLabels) %>%
-    addRasterImage(r, colors = pal, opacity = 0.8, project=F, group="CHL") %>%
-    addMarkers(lng = site_lon, lat = site_lat, label = site_label) %>%
-    addLegend(pal = pal, values = values(r), title = title, position="bottomright") %>%
-    addLayersControl(
-      baseGroups = c("Color", "B&W"),
-      overlayGroups = c("SST"),
-      options = layersControlOptions(collapsed = T))
-}
-
-#' md_caption
-#'
-#' @param title
-#' @param md
-#' @param get_details
-#'
-#' @return
+#' @param title The name of a figure.
+#' @param md The md file containing the list of captions.
+#' @param get_details A Boolean variable indicating whether a short or expanded caption is required.
+#' @return A string containing the caption, with html tags inserted.
 #' @export
 #' @import tibble dplyr stringr glue tidyr
+#' @examples md_caption("Figure Ux.Ocean.SST.ERD.map.", get_details = T)
 #'
-#' @examples
 md_caption <- function(title, md = here::here("modals/_captions.md"), get_details = F){
-  # setwd("~/github/nms4r"); devtools::load_all()
-  # title = "Figure Ux.Ocean.SST.ERD.map."; md = "~/github/cinms/modals/_captions.md"; get_details = F
 
   stopifnot(file.exists(md))
 
@@ -1015,7 +905,6 @@ md_caption <- function(title, md = here::here("modals/_captions.md"), get_detail
     # fill down
     tidyr::fill(is_details)
 
-
   simple_md <- tbl %>%
     dplyr::filter(is.na(is_details)) %>%
     dplyr::filter(ln != "") %>%
@@ -1024,11 +913,10 @@ md_caption <- function(title, md = here::here("modals/_captions.md"), get_detail
     stringr::str_trim()
 
   # Remove spaces around figure title.
-
   title <- stringr::str_trim(title)
 
-  # If the last character of the figure title is a period, delete it. This will improve how the title looks when embedded into the text.
-
+  # If the last character of the figure title is a period, delete it. This will
+  # improve how the title looks when embedded into the text.
   if (substring(title, nchar(title))=="."){
     title<- substring(title,0,nchar(title)-1)
   }
@@ -1051,26 +939,37 @@ md_caption <- function(title, md = here::here("modals/_captions.md"), get_detail
   } else {
     return(simple_md)
   }
-
 }
 
-#' plot_intertidal_nms
+#' Generate a plot of intertidal monitoring data
 #'
-#' @param d_csv
-#' @param NMS
-#' @param spp
-#' @param sp_name
-#' @param spp_targets
-#' @param fld_val
-#' @param label_y
-#' @param label_x
-#' @param nms_skip_regions
+#' This function generates a plot of time series data collected by the Rocky Intertidal
+#' Monitoring program.
 #'
-#' @return
+#' @param d_csv A csv file containing the time series data.
+#' @param NMS The National Marine Sanctuary code.
+#' @param spp BEN
+#' @param sp_name The species name to be plotted.
+#' @param nms_rgns BEN
+#' @param spp_targets BEN
+#' @param fld_val The column of data to provide the y-axis to be plotted.
+#' @param label_y The label for the y-axis for the plot.
+#' @param label_x The label for the x-axis for the plot.
+#' @param nms_skip_regions National Marine Sanctuaries to be skipped (using sanctuary codes).
+#' @return This function returns a dygraph object of the plotted time series data.
 #' @export
 #' @import dplyr dygraphs glue lubridate magrittr mapview RColorBrewer readr tidyr
 #'
 #' @examples
+#' nms <- "cinms"
+#' d_csv <- "/Volumes/GoogleDrive/Shared drives/NMS/data/github_info-intertidal_data/sanctuary_species_percentcover.csv"
+#' nms_rgns_csv    <- file.path(dir_pfx, "MARINe_graphs.xlsx - sites in regions.csv")
+#' nms_rgns1 <- readr::read_csv(nms_rgns_csv) %>%
+#'   tidyr::fill(nms) %>%
+#'   dplyr::group_by(nms) %>%
+#'   tidyr::fill(region) %>%
+#'   dplyr::mutate(rgn = region)
+#' plot_intertidal_nms(d_csv, "CINMS", "MYTCAL", "California Mussels", nms_rgns1)
 plot_intertidal_nms <- function(
   d_csv, NMS, spp, sp_name, nms_rgns, spp_targets = NULL,
   fld_val = "pct_cover", label_y = "Annual Mean Percent Cover (%)",

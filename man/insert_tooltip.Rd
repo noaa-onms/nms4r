@@ -7,22 +7,19 @@
 insert_tooltip(text, glossary_term, span_css)
 }
 \arguments{
-\item{text}{the section of text where we are looking to add tooltips}
+\item{text}{The section of text where tooltips are to be added.}
 
-\item{glossary_term}{the glossary term that we are looking for}
+\item{glossary_term}{The glossary term to be looked for.}
 
-\item{span_css}{the css tags to add before the glossary term}
+\item{span_css}{The css tags to add before the glossary term.}
 }
 \value{
-paste0(split_text, save_glossary_terms, collapse="")
+The function outputs a string containing the text section with html tags inserted.
 }
 \description{
-Draft version of code to render modal windows with tooltips. The overall idea is to generate a markdown file from a
-given modal rmd file. Within that markdown file, we then insert the javascript package tippy as well as inserting the
-specific tippy tooltip. We then generate a html file for the modal window from the modified markdown file and then
-delete the markdown file
-The purpose of the following function is, for a provided section of text, to insert the required tooltip css around a
-provided glossary term. The function preserves the pattern of capitalization of the glossary term that already exists.
-The function requires three parameters: 1) text: the section of text where we are looking to add tooltips, 2)
-glossary_term: the glossary term that we are looking for, 3) span_css: the css tags to add before the glossary term
+The purpose of the following function is, for a provided section of text, to
+insert the required tooltip css around a provided glossary term. The function
+preserves the pattern of capitalization of the glossary term that already exists.
+This function is used by the function glossarize_md also described in this
+package.
 }
