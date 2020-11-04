@@ -95,6 +95,23 @@
 <span class="co">#&gt; loading 'nms4r'</span>
 <span class="co">#&gt; Warning: replacing previous import 'magrittr::extract' by 'tidyr::extract' when</span>
 <span class="co">#&gt; loading 'nms4r'</span></pre></body></html></div>
+<p>Deep dive debug by git cloning <a href="https://github.com/ropensci/rerddap" class="uri">https://github.com/ropensci/rerddap</a> into ~/github/rerddap and inserting <code><a href="https://rdrr.io/r/base/browser.html">browser()</a></code> at line 47 of R/grid.R:</p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/load_all.html">load_all</a></span>(<span class="st">"~/github/rerddap"</span>)
+<span class="co">#&gt; Loading rerddap</span>
+<span class="co">#&gt; Registered S3 method overwritten by 'httr':</span>
+<span class="co">#&gt;   method           from  </span>
+<span class="co">#&gt;   print.cache_info hoardr</span>
+
+<span class="no">nc</span> <span class="kw">&lt;-</span>    <span class="kw pkg">rerddap</span><span class="kw ns">::</span><span class="fu"><a href="https://docs.ropensci.org/rerddap/reference/griddap.html">griddap</a></span>(
+  <span class="kw pkg">rerddap</span><span class="kw ns">::</span><span class="fu"><a href="https://docs.ropensci.org/rerddap/reference/info.html">info</a></span>(<span class="st">"jplMURSST41mday"</span>),
+  <span class="kw">url</span> <span class="kw">=</span> <span class="st">"https://coastwatch.pfeg.noaa.gov/erddap/"</span>,
+  <span class="kw">time</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"2003-02-01"</span>, <span class="st">"2003-02-28"</span>),
+  <span class="kw">latitude</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">33.36241</span>, <span class="fl">34.20707</span>) , <span class="kw">longitude</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">118.9071</span>, -<span class="fl">120.6421</span>),
+  <span class="kw">fields</span> <span class="kw">=</span> <span class="st">"sst"</span>, <span class="kw">fmt</span> <span class="kw">=</span> <span class="st">'nc'</span>)
+<span class="co">#&gt; info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap/</span>
+<span class="no">r</span> <span class="kw">&lt;-</span> <span class="kw pkg">raster</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span>(<span class="no">nc</span>$<span class="no">summary</span>$<span class="no">filename</span>)
+<span class="kw pkg">raster</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="no">r</span>)</pre></body></html></div>
+<p><img src="debug_cinms-issue57_erddap_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
