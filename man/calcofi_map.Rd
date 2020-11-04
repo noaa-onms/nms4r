@@ -2,7 +2,7 @@
 % Please edit documentation in R/spatial.R
 \name{calcofi_map}
 \alias{calcofi_map}
-\title{calcofi_map}
+\title{Map of CALCOFI sites.}
 \usage{
 calcofi_map(
  
@@ -12,11 +12,20 @@ calcofi_map(
 )
 }
 \arguments{
-\item{colors}{}
+\item{geo}{A geojson object that defines the polygons to be mapped.}
+
+\item{filter_str}{A string used to filter in (or out) particular polygons.}
+
+\item{colors}{A string vector that defines the colors of the mapped polygons.}
 }
 \value{
-
+The output is an interactive map of CALCOFI sites overlaid on a coastal map of Southern California.
 }
 \description{
-calcofi_map
+This function generates an interactive figure that shows the area in which
+CALCOFI spring season net samples were located.
+}
+\examples{
+calcofi_map()
+
 }

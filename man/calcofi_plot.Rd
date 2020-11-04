@@ -2,7 +2,7 @@
 % Please edit documentation in R/spatial.R
 \name{calcofi_plot}
 \alias{calcofi_plot}
-\title{calcofi_plot}
+\title{Produces plots of CALCOFI data.}
 \usage{
 calcofi_plot(
   csv,
@@ -18,11 +18,33 @@ calcofi_plot(
 )
 }
 \arguments{
-\item{in_loop}{}
+\item{csv}{The CALCOFI time series data, in csv format, to be plotted.}
+
+\item{x_fld}{The column of the time series data to be used for the x-axis of the plot.}
+
+\item{y_fld}{The column of the time series data to be used for the y-axis of the plot.}
+
+\item{y_trans}{The transformation to be performed on the data used for the y-axis.}
+
+\item{x_lab}{The label for the x-axis on the plot.}
+
+\item{y_lab}{The label for the y-axis on the plot.}
+
+\item{title}{The label for the title of the plot.}
+
+\item{yrs_recent}{The number of most recent years to be shaded in the plot.}
+
+\item{interactive}{A Boolean variable indicating whether the plot is to be interactive or not.}
+
+\item{in_loop}{A Boolean variable indicating whether an error condition exists.}
 }
 \value{
-
+The output is a plot of time series data.
 }
 \description{
-calcofi_plot
+This function produces plots of CALCOFI-originated time series data.
+}
+\examples{
+calcofi_plot(csv = "https://raw.githubusercontent.com/marinebon/calcofi-analysis/master/data/Anchovy_CINMS.csv", title = "Anchovy - CINMS Region")
+
 }

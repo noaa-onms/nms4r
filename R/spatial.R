@@ -1,12 +1,16 @@
-#' calcofi_map
+#' Map of CALCOFI sites.
 #'
-#' @param geo
-#' @param filter_str
-#' @param colors
+#' This function generates an interactive figure that shows the area in which
+#' CALCOFI spring season net samples were located.
 #'
-#' @return
+#' @param geo A geojson object that defines the polygons to be mapped.
+#' @param filter_str A string used to filter in (or out) particular polygons.
+#' @param colors A string vector that defines the colors of the mapped polygons.
+#'
+#' @return The output is an interactive map of CALCOFI sites overlaid on a coastal map of Southern California.
 #' @export
 #' @import dplyr leaflet magrittr rlang sf units
+#' @examples calcofi_map()
 #'
 calcofi_map <- function(
   geo        = "https://raw.githubusercontent.com/marinebon/calcofi-analysis/master/data/plys_cinms.geojson",
@@ -40,22 +44,25 @@ calcofi_map <- function(
       labels = ~ply_code)
 }
 
-#' calcofi_plot
+#' Produces plots of CALCOFI data.
 #'
-#' @param csv
-#' @param x_fld
-#' @param y_fld
-#' @param y_trans
-#' @param x_lab
-#' @param y_lab
-#' @param title
-#' @param yrs_recent
-#' @param interactive
-#' @param in_loop
+#' This function produces plots of CALCOFI-originated time series data.
 #'
-#' @return
+#' @param csv The CALCOFI time series data, in csv format, to be plotted.
+#' @param x_fld The column of the time series data to be used for the x-axis of the plot.
+#' @param y_fld The column of the time series data to be used for the y-axis of the plot.
+#' @param y_trans The transformation to be performed on the data used for the y-axis.
+#' @param x_lab The label for the x-axis on the plot.
+#' @param y_lab The label for the y-axis on the plot.
+#' @param title The label for the title of the plot.
+#' @param yrs_recent The number of most recent years to be shaded in the plot.
+#' @param interactive A Boolean variable indicating whether the plot is to be interactive or not.
+#' @param in_loop A Boolean variable indicating whether an error condition exists.
+#'
+#' @return The output is a plot of time series data.
 #' @export
 #' @import dplyr ggplot2 htmltools lubridate magrittr plotly readr rlang scales stringr
+#' @examples calcofi_plot(csv = "https://raw.githubusercontent.com/marinebon/calcofi-analysis/master/data/Anchovy_CINMS.csv", title = "Anchovy - CINMS Region")
 #'
 calcofi_plot <- function(
   csv,
