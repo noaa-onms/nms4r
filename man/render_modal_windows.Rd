@@ -13,8 +13,8 @@ render_modal_windows(NMS)
 This function outputs html files for most rmd files in the modal directory.
 }
 \description{
-This function generates the full html, including tooltips, for all rmd files
-in the modal directory.
+This function generates the full html, including tooltips, for all R markdown
+files in the modal directory.
 }
 \examples{
 render_modal_windows("cinms")

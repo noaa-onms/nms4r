@@ -1257,7 +1257,7 @@ read_csv_fmt <- function(csv, erddap_format = "csv"){
   d
 }
 
-#' Produce full html for static figures (minus tooltips)
+#' Produce full html for static figures, minus tooltips.
 #'
 #' This is a function that generates the html to display a static figure and the
 #' captions for that figure. Glossary tooltips are not created here, as that
@@ -1265,7 +1265,6 @@ read_csv_fmt <- function(csv, erddap_format = "csv"){
 #'
 #' @param figure_id The id of the figure.
 #' @param figure_img The path of the figure image.
-#'
 #' @return The output is a string containing the html tags to display the figure and figure caption.
 #' @export
 #' @import glue
@@ -1284,8 +1283,8 @@ render_figure <- function(figure_id, figure_img){
 
 #' Render html for all R Markdown files in modal directory
 #'
-#' This function generates the full html, including tooltips, for all rmd files
-#' in the modal directory.
+#' This function generates the full html, including tooltips, for all R markdown
+#' files in the modal directory.
 #'
 #' @param NMS the NMS sanctuary
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/spatial.R
 \name{render_figure}
 \alias{render_figure}
-\title{Produce full html for static figures (minus tooltips)}
+\title{Produce full html for static figures, minus tooltips.}
 \usage{
 render_figure(figure_id, figure_img)
 }
