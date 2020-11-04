@@ -20,6 +20,6 @@ captions for that figure. Glossary tooltips are not created here, as that
 occurs at a later stage of the html production process.
 }
 \examples{
-render_figure("Figure App.D.6.5.", "../img/cinms_cr/App.D.6.5.png")`
+render_figure("Figure App.D.6.5.", "../img/cinms_cr/App.D.6.5.png")
 
 }
