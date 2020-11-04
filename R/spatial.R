@@ -504,13 +504,13 @@ get_figure_info <- function (figure_id){
 
       html <- shiny::tagList(
         html,
-        div(
+        htmltoold::div(
           .noWS = no_ws,
           style = glue("text-align:{h$css}; display:table-cell;"),
           a(
             .noWS = no_ws,
             href = url, target = '_blank',
-            icon(h$icon), description)))
+            shiny::icon(h$icon), description)))
     }
   }
 
@@ -518,10 +518,10 @@ get_figure_info <- function (figure_id){
     return("")
 
   shiny::tagList(
-    div(
+    htmltools::div(
       .noWS = no_ws,
       style = "background:LightGrey; width:100%; display:table; font-size:120%; padding: 10px 10px 10px 10px; margin-bottom: 10px;",
-      div(
+      htmltools::div(
         .noWS = no_ws,
         style = "display:table-row",
         html)))
@@ -561,7 +561,7 @@ get_modal_info <- function(
   }
 
   htmltools::div(
-    htmltools::div(htmltools::tagList(icons_html), style = "margin-top: 10px;margin-bottom: 10px; margin-right: 10px; flex: 1;"), div(
+    htmltools::div(htmltools::tagList(icons_html), style = "margin-top: 10px;margin-bottom: 10px; margin-right: 10px; flex: 1;"), htmltools::div(
       ifelse(!is.na(row$tagline), row$tagline, ""), style = "margin: 10px; font-style: italic; flex: 20; "), style="display: flex"
 
   )
