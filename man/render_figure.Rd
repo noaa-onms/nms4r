@@ -19,3 +19,7 @@ This is a function that generates the html to display a static figure and the
 captions for that figure. Glossary tooltips are not created here, as that
 occurs at a later stage of the html production process.
 }
+\examples{
+render_figure("Figure App.C.4.4.", "../img/cinms_cr/App.C.4.4.Leeworthy_landings.jpg")
+
+}
