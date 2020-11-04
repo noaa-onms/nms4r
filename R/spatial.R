@@ -504,7 +504,7 @@ get_figure_info <- function (figure_id){
 
       html <- shiny::tagList(
         html,
-        htmltoold::div(
+        htmltools::div(
           .noWS = no_ws,
           style = glue("text-align:{h$css}; display:table-cell;"),
           a(
