@@ -938,7 +938,7 @@ md_caption <- function(title, md = here::here("modals/_captions.md"), get_detail
 #' @param d_csv A csv file containing the time series data.
 #' @param NMS The National Marine Sanctuary code.
 #' @param spp BEN
-#' @param sp_name The species name to be plotted.
+#' @param sp_name BEN
 #' @param nms_rgns BEN
 #' @param spp_targets BEN
 #' @param fld_val The column of data to provide the y-axis to be plotted.
