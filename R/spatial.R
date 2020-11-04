@@ -1269,7 +1269,6 @@ read_csv_fmt <- function(csv, erddap_format = "csv"){
 #' @export
 #' @import glue
 #' @examples render_figure("Figure App.D.6.5.", "../img/cinms_cr/App.D.6.5.png")
-#'
 render_figure <- function(figure_id, figure_img){
   glue::glue(
     "
