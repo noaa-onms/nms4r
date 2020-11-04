@@ -20,6 +20,12 @@ create_package("~/github/nms4r")
 
 - Create in R/*.R
 
+#### import packages
+
+```r
+usethis::use_package("dplyr")
+```
+
 ### add documentation
 
 - RStudio menu > Code > Insert Roxygen Skeleton

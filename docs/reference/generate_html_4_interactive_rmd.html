@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Page not found (404) • nms4r</title>
+<title>Generate the html for rmd files with interactive figures — generate_html_4_interactive_rmd • nms4r</title>
 
 
 <!-- jquery -->
@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script>
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -33,13 +33,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Page not found (404)" />
+<meta property="og:title" content="Generate the html for rmd files with interactive figures — generate_html_4_interactive_rmd" />
+<meta property="og:description" content="Rmd files with interactive figures present a special problem in terms of rendering
+them into html. The problem is that, if one uses the markdown library to
+create the html, the figures will turn out fine but the glossary tooltip functionality
+will be missing. This tooltip functionality is created by the function rmd2html,
+described in this package. If one uses rmd2html to render a rmd file containing
+interactive figures, the tooltips will turn out fine but the figures won't show
+up. The problem with rmd2html is that the appropriate javascript libraries are
+not loaded into the resulting &amp;lt;head&amp;gt; section of the final html. This function
+solves the problem (thereby producing html with both working figures and tooltips)
+by rendering the rmd using both the markdown and rmd2html approaches and then rewriting
+the &amp;lt;head&amp;gt; section of the rmd2html version with the markdown version." />
 
 
 
@@ -58,7 +69,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -70,7 +81,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">nms4r</a>
+        <a class="navbar-link" href="../index.html">nms4r</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
@@ -78,13 +89,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -105,23 +116,52 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Page not found (404)</h1>
+    <h1>Generate the html for rmd files with interactive figures</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marinebon/nms4r/blob/master/R/spatial.R'><code>R/spatial.R</code></a></small>
+    <div class="hidden name"><code>generate_html_4_interactive_rmd.Rd</code></div>
     </div>
 
-Content not found. Please use links in the navbar.
+    <div class="ref-description">
+    <p>Rmd files with interactive figures present a special problem in terms of rendering
+them into html. The problem is that, if one uses the markdown library to
+create the html, the figures will turn out fine but the glossary tooltip functionality
+will be missing. This tooltip functionality is created by the function rmd2html,
+described in this package. If one uses rmd2html to render a rmd file containing
+interactive figures, the tooltips will turn out fine but the figures won't show
+up. The problem with rmd2html is that the appropriate javascript libraries are
+not loaded into the resulting &lt;head&gt; section of the final html. This function
+solves the problem (thereby producing html with both working figures and tooltips)
+by rendering the rmd using both the markdown and rmd2html approaches and then rewriting
+the &lt;head&gt; section of the rmd2html version with the markdown version.</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>generate_html_4_interactive_rmd</span>(<span class='no'>nms</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>nms</th>
+      <td><p>The NMS sanctuary, with only "cinms" currently doing anything.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>The function outputs a html file for every rmd file containing interactive figures.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>generate_html_4_interactive_rmd</span>(<span class='st'>"cinms"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: path[1]="/Users/bbest/github/nms4r/cinms/modals/algal-groups.Rmd": No such file or directory</span></div><div class='output co'>#&gt; <span class='error'>Error in abs_path(input): The file '/Users/bbest/github/nms4r/cinms/modals/algal-groups.Rmd' does not exist.</span></div><div class='input'>
+</div></pre>
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
-
 
 
       <footer>

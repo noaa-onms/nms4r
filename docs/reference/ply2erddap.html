@@ -40,7 +40,8 @@
 
 
 <meta property="og:title" content="Extract ERDDAP statistics from polygon by year-month — ply2erddap" />
-<meta property="og:description" content="Extract satellite data in an ERDDAP dataset from national marine sanctuary polygon for a given year and month." />
+<meta property="og:description" content="Extract satellite data in an ERDDAP dataset from national marine sanctuary polygon
+for a given year and month." />
 
 
 
@@ -72,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nms4r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -114,7 +115,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Extract satellite data in an ERDDAP dataset from national marine sanctuary polygon for a given year and month.</p>
+    <p>Extract satellite data in an ERDDAP dataset from national marine sanctuary polygon
+for a given year and month.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ply2erddap</span>(<span class='no'>sanctuary_code</span>, <span class='no'>erddap_id</span>, <span class='no'>erddap_fld</span>, <span class='no'>year</span>, <span class='no'>month</span>, <span class='no'>stats</span>)</pre>
@@ -124,34 +126,37 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>sanctuary_code</th>
-      <td><p>sanctuary code based on prefix to <a href='https://sanctuaries.noaa.gov/library/imast_gis.html'>Sanctuary GIS files</a>, e.g. <code>"cinms"</code> for Channel Islands Marine Sanctuary</p></td>
+      <td><p>The sanctuary code based on prefix to <a href='https://sanctuaries.noaa.gov/library/imast_gis.html'>Sanctuary GIS files</a>, e.g. <code>"cinms"</code> for Channel Islands Marine Sanctuary</p></td>
     </tr>
     <tr>
       <th>erddap_id</th>
-      <td><p>dataset ID of ERDDAP dataset (see <a href='https://coastwatch.pfeg.noaa.gov/erddap/index.html'>coastwatch.pfeg.noaa.gov/erddap</a>), e.g. <code>"jplMURSST41mday"</code> for Multi-scale Ultra-high Resolution SST Analysis</p></td>
+      <td><p>The dataset ID of ERDDAP dataset (see <a href='https://coastwatch.pfeg.noaa.gov/erddap/index.html'>coastwatch.pfeg.noaa.gov/erddap</a>), e.g. <code>"jplMURSST41mday"</code> for Multi-scale Ultra-high Resolution SST Analysis</p></td>
     </tr>
     <tr>
       <th>erddap_fld</th>
-      <td><p>variable of ERDDAP dataset to extract, e.g. <code>"sst"</code></p></td>
+      <td><p>The variable of ERDDAP dataset to extract, e.g. <code>"sst"</code></p></td>
     </tr>
     <tr>
       <th>year</th>
-      <td><p>4-digit year</p></td>
+      <td><p>4-digit year.</p></td>
     </tr>
     <tr>
       <th>month</th>
-      <td><p>integer month (1-12)</p></td>
+      <td><p>integer month (1-12).</p></td>
     </tr>
     <tr>
       <th>stats</th>
-      <td><p>statistics to be generated for the data set <code><a href='https://rdrr.io/r/base/c.html'>c("mean", "sd")</a></code>, to calculate mean and standard deviation)</p></td>
+      <td><p>The statistics to be calculated.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list of values by statistic</p>
+    <p>A list of values by statistic.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>ply2erddap</span>(<span class='st'>"cinms"</span>, <span class='st'>"jplMURSST41mday"</span>, <span class='st'>"sst"</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2010</span>, <span class='kw'>month</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mean"</span>, <span class='st'>"sd"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: CRS object has comment, which is lost in output</span></div><div class='output co'>#&gt;      mean        sd 
+#&gt; 15.523618  1.259373 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -163,7 +168,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Ben Best.</p>
+  <p>Developed by Ben Best, Jai Ranganathan.</p>
 </div>
 
 <div class="pkgdown">

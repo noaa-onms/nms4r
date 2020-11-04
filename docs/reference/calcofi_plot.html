@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate statistics for any missing months for NMS Sanctuary — calculate_statistics • nms4r</title>
+<title>Produces plots of CALCOFI data — calcofi_plot • nms4r</title>
 
 
 <!-- jquery -->
@@ -39,17 +39,8 @@
 
 
 
-<meta property="og:title" content="Generate statistics for any missing months for NMS Sanctuary — calculate_statistics" />
-<meta property="og:description" content="The purpose of this function is to update csv files that hold a history of
-satellite-derived metrics for a sanctuary. These csv files are then used as the basis
-for graphs that plot the metric values over time. Currently, there are two such metrics
-being kept track of in the csv files: sea surface temperature and chlorophyll. This function is intended
-to be run each month in github actions, adding the latest month's data to the intended csv file - and additionally
-filling in any data holes that have crept in, in previous months. The reason for these data holes is
-that I have found the NOAA servers on which this satellite data is kept to be rather temperamental and often
-down. So, it is very possible that for a given moment at which github actions is attempting to run this function,
-the server will be down - meaning that for that month's run of this function, there will be no data. The hope is
-that in future months, the server will be up and will fill in the data holes." />
+<meta property="og:title" content="Produces plots of CALCOFI data — calcofi_plot" />
+<meta property="og:description" content="This function produces plots of CALCOFI-originated time series data." />
 
 
 
@@ -117,56 +108,87 @@ that in future months, the server will be up and will fill in the data holes." /
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate statistics for any missing months for NMS Sanctuary</h1>
+    <h1>Produces plots of CALCOFI data</h1>
     <small class="dont-index">Source: <a href='https://github.com/marinebon/nms4r/blob/master/R/spatial.R'><code>R/spatial.R</code></a></small>
-    <div class="hidden name"><code>calculate_statistics.Rd</code></div>
+    <div class="hidden name"><code>calcofi_plot.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The purpose of this function is to update csv files that hold a history of
-satellite-derived metrics for a sanctuary. These csv files are then used as the basis
-for graphs that plot the metric values over time. Currently, there are two such metrics
-being kept track of in the csv files: sea surface temperature and chlorophyll. This function is intended
-to be run each month in github actions, adding the latest month's data to the intended csv file - and additionally
-filling in any data holes that have crept in, in previous months. The reason for these data holes is
-that I have found the NOAA servers on which this satellite data is kept to be rather temperamental and often
-down. So, it is very possible that for a given moment at which github actions is attempting to run this function,
-the server will be down - meaning that for that month's run of this function, there will be no data. The hope is
-that in future months, the server will be up and will fill in the data holes.</p>
+    <p>This function produces plots of CALCOFI-originated time series data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calculate_statistics</span>(<span class='no'>sanctuary</span>, <span class='no'>erddap_id</span>, <span class='no'>metric</span>, <span class='no'>csv_file</span>)</pre>
+    <pre class="usage"><span class='fu'>calcofi_plot</span>(
+  <span class='no'>csv</span>,
+  <span class='kw'>x_fld</span> <span class='kw'>=</span> <span class='st'>"year"</span>,
+  <span class='kw'>y_fld</span> <span class='kw'>=</span> <span class='st'>"avg_larvae_count_per_volume_sampled"</span>,
+  <span class='kw'>y_trans</span> <span class='kw'>=</span> <span class='st'>"log(y + 1)"</span>,
+  <span class='kw'>x_lab</span> <span class='kw'>=</span> <span class='st'>"Year"</span>,
+  <span class='kw'>y_lab</span> <span class='kw'>=</span> <span class='st'>"ln(mean abundance + 1)"</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>yrs_recent</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>interactive</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>in_loop</span> <span class='kw'>=</span> <span class='no'>F</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>sanctuary</th>
-      <td><p>the NMS sanctuary, with only "cinms" currently doing anything</p></td>
+      <th>csv</th>
+      <td><p>The CALCOFI time series data, in csv format, to be plotted.</p></td>
     </tr>
     <tr>
-      <th>erddap_id</th>
-      <td><p>the dataset, with two values defined so far "jplMURSST41mday" &amp; "nesdisVHNSQchlaMonthly"</p></td>
+      <th>x_fld</th>
+      <td><p>The column of the time series data to be used for the x-axis of the plot.</p></td>
     </tr>
     <tr>
-      <th>metric</th>
-      <td><p>the metric being pulled from the dataset with "sst" and "chlor_a" currently defined</p></td>
+      <th>y_fld</th>
+      <td><p>The column of the time series data to be used for the y-axis of the plot.</p></td>
     </tr>
     <tr>
-      <th>csv_file</th>
-      <td><p>the csv file containing the data for the given metric for the sanctuary</p></td>
+      <th>y_trans</th>
+      <td><p>The transformation to be performed on the data used for the y-axis.</p></td>
+    </tr>
+    <tr>
+      <th>x_lab</th>
+      <td><p>The label for the x-axis on the plot.</p></td>
+    </tr>
+    <tr>
+      <th>y_lab</th>
+      <td><p>The label for the y-axis on the plot.</p></td>
+    </tr>
+    <tr>
+      <th>title</th>
+      <td><p>The label for the title of the plot.</p></td>
+    </tr>
+    <tr>
+      <th>yrs_recent</th>
+      <td><p>The number of most recent years to be shaded in the plot.</p></td>
+    </tr>
+    <tr>
+      <th>interactive</th>
+      <td><p>A Boolean variable indicating whether the plot is to be interactive or not.</p></td>
+    </tr>
+    <tr>
+      <th>in_loop</th>
+      <td><p>A Boolean variable indicating whether an error condition exists.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The output is a csv file that contains a time series of satellite-data-derived statistics.</p>
+    <p>The output is a plot of time series data.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>calculate_statistics</span>(<span class='st'>"cinms"</span>, <span class='st'>"jplMURSST41mday"</span>, <span class='st'>"sst"</span>, <span class='st'>"avg-sst_cinms.csv"</span>)</div><div class='output co'>#&gt; <span class='message'>Registered S3 method overwritten by 'hoardr':</span>
-#&gt; <span class='message'>  method           from</span>
-#&gt; <span class='message'>  print.cache_info httr</span></div><div class='output co'>#&gt; <span class='warning'>Warning: cannot open file '/Users/bbest/github/nms4r/cinms/data/oceano/avg-sst_cinms.csv': No such file or directory</span></div><div class='output co'>#&gt; <span class='error'>Error in file(file, "rt"): cannot open the connection</span></div><div class='input'><span class='fu'>calculate_statistics</span>(<span class='st'>"cinms"</span>, <span class='st'>"nesdisVHNSQchlaMonthly"</span>, <span class='st'>"chlor_a"</span>, <span class='st'>"avg-chl_cinms.csv"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: cannot open file '/Users/bbest/github/nms4r/cinms/data/oceano/avg-chl_cinms.csv': No such file or directory</span></div><div class='output co'>#&gt; <span class='error'>Error in file(file, "rt"): cannot open the connection</span></div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>calcofi_plot</span>(<span class='kw'>csv</span> <span class='kw'>=</span> <span class='st'>"https://raw.githubusercontent.com/marinebon/calcofi-analysis/master/data/Anchovy_CINMS.csv"</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Anchovy - CINMS Region"</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'><span style='color: #00BBBB;'>──</span><span> </span><span style='font-weight: bold;'>Column specification</span><span> </span><span style='color: #00BBBB;'>────────────────────────────────────────────────────────</span><span></span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  year = </span><span style='color: #0000BB;'>col_datetime(format = "")</span><span>,</span>
+#&gt; <span class='message'>  avg_larvae_count_per_volume_sampled = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
+#&gt; <span class='message'>  spp_grp = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
+#&gt; <span class='message'>  ply_code = </span><span style='color: #BB0000;'>col_character()</span><span></span>
+#&gt; <span class='message'>)</span></div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
