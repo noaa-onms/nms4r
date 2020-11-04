@@ -21,22 +21,25 @@ RoxygenNote: 7.1.1.9000
 Imports: 
     dygraphs,
     fs,
+    ggplot2,
     glue,
     here,
     htmltools,
     knitr,
     leaflet,
     lubridate,
+    mapview,
     plotly,
     raster,
     rerddap,   
     rgdal,
     rlang,
+    rmarkdown,
     scales,
     sf,
     shiny,
+    tidyverse,
+    units,
     xts
-Depends: 
-    tidyverse
 URL: https://github.com/marinebon/nms4r
 BugReports: https://github.com/marinebon/nms4r/issues

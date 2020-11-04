@@ -8,7 +8,6 @@
 #' @param colors A string vector that defines the colors of the mapped polygons.
 #' @return The output is an interactive map of CALCOFI sites overlaid on a coastal map of Southern California.
 #' @export
-#' @import dplyr leaflet magrittr rlang sf units
 #' @examples calcofi_map()
 #'
 calcofi_map <- function(
@@ -59,7 +58,6 @@ calcofi_map <- function(
 #' @param in_loop A Boolean variable indicating whether an error condition exists.
 #' @return The output is a plot of time series data.
 #' @export
-#' @import dplyr ggplot2 htmltools lubridate magrittr plotly readr rlang scales stringr
 #' @examples calcofi_plot(csv = "https://raw.githubusercontent.com/marinebon/calcofi-analysis/master/data/Anchovy_CINMS.csv", title = "Anchovy - CINMS Region")
 #'
 calcofi_plot <- function(
@@ -203,7 +201,6 @@ calculate_SST_anomaly <-function(sanct) {
 #' @param metric the metric being pulled from the dataset with "sst" and "chlor_a" currently defined
 #' @return The output is a csv file that contains a time series of satellite-data-derived statistics.
 #' @export
-#' @import here rerddap
 #' @examples
 #' calculate_statistics("cinms", "jplMURSST41mday", "sst", "avg-sst_cinms.csv")
 #' calculate_statistics("cinms", "nesdisVHNSQchlaMonthly", "chlor_a", "avg-chl_cinms.csv")
@@ -306,7 +303,6 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
 #' @param nms The NMS sanctuary, with only "cinms" currently doing anything.
 #' @return The function outputs a html file for every rmd file containing interactive figures.
 #' @export
-#' @import here rmarkdown
 #' @examples generate_html_4_interactive_rmd("cinms")
 #'
 generate_html_4_interactive_rmd <- function (nms){
@@ -397,7 +393,6 @@ generate_html_4_interactive_rmd <- function (nms){
 #'
 #' @param nms The NMS sanctuary with only "cinms" currently doing anything.
 #' @return The function outputs a html file for every rmd file not containing interactive figures.
-#' @import here
 #' @examples generate_html_4_noninteractive_rmd("cinms")
 #'
 generate_html_4_noninteractive_rmd <- function (nms){
@@ -453,7 +448,6 @@ generate_html_4_noninteractive_rmd <- function (nms){
 #' @param info A rerddap::info() object.
 #' @return This function outputs a string vector, with the first element being the start date and the last element being the end date.
 #' @export
-#' @import dplyr
 #' @examples get_dates(rerddap::info('jplMURSST41mday'))
 #'
 get_dates <- function(info){
@@ -473,7 +467,6 @@ get_dates <- function(info){
 #' @param figure_id The name of a row in the following google sheet cinms_content::info_figure_links
 #' @return The output is a set of html tags to be inserted into a html file.
 #' @export
-#' @import readr dplyr tibble stringr shiny
 #' @examples get_figure_info("Figure App.E.11.8.")
 
 get_figure_info <- function (figure_id){
@@ -544,7 +537,6 @@ get_figure_info <- function (figure_id){
 #' @param info_modal_links_csv A hyperlink to the google sheet, in csv format, that contains the modal links info.
 #' @return The function returns a string that is a set of html tags to be inserted into a html file.
 #' @export
-#' @import dplyr knitr fs readr
 #' @examples  get_modal_info()
 #'
 get_modal_info <- function(
@@ -583,7 +575,6 @@ get_modal_info <- function(
 #'
 #' @param nms The code for a national marine sanctuary.
 #' @return The function returns a sf object containing the polygons of a sanctuary.
-#' @import here sf
 #' @export
 #' @examples get_nms_polygons("cinms")
 #'
@@ -634,7 +625,6 @@ get_nms_polygons <- function(nms){
 #' @param md The markdown file where the tags are to be inserted.
 #' @param md_out The markdown output file.
 #' @return The output of this function is html tags inserted into a markdown file.
-#' @import readr stringr
 glossarize_md <- function(md, md_out = md){
 
   # read the markdown file
@@ -764,7 +754,6 @@ glossarize_md <- function(md, md_out = md){
 #' @param glossary_term The glossary term to be looked for.
 #' @param span_css The css tags to add before the glossary term.
 #' @return The function outputs a string containing the text section with html tags inserted.
-#' @import stringr
 #'
 insert_tooltip<- function(text, glossary_term, span_css){
 
@@ -795,7 +784,6 @@ insert_tooltip<- function(text, glossary_term, span_css){
 #' @param raw_csv BEN
 #' @param sites_csv BEN
 #' @return BEN
-#' @import dplyr magrittr readr sf xts
 #'
 make_sites_csv <- function(raw_csv, sites_csv){
   raw <- read_csv_fmt(raw_csv, raw_fmt)
@@ -822,7 +810,6 @@ make_sites_csv <- function(raw_csv, sites_csv){
 #' @param nms The National Marine Sanctuary code.
 #' @return This function returns a mapview object displaying data collection sites.
 #' @export
-#' @import glue magrittr mapview readr sf stringr
 #' @examples map_nms_sites("cinms")
 #'
 map_nms_sites <- function(nms){
@@ -1068,7 +1055,6 @@ plot_intertidal_nms <- function(
 #' @param metric The metric to be plotted.
 #' @param ... additional parameters to pass to \link[dygraphs]{dygraph}
 #' @return This function outputs a dygraph object of the time series plot.
-#' @import dygraphs magrittr xts
 #' @export
 #' @examples
 #' csv_SST <-here::here("data/oceano/statistics_sst_cinms.csv")
@@ -1121,7 +1107,6 @@ plot_metric_timeseries <- function(csv, metric, ...){
 #' @param stats The statistics to be calculated.
 #' @return A list of values by statistic.
 #' @export
-#' @import glue sf magrittr dplyr here rerddap
 #' @examples
 #' ply2erddap("cinms", "jplMURSST41mday", "sst", year = 2010, month = 6, c("mean", "sd"))
 ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
@@ -1267,7 +1252,6 @@ read_csv_fmt <- function(csv, erddap_format = "csv"){
 #' @param figure_img The path of the figure image.
 #' @return The output is a string containing the html tags to display the figure and figure caption.
 #' @export
-#' @import glue
 #' @examples render_figure("Figure App.C.4.4.", "../img/cinms_cr/App.C.4.4.Leeworthy_landings.jpg")
 #'
 render_figure <- function(figure_id, figure_img){
@@ -1305,7 +1289,6 @@ render_modal_windows <- function (NMS) {
 #' @param rmd The R markdown file to be rendered into html.
 #' @return The output is a html file that is the rendered rmd file.
 #' @export
-#' @import fs markdown
 #' @examples rmd2html(here::here("modals/ca-sheephead.Rmd"))
 rmd2html <- function(rmd){
 
