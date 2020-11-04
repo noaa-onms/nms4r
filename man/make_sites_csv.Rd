@@ -2,16 +2,18 @@
 % Please edit documentation in R/spatial.R
 \name{make_sites_csv}
 \alias{make_sites_csv}
-\title{make_sites_csv}
+\title{make_sites_csv BEN}
 \usage{
 make_sites_csv(raw_csv, sites_csv)
 }
 \arguments{
 \item{raw_csv}{BEN}
+
+\item{sites_csv}{BEN}
 }
 \value{
-
+BEN
 }
 \description{
-make_sites_csv
+description BEN
 }

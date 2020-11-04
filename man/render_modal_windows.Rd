@@ -2,7 +2,7 @@
 % Please edit documentation in R/spatial.R
 \name{render_modal_windows}
 \alias{render_modal_windows}
-\title{This function generates the html for all rmd files in the modal directory.}
+\title{Render html for all R Markdown files in modal directory}
 \usage{
 render_modal_windows(NMS)
 }
@@ -10,8 +10,13 @@ render_modal_windows(NMS)
 \item{NMS}{the NMS sanctuary}
 }
 \value{
-nothing
+This function outputs html files for most rmd files in the modal directory.
 }
 \description{
-This function generates the html for all rmd files in the modal directory.
+This function generates the full html, including tooltips, for all rmd files
+in the modal directory.
+}
+\examples{
+render_modal_windows("cinms")
+
 }

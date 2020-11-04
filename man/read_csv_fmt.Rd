@@ -2,16 +2,18 @@
 % Please edit documentation in R/spatial.R
 \name{read_csv_fmt}
 \alias{read_csv_fmt}
-\title{read_csv_fmt}
+\title{read_csv_fmt BEN}
 \usage{
 read_csv_fmt(csv, erddap_format = "csv")
 }
 \arguments{
-\item{erddap_format}{}
+\item{csv}{BEN}
+
+\item{erddap_format}{BEN}
 }
 \value{
-
+BEN
 }
 \description{
-read_csv_fmt
+description BEN
 }

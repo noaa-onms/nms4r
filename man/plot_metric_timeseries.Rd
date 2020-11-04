@@ -2,16 +2,25 @@
 % Please edit documentation in R/spatial.R
 \name{plot_metric_timeseries}
 \alias{plot_metric_timeseries}
-\title{plot_metric_timeseries}
+\title{Plot ERRDAP time series data}
 \usage{
 plot_metric_timeseries(csv, metric, ...)
 }
 \arguments{
+\item{csv}{The csv file containing the ERRDAP data to be plotted.}
+
+\item{metric}{The metric to be plotted.}
+
 \item{...}{additional parameters to pass to \link[dygraphs]{dygraph}}
 }
 \value{
-
+This function outputs a dygraph object of the time series plot.
 }
 \description{
-plot_metric_timeseries
+The purpose of this function is to generate time series plots of ERRDAP data.
+Currently, this function can plot sea surface temperature and chlorophyll data.
+}
+\examples{
+csv_SST <-here::here("data/oceano/statistics_sst_cinms.csv")
+plot_metric_timeseries(csv_SST, "sst")
 }

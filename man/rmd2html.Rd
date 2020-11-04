@@ -2,16 +2,20 @@
 % Please edit documentation in R/spatial.R
 \name{rmd2html}
 \alias{rmd2html}
-\title{Render html for rmd files, including glossary tooltips}
+\title{Render html for rmd file, including glossary tooltips.}
 \usage{
 rmd2html(rmd)
 }
 \arguments{
-\item{rmd}{the rmd file to be rendered into html}
+\item{rmd}{The R markdown file to be rendered into html.}
 }
 \value{
-nothing
+The output is a html file that is the rendered rmd file.
 }
 \description{
-Render html for rmd files, including glossary tooltips
+This function creates all of the html for a R markdown file, inserting in the
+glossary tooltips.
+}
+\examples{
+rmd2html(here::here("modals/ca-sheephead.Rmd"))
 }

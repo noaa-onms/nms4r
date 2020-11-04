@@ -788,11 +788,13 @@ insert_tooltip<- function(text, glossary_term, span_css){
   return (paste0(split_text, save_glossary_terms, collapse=""))
 }
 
-#' make_sites_csv
+#' make_sites_csv BEN
+#'
+#' description BEN
 #'
 #' @param raw_csv BEN
 #' @param sites_csv BEN
-#' @return
+#' @return BEN
 #' @import dplyr magrittr readr sf xts
 #'
 make_sites_csv <- function(raw_csv, sites_csv){
@@ -970,6 +972,7 @@ md_caption <- function(title, md = here::here("modals/_captions.md"), get_detail
 #'   tidyr::fill(region) %>%
 #'   dplyr::mutate(rgn = region)
 #' plot_intertidal_nms(d_csv, "CINMS", "MYTCAL", "California Mussels", nms_rgns1)
+#'
 plot_intertidal_nms <- function(
   d_csv, NMS, spp, sp_name, nms_rgns, spp_targets = NULL,
   fld_val = "pct_cover", label_y = "Annual Mean Percent Cover (%)",
@@ -1056,21 +1059,21 @@ plot_intertidal_nms <- function(
     dygraphs::dyRangeSelector(fillColor = " #FFFFFF", strokeColor = "#FFFFFF")
 }
 
-#' plot_metric_timeseries
+#' Plot ERRDAP time series data
 #'
-#' @param csv
-#' @param metric
+#' The purpose of this function is to generate time series plots of ERRDAP data.
+#' Currently, this function can plot sea surface temperature and chlorophyll data.
+#'
+#' @param csv The csv file containing the ERRDAP data to be plotted.
+#' @param metric The metric to be plotted.
 #' @param ... additional parameters to pass to \link[dygraphs]{dygraph}
-#'
-#' @return
+#' @return This function outputs a dygraph object of the time series plot.
+#' @import dygraphs magrittr xts
 #' @export
-#'
 #' @examples
+#' csv_SST <-here::here("data/oceano/statistics_sst_cinms.csv")
+#' plot_metric_timeseries(csv_SST, "sst")
 plot_metric_timeseries <- function(csv, metric, ...){
-  # The purpose of this function is to generate figures showing the sea surface temperature time series
-  # for a Sanctuary (displaying both avg and standard deviation of temp). The function has two parameters: 1)
-  # csv: which is the path name for the csv data file to be plotted and 2) metric: which is the type of data
-  # to be plotted; currently only "sst" (for sea surface temperature) and "chl" (for chlorophyll) are recognized
 
   # Read in the csv file
   data_history <- read.csv(csv, header = TRUE)
@@ -1080,27 +1083,26 @@ plot_metric_timeseries <- function(csv, metric, ...){
   upper_value <- data_history[,6]
 
   # create a data frame which lines up the data in the way that dygraph needs it
-  # history <- data.frame(date = as.Date(dates, "%Y-%m-%d"), avg_value = average_value, lower = average_value - standard_deviation, upper = average_value + standard_deviation)
   history <- data.frame(date = as.Date(dates, "%Y-%m-%d"), avg_value = average_value, lower = lower_value, upper = upper_value)
   history <- xts::xts(x = history[,-1], order.by = history$date)
 
   # create the figure
   if (metric == "sst"){ # plotting sea surface temperature
-    dygraph(
+    dygraphs::dygraph(
       history,
       main = "Sea Surface Temperature",
       xlab = "Date", ylab = "Temperature (°C)",
       ...)%>%
-      dySeries(c("lower", "avg_value", "upper"), label = "Temperature (°C)", color = "Red")%>%
-      dyRangeSelector(fillColor = " #FFFFFF", strokeColor = "#FFFFFF")
+      dygraphs::dySeries(c("lower", "avg_value", "upper"), label = "Temperature (°C)", color = "Red")%>%
+      dygraphs::dyRangeSelector(fillColor = " #FFFFFF", strokeColor = "#FFFFFF")
   } else if (metric == "chl") { # plotting chlorophyll
-    dygraph(
+    dygraphs::dygraph(
       history,
       main = "Chlorophyll Concentration",
       xlab = "Date", ylab = "Chlorophyll Concentration, OC3 Algorithm (mg/m<sup>3</sup>)",
       ...)%>%
-      dySeries(c("lower", "avg_value", "upper"), label = "Chlorophyll concentration", color = "Green")%>%
-      dyRangeSelector(fillColor = " #FFFFFF", strokeColor = "#FFFFFF")
+      dygraphs::dySeries(c("lower", "avg_value", "upper"), label = "Chlorophyll concentration", color = "Green")%>%
+      dygraphs::dyRangeSelector(fillColor = " #FFFFFF", strokeColor = "#FFFFFF")
   } else { # if any other metric is called, stop everything
     stop("Error in metric: the function plot_metric_timeseries only currently knows how to handle the metrics sst and chl")
   }
@@ -1108,24 +1110,21 @@ plot_metric_timeseries <- function(csv, metric, ...){
 
 #' Extract ERDDAP statistics from polygon by year-month
 #'
-#' Extract satellite data in an ERDDAP dataset from national marine sanctuary polygon for a given year and month.
+#' Extract satellite data in an ERDDAP dataset from national marine sanctuary polygon
+#' for a given year and month.
 #'
-#' @param sanctuary_code sanctuary code based on prefix to \href{https://sanctuaries.noaa.gov/library/imast_gis.html}{Sanctuary GIS files}, e.g. \code{"cinms"} for Channel Islands Marine Sanctuary
-#' @param erddap_id dataset ID of ERDDAP dataset (see \href{https://coastwatch.pfeg.noaa.gov/erddap/index.html}{coastwatch.pfeg.noaa.gov/erddap}), e.g. \code{"jplMURSST41mday"} for Multi-scale Ultra-high Resolution SST Analysis
-#' @param erddap_fld variable of ERDDAP dataset to extract, e.g. \code{"sst"}
-#' @param year 4-digit year
-#' @param month integer month (1-12)
-#' @stats statistics to be calculated
-#'
-#' @return a list of values by statistic
-#'
+#' @param sanctuary_code The sanctuary code based on prefix to \href{https://sanctuaries.noaa.gov/library/imast_gis.html}{Sanctuary GIS files}, e.g. \code{"cinms"} for Channel Islands Marine Sanctuary
+#' @param erddap_id The dataset ID of ERDDAP dataset (see \href{https://coastwatch.pfeg.noaa.gov/erddap/index.html}{coastwatch.pfeg.noaa.gov/erddap}), e.g. \code{"jplMURSST41mday"} for Multi-scale Ultra-high Resolution SST Analysis
+#' @param erddap_fld The variable of ERDDAP dataset to extract, e.g. \code{"sst"}
+#' @param year 4-digit year.
+#' @param month integer month (1-12).
+#' @param stats The statistics to be calculated.
+#' @return A list of values by statistic.
 #' @export
 #' @import glue sf magrittr dplyr here rerddap
-#'
 #' @examples
-#'
+#' ply2erddap("cinms", "jplMURSST41mday", "sst", year = 2010, month = 6, c("mean", "sd"))
 ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
-  # sanctuary_code = "cinms"; erddap_id = "jplMURSST41mday"; erddap_fld = "sst"; year = 2010; month = 6; stats = c("mean", "sd")
 
   # check inputs
   stopifnot(all(is.numeric(year), is.numeric(month)))
@@ -1230,16 +1229,15 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   out
 }
 
-#' read_csv_fmt
+#' read_csv_fmt BEN
 #'
-#' @param csv
-#' @param erddap_format
+#' description BEN
 #'
-#' @return
-#' @export
+#' @param csv BEN
+#' @param erddap_format BEN
+#' @return BEN
 #' @import magrittr readr stringr
-#'
-#' @examples
+
 read_csv_fmt <- function(csv, erddap_format = "csv"){
   # erddap_format = "csv" # or "csvp"
 
@@ -1259,23 +1257,22 @@ read_csv_fmt <- function(csv, erddap_format = "csv"){
   d
 }
 
-#' render_figure
+#' Produce full html for static figures (minus tooltips)
 #'
-#' @param figure_id
-#' @param figure_img
+#' This is a function that generates the html to display a static figure and the
+#' captions for that figure. Glossary tooltips are not created here, as that
+#' occurs at a later stage of the html production process.
 #'
-#' @return
+#' @param figure_id The id of the figure.
+#' @param figure_img The path of the figure image.
 #'
+#' @return The output is a string containing the html tags to display the figure and figure caption.
 #' @export
 #' @import glue
-#'
 #' @examples
+#' render_figure("Figure App.D.6.5.", "../img/cinms_cr/App.D.6.5.png")`
 #'
 render_figure <- function(figure_id, figure_img){
-
-  # figure_id = "Figure App.F.12.2."
-  # figure_img = "../img/cinms_cr/App.E.10.22.jpg"
-
   glue::glue(
     "
   {nms4r::get_figure_info(figure_id)}
@@ -1286,27 +1283,32 @@ render_figure <- function(figure_id, figure_img){
   ")
 }
 
-#' This function generates the html for all rmd files in the modal directory.
+#' Render html for all R Markdown files in modal directory
+#'
+#' This function generates the full html, including tooltips, for all rmd files
+#' in the modal directory.
 #'
 #' @param NMS the NMS sanctuary
 #'
-#' @return nothing
+#' @return This function outputs html files for most rmd files in the modal directory.
 #' @export
+#' @examples render_modal_windows("cinms")
 #'
 render_modal_windows <- function (NMS) {
   generate_html_4_noninteractive_rmd(NMS)
   generate_html_4_interactive_rmd(NMS)
 }
 
-#' Render html for rmd files, including glossary tooltips
+#' Render html for rmd file, including glossary tooltips.
 #'
-#' @param rmd the rmd file to be rendered into html
+#' This function creates all of the html for a R markdown file, inserting in the
+#' glossary tooltips.
 #'
-#' @return nothing
+#' @param rmd The R markdown file to be rendered into html.
+#' @return The output is a html file that is the rendered rmd file.
 #' @export
 #' @import fs markdown
-#'
-#' @examples
+#' @examples rmd2html(here::here("modals/ca-sheephead.Rmd"))
 rmd2html <- function(rmd){
 
   md1  <- fs::path_ext_set(rmd, "md")

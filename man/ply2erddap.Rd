@@ -7,22 +7,25 @@
 ply2erddap(sanctuary_code, erddap_id, erddap_fld, year, month, stats)
 }
 \arguments{
-\item{sanctuary_code}{sanctuary code based on prefix to \href{https://sanctuaries.noaa.gov/library/imast_gis.html}{Sanctuary GIS files}, e.g. \code{"cinms"} for Channel Islands Marine Sanctuary}
+\item{sanctuary_code}{The sanctuary code based on prefix to \href{https://sanctuaries.noaa.gov/library/imast_gis.html}{Sanctuary GIS files}, e.g. \code{"cinms"} for Channel Islands Marine Sanctuary}
 
-\item{erddap_id}{dataset ID of ERDDAP dataset (see \href{https://coastwatch.pfeg.noaa.gov/erddap/index.html}{coastwatch.pfeg.noaa.gov/erddap}), e.g. \code{"jplMURSST41mday"} for Multi-scale Ultra-high Resolution SST Analysis}
+\item{erddap_id}{The dataset ID of ERDDAP dataset (see \href{https://coastwatch.pfeg.noaa.gov/erddap/index.html}{coastwatch.pfeg.noaa.gov/erddap}), e.g. \code{"jplMURSST41mday"} for Multi-scale Ultra-high Resolution SST Analysis}
 
-\item{erddap_fld}{variable of ERDDAP dataset to extract, e.g. \code{"sst"}}
+\item{erddap_fld}{The variable of ERDDAP dataset to extract, e.g. \code{"sst"}}
 
-\item{year}{4-digit year}
+\item{year}{4-digit year.}
 
-\item{month}{integer month (1-12)}
+\item{month}{integer month (1-12).}
+
+\item{stats}{The statistics to be calculated.}
 }
 \value{
-a list of values by statistic
+A list of values by statistic.
 }
 \description{
-Extract satellite data in an ERDDAP dataset from national marine sanctuary polygon for a given year and month.
+Extract satellite data in an ERDDAP dataset from national marine sanctuary polygon
+for a given year and month.
 }
 \examples{
-
+ply2erddap("cinms", "jplMURSST41mday", "sst", year = 2010, month = 6, c("mean", "sd"))
 }
