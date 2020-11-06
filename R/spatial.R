@@ -1124,17 +1124,18 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
   # https://github.com/rstudio/leaflet/issues/225#issuecomment-347721709
 
   # The dates to be considered (note that dates are handled differently when pulling different datasets)
-  # Additionally, the end date for the dataset nesdisVHNSQchlaMonthly needs to be set close to the beginning
-  # date or multiple time slices of data will be called. I don't know why nesdisVHNSQchlaMonthly behaves this way.
-    m_beg   <- lubridate::ymd(glue::glue("{year}-{month}-01"))
-  if (erddap_id == "nesdisVHNSQchlaMonthly"){
-    m_end   <- m_beg + 1
-   } else{
-    m_end   <- m_beg + lubridate::days(lubridate::days_in_month(m_beg)) - lubridate::days(1)
+
+  if (erddap_id == "nesdisVHNSQchlaMonthly") {
+    m_date <- lubridate::ymd(glue::glue("{year}-{month}-01"))
+  } else if (erddap_id == "jplMURSST41mday" || erddap_id == "erdMWchlamday") {
+    m_date <- lubridate::ymd(glue::glue("{year}-{month}-16"))
+  } else {
+    stop("Error in erddap_id: the function ply2erddap only currently knows how to
+         handle the datasets nesdisVHNSQchlaMonthly, jplMURSST41mday, and erdMWchlamday")
   }
 
   # set desired date range
-  m_dates <- c(m_beg, m_end)
+  m_dates <- c(m_date, m_date)
 
   # pull data from errdap server, with the process handled differently based upon the dataset - the value of erddap_id
   # (as the datasets are not structured identically)
@@ -1156,8 +1157,6 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
       rerddap::info(erddap_id),
       url = "https://coastwatch.pfeg.noaa.gov/erddap/",
       time = m_dates,
-      #time = c("2013-01-01", "2013-06-01"),
-      #time = "2013-04-01",
       latitude = latitude_range, longitude = longitude_range,
       fields = erddap_fld, fmt = 'nc'))
   if ("try-error" %in% class(nc)){
@@ -1175,8 +1174,7 @@ ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stat
     d <- dplyr::arrange(nc$data, desc(nc$data$lat), nc$data$lon)
     r <- raster::raster(nrows = length(unique(nc$data$lat)), ncols = length(unique(nc$data$lon)),
                         ext = ext, vals = d[,erddap_fld])
-  } else { # if errdap_id calls any other dataset, stop everything as who knows how this other dataset is structured
-    # stop("Error in erddap_id: this function only currently knows how to handle the datasets jplMURSST41mday and nesdisVHNSQchlaMonthly")
+  } else {
     r <- raster::raster(nc$summary$filename)
   }
 

@@ -24,7 +24,7 @@ plot_intertidal_nms(
 
 \item{spp}{BEN}
 
-\item{sp_name}{The species name to be plotted.}
+\item{sp_name}{BEN}
 
 \item{nms_rgns}{BEN}
 
