@@ -43,3 +43,4 @@ Imports:
     xts
 URL: https://github.com/marinebon/nms4r
 BugReports: https://github.com/marinebon/nms4r/issues
+VignetteBuilder: knitr
