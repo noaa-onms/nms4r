@@ -223,6 +223,12 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
 
   # let's define the date sequence as every month in the date range
   date_sequence <- seq.Date(t_beg, t_end, by = 'month') # , len = 12)
+
+  # for the following data set, the date is off by 1 day, so let's fix that
+  if (erddap_id == "nesdisVHNSQchlaMonthly"){
+    date_sequence <- date_sequence -1
+  }
+
   # TODO: get list of dates in dataset
 
   # load in the csv file. The problem here is that there are a couple of possibilities of how our current path relates to the datafiles we want to access.
