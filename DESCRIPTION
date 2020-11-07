@@ -31,7 +31,7 @@ Imports:
     mapview,
     plotly,
     raster,
-    rerddap,   
+    rerddap,
     rgdal,
     rlang,
     rmarkdown,
@@ -40,7 +40,8 @@ Imports:
     shiny,
     tidyverse,
     units,
-    xts
+    xts,
+    magrittr
 URL: https://github.com/marinebon/nms4r
 BugReports: https://github.com/marinebon/nms4r/issues
 VignetteBuilder: knitr
