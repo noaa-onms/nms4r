@@ -4,7 +4,12 @@
 \alias{md_caption}
 \title{Generate the caption for a figure}
 \usage{
-md_caption(title, md = here::here("modals/_captions.md"), get_details = F)
+md_caption(
+  title,
+  md = here::here("modals/_captions.md"),
+  get_details = F,
+  fig_in_report = T
+)
 }
 \arguments{
 \item{title}{The name of a figure.}
@@ -12,6 +17,8 @@ md_caption(title, md = here::here("modals/_captions.md"), get_details = F)
 \item{md}{The md file containing the list of captions.}
 
 \item{get_details}{A Boolean variable indicating whether a short or expanded caption is required.}
+
+\item{fig_in_report}{A Boolean variable indicating whether the figure described in the caption is present in the condition report.}
 }
 \value{
 A string containing the caption, with html tags inserted.

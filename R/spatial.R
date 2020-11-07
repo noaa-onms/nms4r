@@ -858,12 +858,13 @@ map_nms_sites <- function(nms){
 #' @param title The name of a figure.
 #' @param md The md file containing the list of captions.
 #' @param get_details A Boolean variable indicating whether a short or expanded caption is required.
+#' @param fig_in_report A Boolean variable indicating whether the figure described in the caption is present in the condition report.
 #' @return A string containing the caption, with html tags inserted.
 #' @export
 #' @import tibble dplyr stringr glue tidyr
 #' @examples md_caption("Figure Ux.Ocean.SST.ERD.map.", get_details = T)
 #'
-md_caption <- function(title, md = here::here("modals/_captions.md"), get_details = F){
+md_caption <- function(title, md = here::here("modals/_captions.md"), get_details = F, fig_in_report = T){
 
   stopifnot(file.exists(md))
 
@@ -916,11 +917,15 @@ md_caption <- function(title, md = here::here("modals/_captions.md"), get_detail
     title<- substring(title,0,nchar(title)-1)
   }
 
-  # Append figure title (like App.F.13.2) to the end of expanded figure caption and add link to condition report
+  # If figure is in condition report, append figure title (like App.F.13.2) to the
+  # end of expanded figure caption and add link to condition report
 
-  expanded_caption = paste('<details>\n  <summary>Click for Details</summary>\n\\1 For more information, consult', title,
+  if (fig_in_report == T) {
+    expanded_caption = paste('<details>\n  <summary>Click for Details</summary>\n\\1 For more information, consult', title,
                            'in the [CINMS 2016 Condition Report](https://nmssanctuaries.blob.core.windows.net/sanctuaries-prod/media/docs/2016-condition-report-channel-islands-nms.pdf){target="_blank"}.</details>')
-
+  } else {
+    expanded_caption = '<details>\n  <summary>Click for Details</summary>\n\\1</details>'
+  }
   details_md <- tbl %>%
     dplyr::filter(is_details) %>%
     dplyr::filter(ln != "") %>%
