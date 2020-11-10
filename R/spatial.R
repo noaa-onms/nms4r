@@ -306,13 +306,12 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
 #' by rendering the rmd using both the markdown and rmd2html approaches and then rewriting
 #' the <head> section of the rmd2html version with the markdown version.
 #'
-#' @param nms The NMS sanctuary, with only "cinms" currently doing anything.
 #' @param target_rmd The R markdown file to be rendered
 #' @return The function outputs a html file that is the rendered version of the input rmd file.
 #' @export
 #' @examples generate_html_4_rmd("cinms", "/Users/jai/Documents/nms4r/cinms/modals/tar.Rmd")
 #'
-generate_html_4_rmd <- function (nms, target_rmd){
+generate_html_4_rmd <- function (target_rmd){
 
   # the following mini-function where_is_head has two simple purposes. When fed in a html file, which has already been brought in
   # to R via readLines, the function will tell you the line number of the html file that contains "</html>" and
@@ -326,68 +325,32 @@ generate_html_4_rmd <- function (nms, target_rmd){
     return(output_list)
   }
 
-  # Let's figure out where we are. In my local environment, I am in the directory for
-  # the sanctuary. In a docker container though, I won't be. So the following section of
-  # code attempts to put us in the right directory if we aren't there already.
-  location <- here::here()
-  start_point <- nchar(location) - nchar(nms) +1
-  if (!(substr(location, start_point, nchar(location)) == nms)){
-    location <- paste(location, nms, sep = "/")
-  }
-  modal_dir<- paste0(location,"/modals/")
+  # for a given rmd file, let's generate the html for it in two ways. Way 1 is via
+  # rmd2html which gives us the glossary tooltip working right (but where the interactive
+  # figures don't work). Way 2 is via render which gives us the interactive figures working
+  # right (but where the glossary tooltip doesn't work)
+  rmd2html(target_rmd)
+  rmarkdown::render(target_rmd, output_file = paste(modal_dir, "temp_file.html", sep ="/"))
 
-  # Now, let's generate a list of rmd files that need to be worked on.
-  if (nms == "cinms"){
-    interactive_rmd <- c("algal-groups.Rmd",
-                         "barnacles.Rmd",
-                         "deep-seafloor_key-climate-ocean.Rmd",
-                         "forage-assemblage.Rmd",
-                         "forage-fish.Rmd",
-                         "forage-inverts.Rmd",
-                         "kelp-forest_key-climate-ocean.Rmd",
-                         "key-climate-ocean.Rmd",
-                         "mussels.Rmd",
-                         "ochre-stars.Rmd",
-                         "pelagic_key-climate-ocean.Rmd",
-                         "rocky-map.Rmd",
-                         "rocky-shore_key-climate-ocean.Rmd",
-                         "sandy-beach_key-climate-ocean.Rmd",
-                         "sandy-seafloor_key-climate-ocean.Rmd",
-                         "tar.Rmd")
-  }
+  # We want both the interactive figures and the glossary tooltip working in the html. The way to do
+  # that is to grab everything in the <head> section of the html produced by render and then
+  # to replace the <head> section of the html produced by rmd2html with that. The first step
+  # here is to read in the two html files
+  target_html <- gsub("Rmd", "html", target_rmd)
+  target_lines  <- readLines(target_html)
+  replacement_path <- paste0(modal_dir,"temp_file.html")
+  replacement_lines <- readLines(replacement_path)
 
-  oceano_Rmds<-paste0(modal_dir, interactive_rmd)
+  # Next, let's figure out where the <head> section ends in each html file
+  target_location <- where_is_head(target_lines)
+  replacement_location <-where_is_head(replacement_lines)
 
-  # let's go through every rmd file to be worked on
-  for (i in 1:length(oceano_Rmds)){
-    # for a given rmd file, let's generate the html for it in two ways. Way 1 is via
-    # rmd2html which gives us the glossary tooltip working right (but where the interactive
-    # figures don't work). Way 2 is via render which gives us the interactive figures working
-    # right (but where the glossary tooltip doesn't work)
-    target_rmd<- oceano_Rmds[i] #  "/Users/jai/Documents/cinms/modals/key-climate-ocean.Rmd"
-    rmd2html(target_rmd)
-    rmarkdown::render(target_rmd, output_file = paste(modal_dir, "temp_file.html", sep ="/"))
+  # Now, let's replace the <head> section and save the new version of the html
+  output_file = c(replacement_lines[1:replacement_location$head_line],target_lines[(target_location$head_line+1):target_location$total_lines])
+  write(output_file, file = target_html)
 
-    # We want both the interactive figures and the glossary tooltip working in the html. The way to do
-    # that is to grab everything in the <head> section of the html produced by render and then
-    # to replace the <head> section of the html produced by rmd2html with that. The first step
-    # here is to read in the two html files
-    target_html <- gsub("Rmd", "html", target_rmd)
-    target_lines  <- readLines(target_html)
-    replacement_path <- paste0(modal_dir,"temp_file.html")
-    replacement_lines <- readLines(replacement_path)
-
-    # Next, let's figure out where the <head> section ends in each html file
-    target_location <- where_is_head(target_lines)
-    replacement_location <-where_is_head(replacement_lines)
-
-    # Now, let's replace the <head> section and save the new version of the html
-    output_file = c(replacement_lines[1:replacement_location$head_line],target_lines[(target_location$head_line+1):target_location$total_lines])
-    write(output_file, file = target_html)
-
-    # let's delete the temp html file that we created
-    file.remove(paste(modal_dir, "temp_file.html", sep ="/"))
-  }
+  # let's delete the temp html file that we created
+  file.remove(paste(modal_dir, "temp_file.html", sep ="/"))
 }
 
 

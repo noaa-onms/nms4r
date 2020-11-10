@@ -4,11 +4,9 @@
 \alias{generate_html_4_rmd}
 \title{Generate the html for R markdown files}
 \usage{
-generate_html_4_rmd(nms, target_rmd)
+generate_html_4_rmd(target_rmd)
 }
 \arguments{
-\item{nms}{The NMS sanctuary, with only "cinms" currently doing anything.}
-
 \item{target_rmd}{The R markdown file to be rendered}
 }
 \value{
