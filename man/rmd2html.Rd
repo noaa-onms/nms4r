@@ -14,7 +14,8 @@ The output is a html file that is the rendered rmd file.
 }
 \description{
 This function creates all of the html for a R markdown file, inserting in the
-glossary tooltips.
+glossary tooltips. Note that this function will break html that contains interactive
+figures, as most of the required javascript won't be loaded into the html <head>.
 }
 \examples{
 rmd2html(here::here("modals/ca-sheephead.Rmd"))
