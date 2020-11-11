@@ -39,6 +39,7 @@ Imports:
     sf,
     shiny,
     tidyverse,
+    tools,
     units,
     xts,
     magrittr

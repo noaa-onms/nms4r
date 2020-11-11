@@ -4,10 +4,12 @@
 \alias{generate_html_4_rmd}
 \title{Generate the html for R markdown files}
 \usage{
-generate_html_4_rmd(target_rmd)
+generate_html_4_rmd(target_rmd, nms = "cinms")
 }
 \arguments{
 \item{target_rmd}{The R markdown file to be rendered}
+
+\item{nms}{The NMS sanctuary, with only "cinms" currently doing anything.}
 }
 \value{
 The function outputs a html file that is the rendered version of the input rmd file.
@@ -26,6 +28,6 @@ by rendering the rmd using both the markdown and rmd2html approaches and then re
 the <head> section of the rmd2html version with the markdown version.
 }
 \examples{
-generate_html_4_rmd("cinms", "/Users/jai/Documents/nms4r/cinms/modals/tar.Rmd")
+generate_html_4_rmd(here::here("modals/tar.Rmd"))
 
 }

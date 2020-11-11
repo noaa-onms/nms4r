@@ -307,11 +307,12 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
 #' the <head> section of the rmd2html version with the markdown version.
 #'
 #' @param target_rmd The R markdown file to be rendered
+#' @param nms The NMS sanctuary, with only "cinms" currently doing anything.
 #' @return The function outputs a html file that is the rendered version of the input rmd file.
 #' @export
-#' @examples generate_html_4_rmd("cinms", "/Users/jai/Documents/nms4r/cinms/modals/tar.Rmd")
+#' @examples generate_html_4_rmd(here::here("modals/tar.Rmd"))
 #'
-generate_html_4_rmd <- function (target_rmd){
+generate_html_4_rmd <- function (target_rmd, nms = "cinms"){
 
   # the following mini-function where_is_head has two simple purposes. When fed in a html file, which has already been brought in
   # to R via readLines, the function will tell you the line number of the html file that contains "</html>" and
@@ -324,6 +325,16 @@ generate_html_4_rmd <- function (target_rmd){
     output_list <- list("total_lines" = length(input_lines), "head_line" = i)
     return(output_list)
   }
+
+  # Let's figure out where we are. In my local environment, I am in the directory for
+  # the sanctuary. In a docker container though, I won't be. So the following section of
+  # code attempts to put us in the right directory if we aren't there already.
+  location <- here::here()
+  start_point <- nchar(location) - nchar(nms) +1
+  if (!(substr(location, start_point, nchar(location)) == nms)){
+    location <- paste(location, nms, sep = "/")
+  }
+  modal_dir<- paste0(location,"/modals/")
 
   # for a given rmd file, let's generate the html for it in two ways. Way 1 is via
   # rmd2html which gives us the glossary tooltip working right (but where the interactive
@@ -351,162 +362,6 @@ generate_html_4_rmd <- function (target_rmd){
 
   # let's delete the temp html file that we created
   file.remove(paste(modal_dir, "temp_file.html", sep ="/"))
-}
-
-
-
-#' Generate the html for rmd files with interactive figures
-#'
-#' Rmd files with interactive figures present a special problem in terms of rendering
-#' them into html. The problem is that, if one uses the markdown library to
-#' create the html, the figures will turn out fine but the glossary tooltip functionality
-#' will be missing. This tooltip functionality is created by the function rmd2html,
-#' described in this package. If one uses rmd2html to render a rmd file containing
-#' interactive figures, the tooltips will turn out fine but the figures won't show
-#' up. The problem with rmd2html is that the appropriate javascript libraries are
-#' not loaded into the resulting <head> section of the final html. This function
-#' solves the problem (thereby producing html with both working figures and tooltips)
-#' by rendering the rmd using both the markdown and rmd2html approaches and then rewriting
-#' the <head> section of the rmd2html version with the markdown version.
-#'
-#' @param nms The NMS sanctuary, with only "cinms" currently doing anything.
-#' @return The function outputs a html file for every rmd file containing interactive figures.
-#' @export
-#' @examples generate_html_4_interactive_rmd("cinms")
-#'
-generate_html_4_interactive_rmd <- function (nms){
-
-  # the following mini-function where_is_head has two simple purposes. When fed in a html file, which has already been brought in
-  # to R via readLines, the function will tell you the line number of the html file that contains "</html>" and
-  # the total number of lines in the file
-  where_is_head <-function(input_lines){
-    i<-1
-    while (!(input_lines[i]=="</head>")){
-      i <-i + 1
-    }
-    output_list <- list("total_lines" = length(input_lines), "head_line" = i)
-    return(output_list)
-  }
-
-  # Let's figure out where we are. In my local environment, I am in the directory for
-  # the sanctuary. In a docker container though, I won't be. So the following section of
-  # code attempts to put us in the right directory if we aren't there already.
-  location <- here::here()
-  start_point <- nchar(location) - nchar(nms) +1
-  if (!(substr(location, start_point, nchar(location)) == nms)){
-    location <- paste(location, nms, sep = "/")
-  }
-  modal_dir<- paste0(location,"/modals/")
-
-  # Now, let's generate a list of rmd files that need to be worked on.
-  if (nms == "cinms"){
-    interactive_rmd <- c("algal-groups.Rmd",
-    "barnacles.Rmd",
-    "deep-seafloor_key-climate-ocean.Rmd",
-    "forage-assemblage.Rmd",
-    "forage-fish.Rmd",
-    "forage-inverts.Rmd",
-    "kelp-forest_key-climate-ocean.Rmd",
-    "key-climate-ocean.Rmd",
-    "mussels.Rmd",
-    "ochre-stars.Rmd",
-    "pelagic_key-climate-ocean.Rmd",
-    "rocky-map.Rmd",
-    "rocky-shore_key-climate-ocean.Rmd",
-    "sandy-beach_key-climate-ocean.Rmd",
-    "sandy-seafloor_key-climate-ocean.Rmd",
-    "tar.Rmd")
-  }
-
-  oceano_Rmds<-paste0(modal_dir, interactive_rmd)
-
-  # let's go through every rmd file to be worked on
-  for (i in 1:length(oceano_Rmds)){
-    # for a given rmd file, let's generate the html for it in two ways. Way 1 is via
-    # rmd2html which gives us the glossary tooltip working right (but where the interactive
-    # figures don't work). Way 2 is via render which gives us the interactive figures working
-    # right (but where the glossary tooltip doesn't work)
-    target_rmd<- oceano_Rmds[i] #  "/Users/jai/Documents/cinms/modals/key-climate-ocean.Rmd"
-    rmd2html(target_rmd)
-    rmarkdown::render(target_rmd, output_file = paste(modal_dir, "temp_file.html", sep ="/"))
-
-    # We want both the interactive figures and the glossary tooltip working in the html. The way to do
-    # that is to grab everything in the <head> section of the html produced by render and then
-    # to replace the <head> section of the html produced by rmd2html with that. The first step
-    # here is to read in the two html files
-    target_html <- gsub("Rmd", "html", target_rmd)
-    target_lines  <- readLines(target_html)
-    replacement_path <- paste0(modal_dir,"temp_file.html")
-    replacement_lines <- readLines(replacement_path)
-
-    # Next, let's figure out where the <head> section ends in each html file
-    target_location <- where_is_head(target_lines)
-    replacement_location <-where_is_head(replacement_lines)
-
-    # Now, let's replace the <head> section and save the new version of the html
-    output_file = c(replacement_lines[1:replacement_location$head_line],target_lines[(target_location$head_line+1):target_location$total_lines])
-    write(output_file, file = target_html)
-
-    # let's delete the temp html file that we created
-    file.remove(paste(modal_dir, "temp_file.html", sep ="/"))
-  }
-}
-
-#' Generate the html for rmd files with non-interactive figures
-#'
-#' The purpose of this function is to insert the glossary tooltips into the html
-#' for a rmd file (not containing interactive figures, which are dealt with by another
-#' function as they present special complications). The function works by converting
-#' a rmd file to a markdown file, inserting the relevant tooltip tags and scripts
-#' into that markdown file, and then creating a html file from that markdown file.
-#'
-#' @param nms The NMS sanctuary with only "cinms" currently doing anything.
-#' @return The function outputs a html file for every rmd file not containing interactive figures.
-#' @examples generate_html_4_noninteractive_rmd("cinms")
-#'
-generate_html_4_noninteractive_rmd <- function (nms){
-
-  # Let's figure out where we are. In my local environment, I am in the directory for
-  # the sanctuary. In a docker container though, I won't be. So the following section of
-  # code attempts to put us in the right directory if we aren't there already.
-  location <- here::here()
-  start_point <- nchar(location) - nchar(nms) +1
-  if (!(substr(location, start_point, nchar(location)) == nms)){
-    location <- paste(location, nms, sep = "/")
-  }
-  modal_dir<- paste0(location,"/modals/")
-
-  # let's get a list of all rmd files in the directory
-  modal_list<-list.files(path = modal_dir, pattern = ".Rmd", ignore.case = TRUE)
-
-  # Now, let's generate a list of rmd files that need to be skipped.
-  if (nms == "cinms"){
-    skip_rmd <- c("_key-climate-ocean.Rmd",
-      "algal-groups.Rmd",
-      "barnacles.Rmd",
-      "deep-seafloor_key-climate-ocean.Rmd",
-      "forage-assemblage.Rmd",
-      "forage-fish.Rmd",
-      "forage-inverts.Rmd",
-      "kelp-forest_key-climate-ocean.Rmd",
-      "key-climate-ocean.Rmd",
-      "mussels.Rmd",
-      "ochre-stars.Rmd",
-      "pelagic_key-climate-ocean.Rmd",
-      "rocky-map.Rmd",
-      "rocky-shore_key-climate-ocean.Rmd",
-      "sandy-beach_key-climate-ocean.Rmd",
-      "sandy-seafloor_key-climate-ocean.Rmd",
-      "tar.Rmd")
-    }
-  # Let's create the final list of non=interactive rmd files to be rendered
-  oceano_Rmds<-setdiff(modal_list, skip_rmd)
-  oceano_Rmds<-paste0(modal_dir,oceano_Rmds)
-
-  # let's render every rmd file to be worked on
-  for (i in 1:length(oceano_Rmds)){
-    rmd2html(oceano_Rmds[i])
-  }
 }
 
 #' Get date range for an ERDDAP data set
@@ -1313,6 +1168,113 @@ read_csv_fmt <- function(csv, erddap_format = "csv"){
   d
 }
 
+#' Render all rmd files in the modals folder
+#'
+#' @param nms The NMS sanctuary with only "cinms" currently doing anything.
+#' @param interactive_only A Boolean variable indicating whether only rmd files containing interactive figures should be rendered.
+#' @export
+#' @return The function outputs a html file for every rmd file in the modals folder.
+#' @examples render_all_rmd(interactive_only = T)
+#'
+render_all_rmd <- function (nms = "cinms", interactive_only = F){
+
+  # Let's figure out where we are. In my local environment, I am in the directory for
+  # the sanctuary. In a docker container though, I won't be. So the following section of
+  # code attempts to put us in the right directory if we aren't there already.
+  location <- here::here()
+  start_point <- nchar(location) - nchar(nms) +1
+  if (!(substr(location, start_point, nchar(location)) == nms)){
+    location <- paste(location, nms, sep = "/")
+  }
+  modal_dir<- paste0(location,"/modals/")
+
+  # let's get a list of all rmd files in the directory
+  modal_list<-list.files(path = modal_dir, pattern = ".Rmd", ignore.case = TRUE)
+
+  # Now, let's generate a list of rmd files that need to be skipped.
+  if (nms == "cinms"){
+    interactive_rmd <- c("algal-groups.Rmd",
+                         "barnacles.Rmd",
+                         "deep-seafloor_key-climate-ocean.Rmd",
+                         "forage-assemblage.Rmd",
+                         "forage-fish.Rmd",
+                         "forage-inverts.Rmd",
+                         "kelp-forest_key-climate-ocean.Rmd",
+                         "key-climate-ocean.Rmd",
+                         "mussels.Rmd",
+                         "ochre-stars.Rmd",
+                         "pelagic_key-climate-ocean.Rmd",
+                         "rocky-map.Rmd",
+                         "rocky-shore_key-climate-ocean.Rmd",
+                         "sandy-beach_key-climate-ocean.Rmd",
+                         "sandy-seafloor_key-climate-ocean.Rmd",
+                         "tar.Rmd")
+  }
+
+  if (interactive_only==T) {
+    modal_list <-interactive_rmd
+  }
+
+  modal_list<-paste0(modal_dir,modal_list)
+
+  # The following section of code checks to see if there has been any change to
+  # the google spreadsheet cinms_content. If there has, we'll want to render all of the modal
+  # windows to account for changes to cinms_content
+
+  # Let's set a flag for whether the spreadsheet has changed
+  cinms_content_changed = FALSE
+
+  if (interactive_only==F) { # We only want to go through this process if we are going through every rmd file
+    # The sheets of the google spreadsheet
+    sheet_names <- c("info_modal_links", "info_figure_links", "glossary")
+
+    #The url of the google spreadsheet
+    cinms_content_url = "https://docs.google.com/spreadsheets/d/1yEuI7BT9fJEcGAFNPM0mCq16nFsbn0b-bNirYPU5W8c/gviz/tq?tqx=out:csv&sheet="
+
+    # Let's go through all three sheets
+    for (i in 1:3){
+
+      # Save the new version of the sheet
+      sheet_url = paste0(cinms_content_url, sheet_names[i])
+      new_sheet <- read.csv(sheet_url)
+      new_filename <- paste0(here("data/saved_cinms_content/new_"),sheet_names[i], ".csv")
+      write.csv(new_sheet, file = new_filename)
+
+      # Check to see if the new version of the sheet matches the saved version, if it doesn't
+      # change cinms_content_changed to TRUE
+      saved_filename <- paste0(here("data/saved_cinms_content/saved_"),sheet_names[i], ".csv")
+
+      if (tools::md5sum(new_filename) != tools::md5sum(saved_filename)){
+        cinms_content_changed = TRUE
+        file.copy(new_filename, saved_filename, overwrite = TRUE)
+      }
+      file.remove (new_filename)
+    }
+  }
+
+  # let's go through every rmd file to be worked on
+  for (i in 1:length(modal_list)){
+
+    # let's check if the rmd file has changed since the last rendered version of
+    # the html was created
+
+    htm <- fs::path_ext_set(modal_list[i], "html")
+    if (file.exists(htm)){
+      rmd_newer <- fs::file_info(modal_list[i])$modification_time > fs::file_info(htm)$modification_time
+    } else {
+      rmd_newer <- T
+    }
+
+    # Render the modal window if the associated google spreadsheet has changed or
+    # if the modal window contains interactive figures or if the Rmd file has been
+    # recently modified
+
+    if (rmd_newer | cinms_content_changed | basename(modal_list[i]) %in% interactive_rmd){
+      generate_html_4_rmd(modal_list[i])
+    }
+  }
+}
+
 #' Produce full html for static figures, minus tooltips.
 #'
 #' This is a function that generates the html to display a static figure and the
@@ -1328,28 +1290,12 @@ read_csv_fmt <- function(csv, erddap_format = "csv"){
 render_figure <- function(figure_id, figure_img){
   glue::glue(
     "
-  {nms4r::get_figure_info(figure_id)}
+  {get_figure_info(figure_id)}
 
-  ![{nms4r::md_caption(figure_id)}]({figure_img})
+  ![{md_caption(figure_id)}]({figure_img})
 
-  {nms4r::md_caption(figure_id, get_details=T)}
+  {md_caption(figure_id, get_details=T)}
   ")
-}
-
-#' Render html for all R Markdown files in modal directory
-#'
-#' This function generates the full html, including tooltips, for all R markdown
-#' files in the modal directory.
-#'
-#' @param NMS the NMS sanctuary
-#'
-#' @return This function outputs html files for most rmd files in the modal directory.
-#' @export
-#' @examples render_modal_windows("cinms")
-#'
-render_modal_windows <- function (NMS) {
-  generate_html_4_noninteractive_rmd(NMS)
-  generate_html_4_interactive_rmd(NMS)
 }
 
 #' Render html for rmd file, including glossary tooltips.
@@ -1359,6 +1305,7 @@ render_modal_windows <- function (NMS) {
 #' figures, as most of the required javascript won't be loaded into the html <head>.
 #'
 #' @param rmd The R markdown file to be rendered into html.
+#' @export
 #' @return The output is a html file that is the rendered rmd file.
 #' @examples rmd2html(here::here("modals/ca-sheephead.Rmd"))
 rmd2html <- function(rmd){
