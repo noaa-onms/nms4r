@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Insert tooltips into text — insert_tooltip • nms4r</title>
+<title>Generate the html for R markdown files — generate_html_4_rmd • nms4r</title>
 
 
 <!-- jquery -->
@@ -39,12 +39,18 @@
 
 
 
-<meta property="og:title" content="Insert tooltips into text — insert_tooltip" />
-<meta property="og:description" content="The purpose of the following function is, for a provided section of text, to
-insert the required tooltip css around a provided glossary term. The function
-preserves the pattern of capitalization of the glossary term that already exists.
-This function is used by the function glossarize_md also described in this
-package." />
+<meta property="og:title" content="Generate the html for R markdown files — generate_html_4_rmd" />
+<meta property="og:description" content="Rmd files with interactive figures present a special problem in terms of rendering
+them into html. The problem is that, if one uses the markdown library to
+create the html, the figures will turn out fine but the glossary tooltip functionality
+will be missing. This tooltip functionality is created by the function rmd2html,
+described in this package. If one uses rmd2html to render a rmd file containing
+interactive figures, the tooltips will turn out fine but the figures won't show
+up. The problem with rmd2html is that the appropriate javascript libraries are
+not loaded into the resulting &amp;lt;head&amp;gt; section of the final html. This function
+solves the problem (thereby producing html with both working figures and tooltips)
+by rendering the rmd using both the markdown and rmd2html approaches and then rewriting
+the &amp;lt;head&amp;gt; section of the rmd2html version with the markdown version." />
 
 
 
@@ -124,42 +130,48 @@ package." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Insert tooltips into text</h1>
+    <h1>Generate the html for R markdown files</h1>
     <small class="dont-index">Source: <a href='https://github.com/marinebon/nms4r/blob/master/R/spatial.R'><code>R/spatial.R</code></a></small>
-    <div class="hidden name"><code>insert_tooltip.Rd</code></div>
+    <div class="hidden name"><code>generate_html_4_rmd.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The purpose of the following function is, for a provided section of text, to
-insert the required tooltip css around a provided glossary term. The function
-preserves the pattern of capitalization of the glossary term that already exists.
-This function is used by the function glossarize_md also described in this
-package.</p>
+    <p>Rmd files with interactive figures present a special problem in terms of rendering
+them into html. The problem is that, if one uses the markdown library to
+create the html, the figures will turn out fine but the glossary tooltip functionality
+will be missing. This tooltip functionality is created by the function rmd2html,
+described in this package. If one uses rmd2html to render a rmd file containing
+interactive figures, the tooltips will turn out fine but the figures won't show
+up. The problem with rmd2html is that the appropriate javascript libraries are
+not loaded into the resulting &lt;head&gt; section of the final html. This function
+solves the problem (thereby producing html with both working figures and tooltips)
+by rendering the rmd using both the markdown and rmd2html approaches and then rewriting
+the &lt;head&gt; section of the rmd2html version with the markdown version.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>insert_tooltip</span><span class='op'>(</span><span class='va'>text</span>, <span class='va'>glossary_term</span>, <span class='va'>span_css</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>generate_html_4_rmd</span><span class='op'>(</span><span class='va'>target_rmd</span>, nms <span class='op'>=</span> <span class='st'>"cinms"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>text</th>
-      <td><p>The section of text where tooltips are to be added.</p></td>
+      <th>target_rmd</th>
+      <td><p>The R markdown file to be rendered</p></td>
     </tr>
     <tr>
-      <th>glossary_term</th>
-      <td><p>The glossary term to be looked for.</p></td>
-    </tr>
-    <tr>
-      <th>span_css</th>
-      <td><p>The css tags to add before the glossary term.</p></td>
+      <th>nms</th>
+      <td><p>The NMS sanctuary, with only "cinms" currently doing anything.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The function outputs a string containing the text section with html tags inserted.</p>
+    <p>The function outputs a html file that is the rendered version of the input rmd file.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>generate_html_4_rmd</span><span class='op'>(</span><span class='fu'>here</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/here/man/here.html'>here</a></span><span class='op'>(</span><span class='st'>"modals/tar.Rmd"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: path[1]="/Users/jai/Documents/nms4r/modals/tar.Rmd": No such file or directory</span></div><div class='output co'>#&gt; <span class='error'>Error in abs_path(input): The file '/Users/jai/Documents/nms4r/modals/tar.Rmd' does not exist.</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

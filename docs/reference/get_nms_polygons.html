@@ -133,7 +133,7 @@ extract zip, cache shapefile or read existing shapefile." />
 extract zip, cache shapefile or read existing shapefile.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_nms_polygons</span>(<span class='no'>nms</span>)</pre>
+    <pre class="usage"><span class='fu'>get_nms_polygons</span><span class='op'>(</span><span class='va'>nms</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,17 +149,9 @@ extract zip, cache shapefile or read existing shapefile.</p>
     <p>The function returns a sf object containing the polygons of a sanctuary.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_nms_polygons</span>(<span class='st'>"cinms"</span>)</div><div class='output co'>#&gt; Simple feature collection with 2 features and 4 fields
-#&gt; geometry type:  POLYGON
-#&gt; dimension:      XY
-#&gt; bbox:           xmin: -120.6421 ymin: 33.36241 xmax: -118.9071 ymax: 34.20707
-#&gt; geographic CRS: WGS 84
-#&gt; <span style='color: #555555;'># A tibble: 2 x 5</span><span>
-#&gt;   SANCTUARY AREA_NAME     POLY_ID DATUM                                 geometry
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                            </span><span style='color: #555555;font-style: italic;'>&lt;POLYGON [°]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> CINMS     Santa Barbar…       2 NAD83 ((-119.0367 33.3632, -119.0481 33.36241…
-#&gt; </span><span style='color: #555555;'>2</span><span> CINMS     Northern Sec…       1 NAD83 ((-120.418 34.20707, -120.3883 34.20492…</div><div class='input'>
-</div></span></pre>
+    <pre class="examples"><div class='input'><span class='fu'>get_nms_polygons</span><span class='op'>(</span><span class='st'>"cinms"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: URL https://sanctuaries.noaa.gov/library/imast/cinms_py2.zip: cannot open destfile '/Users/jai/Documents/nms4r/cinms/data/cinms.zip', reason 'No such file or directory'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: download had nonzero exit status</span></div><div class='output co'>#&gt; <span class='warning'>Warning: error 1 in extracting from zip file</span></div><div class='output co'>#&gt; <span class='error'>Error in file_delete(nms_zip): could not find function "file_delete"</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -175,7 +167,7 @@ extract zip, cache shapefile or read existing shapefile.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
