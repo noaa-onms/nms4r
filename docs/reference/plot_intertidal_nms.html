@@ -131,18 +131,18 @@ Monitoring program." />
 Monitoring program.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_intertidal_nms</span><span class='op'>(</span>
-  <span class='va'>d_csv</span>,
-  <span class='va'>NMS</span>,
-  <span class='va'>spp</span>,
-  <span class='va'>sp_name</span>,
-  <span class='va'>nms_rgns</span>,
-  spp_targets <span class='op'>=</span> <span class='cn'>NULL</span>,
-  fld_val <span class='op'>=</span> <span class='st'>"pct_cover"</span>,
-  label_y <span class='op'>=</span> <span class='st'>"Annual Mean Percent Cover (%)"</span>,
-  label_x <span class='op'>=</span> <span class='st'>"Year"</span>,
-  nms_skip_regions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"OCNMS"</span>, <span class='st'>"MBNMS"</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plot_intertidal_nms</span>(
+  <span class='no'>d_csv</span>,
+  <span class='no'>NMS</span>,
+  <span class='no'>spp</span>,
+  <span class='no'>sp_name</span>,
+  <span class='no'>nms_rgns</span>,
+  <span class='kw'>spp_targets</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>fld_val</span> <span class='kw'>=</span> <span class='st'>"pct_cover"</span>,
+  <span class='kw'>label_y</span> <span class='kw'>=</span> <span class='st'>"Annual Mean Percent Cover (%)"</span>,
+  <span class='kw'>label_x</span> <span class='kw'>=</span> <span class='st'>"Year"</span>,
+  <span class='kw'>nms_skip_regions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"OCNMS"</span>, <span class='st'>"MBNMS"</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,16 +194,13 @@ Monitoring program.</p>
     <p>This function returns a dygraph object of the plotted time series data.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>nms</span> <span class='op'>&lt;-</span> <span class='st'>"cinms"</span>
-<span class='va'>d_csv</span> <span class='op'>&lt;-</span> <span class='st'>"/Volumes/GoogleDrive/Shared drives/NMS/data/github_info-intertidal_data/sanctuary_species_percentcover.csv"</span>
-<span class='va'>nms_rgns_csv</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>dir_pfx</span>, <span class='st'>"MARINe_graphs.xlsx - sites in regions.csv"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in file.path(dir_pfx, "MARINe_graphs.xlsx - sites in regions.csv"): object 'dir_pfx' not found</span></div><div class='input'><span class='va'>nms_rgns1</span> <span class='op'>&lt;-</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='va'>nms_rgns_csv</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>tidyr</span><span class='fu'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/fill.html'>fill</a></span><span class='op'>(</span><span class='va'>nms</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>nms</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>tidyr</span><span class='fu'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/fill.html'>fill</a></span><span class='op'>(</span><span class='va'>region</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>rgn <span class='op'>=</span> <span class='va'>region</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in is.connection(x): object 'nms_rgns_csv' not found</span></div><div class='input'><span class='fu'>plot_intertidal_nms</span><span class='op'>(</span><span class='va'>d_csv</span>, <span class='st'>"CINMS"</span>, <span class='st'>"MYTCAL"</span>, <span class='st'>"California Mussels"</span>, <span class='va'>nms_rgns1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'></span>
+    <pre class="examples"><div class='input'><span class='no'>nms</span> <span class='kw'>&lt;-</span> <span class='st'>"cinms"</span>
+<span class='no'>d_csv</span> <span class='kw'>&lt;-</span> <span class='st'>"/Volumes/GoogleDrive/Shared drives/NMS/data/github_info-intertidal_data/sanctuary_species_percentcover.csv"</span>
+<span class='no'>nms_rgns_csv</span>    <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>dir_pfx</span>, <span class='st'>"MARINe_graphs.xlsx - sites in regions.csv"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in file.path(dir_pfx, "MARINe_graphs.xlsx - sites in regions.csv"): object 'dir_pfx' not found</span></div><div class='input'><span class='no'>nms_rgns1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>readr</span><span class='kw ns'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span>(<span class='no'>nms_rgns_csv</span>) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>tidyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/fill.html'>fill</a></span>(<span class='no'>nms</span>) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>nms</span>) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>tidyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/fill.html'>fill</a></span>(<span class='no'>region</span>) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>rgn</span> <span class='kw'>=</span> <span class='no'>region</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.connection(x): object 'nms_rgns_csv' not found</span></div><div class='input'><span class='fu'>plot_intertidal_nms</span>(<span class='no'>d_csv</span>, <span class='st'>"CINMS"</span>, <span class='st'>"MYTCAL"</span>, <span class='st'>"California Mussels"</span>, <span class='no'>nms_rgns1</span>)</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'><span style='color: #00BBBB;'>──</span><span> </span><span style='font-weight: bold;'>Column specification</span><span> </span><span style='color: #00BBBB;'>────────────────────────────────────────────────────────</span><span></span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  site = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
@@ -229,7 +226,7 @@ Monitoring program.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

@@ -131,7 +131,7 @@ for a given year and month." />
 for a given year and month.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ply2erddap</span><span class='op'>(</span><span class='va'>sanctuary_code</span>, <span class='va'>erddap_id</span>, <span class='va'>erddap_fld</span>, <span class='va'>year</span>, <span class='va'>month</span>, <span class='va'>stats</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>ply2erddap</span>(<span class='no'>sanctuary_code</span>, <span class='no'>erddap_id</span>, <span class='no'>erddap_fld</span>, <span class='no'>year</span>, <span class='no'>month</span>, <span class='no'>stats</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,9 +167,9 @@ for a given year and month.</p>
     <p>A list of values by statistic.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>ply2erddap</span><span class='op'>(</span><span class='st'>"cinms"</span>, <span class='st'>"jplMURSST41mday"</span>, <span class='st'>"sst"</span>, year <span class='op'>=</span> <span class='fl'>2010</span>, month <span class='op'>=</span> <span class='fl'>6</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mean"</span>, <span class='st'>"sd"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: CRS object has comment, which is lost in output</span></div><div class='output co'>#&gt; <span class='message'>info() output passed to x; setting base url to: https://upwell.pfeg.noaa.gov/erddap/</span></div><div class='output co'>#&gt;      mean        sd 
-#&gt; 15.523618  1.259373 </div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'>ply2erddap</span>(<span class='st'>"cinms"</span>, <span class='st'>"jplMURSST41mday"</span>, <span class='st'>"sst"</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2010</span>, <span class='kw'>month</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mean"</span>, <span class='st'>"sd"</span>))
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -185,7 +185,7 @@ for a given year and month.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

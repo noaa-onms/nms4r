@@ -1036,8 +1036,10 @@ plot_metric_timeseries <- function(csv, metric, ...){
 #' @return A list of values by statistic.
 #' @export
 #' @examples
+#' \dontrun{
 #' ply2erddap("cinms", "jplMURSST41mday", "sst", year = 2010, month = 6, c("mean", "sd"))
-ply2erddap <- function (sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
+#' }
+ply2erddap <- function(sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
 
   # check inputs
   stopifnot(all(is.numeric(year), is.numeric(month)))

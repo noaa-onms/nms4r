@@ -133,7 +133,7 @@ glossary tooltips. Note that this function will break html that contains interac
 figures, as most of the required javascript won't be loaded into the html &lt;head&gt;.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rmd2html</span><span class='op'>(</span><span class='va'>rmd</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>rmd2html</span>(<span class='no'>rmd</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,8 +149,7 @@ figures, as most of the required javascript won't be loaded into the html &lt;he
     <p>The output is a html file that is the rendered rmd file.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>rmd2html</span><span class='op'>(</span><span class='fu'>here</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/here/man/here.html'>here</a></span><span class='op'>(</span><span class='st'>"modals/ca-sheephead.Rmd"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: path[1]="/Users/jai/Documents/nms4r/modals/ca-sheephead.Rmd": No such file or directory</span></div><div class='output co'>#&gt; <span class='error'>Error in abs_path(input): The file '/Users/jai/Documents/nms4r/modals/ca-sheephead.Rmd' does not exist.</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>rmd2html</span>(<span class='kw pkg'>here</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/here/man/here.html'>here</a></span>(<span class='st'>"modals/ca-sheephead.Rmd"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: path[1]="/Users/bbest/github/nms4r/modals/ca-sheephead.Rmd": No such file or directory</span></div><div class='output co'>#&gt; <span class='error'>Error in abs_path(input): The file '/Users/bbest/github/nms4r/modals/ca-sheephead.Rmd' does not exist.</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -166,7 +165,7 @@ figures, as most of the required javascript won't be loaded into the html &lt;he
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

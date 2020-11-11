@@ -27,5 +27,7 @@ Extract satellite data in an ERDDAP dataset from national marine sanctuary polyg
 for a given year and month.
 }
 \examples{
+\dontrun{
 ply2erddap("cinms", "jplMURSST41mday", "sst", year = 2010, month = 6, c("mean", "sd"))
+}
 }
