@@ -1,3 +1,10 @@
+articles:
+- title: nms4r Vignettes
+  navbar: ~
+  contents:
+  - Introduction
+  - HTML_Rendering
+
 reference:
 - title: CALCOFI functions
   desc: Generate figures for CALCOFI data.
