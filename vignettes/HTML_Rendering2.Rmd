@@ -1,8 +1,8 @@
 ---
-title: "HTML Rendering"
+title: "HTML Rendering2"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{HTML Rendering}
+  %\VignetteIndexEntry{HTML Rendering2}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 The process of rendering a R Markdown file to html is a multi-step process in 
-**nms4r**. The first step is to render all of the R code within the R Markdown
+**nms4r**. The initial step is to render all of the R code within the R Markdown
 file, creating a temporary Markdown file. Once that process has completed though, 
 there is a big step remaining before the html can be created from that Markdown file. 
 Namely, any words in the Markdown file that are designated as glossary terms need 

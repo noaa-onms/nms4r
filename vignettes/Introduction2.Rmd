@@ -1,8 +1,8 @@
 ---
-title: "Introduction"
+title: "Introduction2"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction}
+  %\VignetteIndexEntry{Introduction2}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,8 +17,7 @@ knitr::opts_chunk$set(
 
 ## Rendering modal windows
 
-In order to render a single modal window from R markdown to html, the function to 
-use is [generate_html_4_rmd()](../reference/generate_html_4_rmd.html). The function expects the full path of the R markdown file to be rendered, such as in the following example:
+In order to render a single modal window from R markdown to html, use the function  [generate_html_4_rmd()](../reference/generate_html_4_rmd.html). The function expects the full path of the R markdown file to be rendered, such as in the following example:
 
 ```
 generate_html_4_rmd(here::here("modals/tar.Rmd"))
