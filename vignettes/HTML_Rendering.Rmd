@@ -1,8 +1,8 @@
 ---
-title: "HTML Rendering2"
+title: "HTML Rendering"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{HTML Rendering2}
+  %\VignetteIndexEntry{HTML Rendering}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
