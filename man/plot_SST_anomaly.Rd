@@ -17,6 +17,9 @@ The purpose of this function is to plot the sea surface temperature anomaly
 data.
 }
 \examples{
+\dontrun{
 csv_SST <-here::here("data/oceano/sst_anomaly_cinms.csv")
 plot_metric_timeseries(csv_SST)
+}
+
 }

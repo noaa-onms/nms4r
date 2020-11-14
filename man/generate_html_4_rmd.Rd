@@ -28,6 +28,8 @@ by rendering the rmd using both the markdown and rmd2html approaches and then re
 the <head> section of the rmd2html version with the markdown version.
 }
 \examples{
+\dontrun{
 generate_html_4_rmd(here::here("modals/tar.Rmd"))
+}
 
 }

@@ -11,7 +11,9 @@
 #' @return The output is a csv file containing the time series anomaly data.
 #' @export
 #' @import here
-#' @examples calculate_SST_anomaly("cinms")
+#' @examples \dontrun{
+#' calculate_SST_anomaly("cinms")
+#' }
 #'
 calculate_SST_anomaly <-function(sanct) {
 
@@ -72,9 +74,10 @@ calculate_SST_anomaly <-function(sanct) {
 #' @param metric the metric being pulled from the dataset with "sst" and "chlor_a" currently defined
 #' @return The output is a csv file that contains a time series of satellite-data-derived statistics.
 #' @export
-#' @examples
+#' @examples \dontrun{
 #' calculate_statistics("cinms", "jplMURSST41mday", "sst", "avg-sst_cinms.csv")
 #' calculate_statistics("cinms", "nesdisVHNSQchlaMonthly", "chlor_a", "avg-chl_cinms.csv")
+#' }
 #'
 calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
 
@@ -170,7 +173,9 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
 #' @param info A rerddap::info() object.
 #' @return This function outputs a string vector, with the first element being the start date and the last element being the end date.
 #' @export
-#' @examples get_dates(rerddap::info('jplMURSST41mday'))
+#' @examples \dontrun{
+#' get_dates(rerddap::info('jplMURSST41mday'))
+#' }
 #'
 get_dates <- function(info){
   info$alldata$time %>%
@@ -190,7 +195,9 @@ get_dates <- function(info){
 #' @param nms The code for a national marine sanctuary.
 #' @return The function returns a sf object containing the polygons of a sanctuary.
 #' @export
-#' @examples get_nms_polygons("cinms")
+#' @examples \dontrun{
+#' get_nms_polygons("cinms")
+#' }
 #'
 get_nms_polygons <- function(nms){
   location<-here::here()
@@ -373,4 +380,31 @@ ply2erddap <- function(sanctuary_code, erddap_id, erddap_fld, year, month, stats
   out <- purrr::map_dbl(stats, get_stat, v = r_v)
   names(out) <- stats
   out
+}
+
+#' read_csv_fmt BEN
+#'
+#' description BEN
+#'
+#' @param csv BEN
+#' @param erddap_format BEN
+#' @return BEN
+#'
+read_csv_fmt <- function(csv, erddap_format = "csv"){
+  # erddap_format = "csv" # or "csvp"
+
+  stopifnot(erddap_format %in% c("csv", "csvp"))
+
+  if (erddap_format == "csv"){
+    # ERDDAP: csv format, remove units from 2nd row
+    hdr <- readr::read_csv(csv, n_max=1)
+    d <- readr::read_csv(csv, skip = 2, col_names = names(hdr))
+  }
+
+  if (erddap_format == "csvp"){
+    # ERDDAP: csvp format; remove ' (units)' suffix
+    d <- readr::read_csv(csv)
+    names(d) <- names(d) %>% stringr::str_replace(" \\(.*\\)", "")
+  }
+  d
 }

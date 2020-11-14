@@ -18,6 +18,8 @@ The function outputs a html file for every rmd file in the modals folder.
 Render all rmd files in the modals folder
 }
 \examples{
+\dontrun{
 render_all_rmd(interactive_only = T)
+}
 
 }

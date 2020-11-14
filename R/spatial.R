@@ -6,7 +6,9 @@
 #' @param nms The National Marine Sanctuary code.
 #' @return This function returns a mapview object displaying data collection sites.
 #' @export
-#' @examples map_nms_sites("cinms")
+#' @examples \dontrun{
+#' map_nms_sites("cinms")
+#' }
 #'
 map_nms_sites <- function(nms){
 
@@ -21,6 +23,8 @@ map_nms_sites <- function(nms){
   nms_ply <- get_nms_polygons(nms)
 
   if (!file.exists(sites_nms_shp)){
+    # BEN: note that the following line of code will fail because raw_csv and sites_csv
+    # aren't defined anywhere
     if (!file.exists(sites_csv)) make_sites_csv(raw_csv, sites_csv)
 
     sites_pts <- readr::read_csv(sites_csv) %>%
@@ -48,10 +52,10 @@ map_nms_sites <- function(nms){
 #'
 #' @param d_csv A csv file containing the time series data.
 #' @param NMS The National Marine Sanctuary code.
-#' @param spp BEN
-#' @param sp_name BEN
-#' @param nms_rgns BEN
-#' @param spp_targets BEN
+#' @param spp The species of interest.
+#' @param sp_name The species name used in the title of the plot.
+#' @param nms_rgns A table containing the locations within National Marine Sanctuary.
+#' @param spp_targets The species that was being looked for when the species of interest was found.
 #' @param fld_val The column of data to provide the y-axis to be plotted.
 #' @param label_y The label for the y-axis for the plot.
 #' @param label_x The label for the x-axis for the plot.
@@ -60,7 +64,7 @@ map_nms_sites <- function(nms){
 #' @export
 #' @import dplyr dygraphs glue lubridate magrittr mapview RColorBrewer readr tidyr
 #'
-#' @examples
+#' @examples \dontrun{
 #' nms <- "cinms"
 #' d_csv <- "/Volumes/GoogleDrive/Shared drives/NMS/data/github_info-intertidal_data/sanctuary_species_percentcover.csv"
 #' nms_rgns_csv    <- file.path(dir_pfx, "MARINe_graphs.xlsx - sites in regions.csv")
@@ -70,6 +74,7 @@ map_nms_sites <- function(nms){
 #'   tidyr::fill(region) %>%
 #'   dplyr::mutate(rgn = region)
 #' plot_intertidal_nms(d_csv, "CINMS", "MYTCAL", "California Mussels", nms_rgns1)
+#' }
 #'
 plot_intertidal_nms <- function(
   d_csv, NMS, spp, sp_name, nms_rgns, spp_targets = NULL,
@@ -166,9 +171,11 @@ plot_intertidal_nms <- function(
 #' @param ... additional parameters to pass to \link[dygraphs]{dygraph}
 #' @return This function outputs a dygraph object of the time series plot.
 #' @export
-#' @examples
+#' @examples \dontrun{
 #' csv_SST <-here::here("data/oceano/statistics_sst_cinms.csv")
 #' plot_metric_timeseries(csv_SST, "sst")
+#' }
+#'
 plot_metric_timeseries <- function(csv, metric, ...){
 
   # Read in the csv file
@@ -212,9 +219,11 @@ plot_metric_timeseries <- function(csv, metric, ...){
 #' @param csv_SST The csv file containing the SST anomaly data to be plotted.
 #' @return This function outputs a dygraph object of the time series plot.
 #' @export
-#' @examples
+#' @examples \dontrun{
 #' csv_SST <-here::here("data/oceano/sst_anomaly_cinms.csv")
 #' plot_metric_timeseries(csv_SST)
+#' }
+#'
 plot_SST_anomaly <- function(csv_SST){
 
   # We want to plot the SST anomaly data with values below zero colored differently
@@ -282,32 +291,5 @@ plot_SST_anomaly <- function(csv_SST){
     dygraphs::dyRangeSelector(fillColor = " #FFFFFF", strokeColor = "#FFFFFF")
 }
 
-#' read_csv_fmt BEN
-#'
-#' description BEN
-#'
-#' @param csv BEN
-#' @param erddap_format BEN
-#' @return BEN
-#' @import magrittr readr stringr
-
-read_csv_fmt <- function(csv, erddap_format = "csv"){
-  # erddap_format = "csv" # or "csvp"
-
-  stopifnot(erddap_format %in% c("csv", "csvp"))
-
-  if (erddap_format == "csv"){
-    # ERDDAP: csv format, remove units from 2nd row
-    hdr <- readr::read_csv(csv, n_max=1)
-    d <- readr::read_csv(csv, skip = 2, col_names = names(hdr))
-  }
-
-  if (erddap_format == "csvp"){
-    # ERDDAP: csvp format; remove ' (units)' suffix
-    d <- readr::read_csv(csv)
-    names(d) <- names(d) %>% stringr::str_replace(" \\(.*\\)", "")
-  }
-  d
-}
 
 

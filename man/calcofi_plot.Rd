@@ -45,6 +45,7 @@ The output is a plot of time series data.
 This function produces plots of CALCOFI-originated time series data.
 }
 \examples{
+\dontrun{
 calcofi_plot(csv = "https://raw.githubusercontent.com/marinebon/calcofi-analysis/master/data/Anchovy_CINMS.csv", title = "Anchovy - CINMS Region")
-
+}
 }

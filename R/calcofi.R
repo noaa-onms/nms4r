@@ -8,7 +8,9 @@
 #' @param colors A string vector that defines the colors of the mapped polygons.
 #' @return The output is an interactive map of CALCOFI sites overlaid on a coastal map of Southern California.
 #' @export
-#' @examples calcofi_map()
+#' @examples \dontrun{
+#' calcofi_map()
+#' }
 #'
 calcofi_map <- function(
   geo        = "https://raw.githubusercontent.com/marinebon/calcofi-analysis/master/data/plys_cinms.geojson",
@@ -58,8 +60,9 @@ calcofi_map <- function(
 #' @param in_loop A Boolean variable indicating whether an error condition exists.
 #' @return The output is a plot of time series data.
 #' @export
-#' @examples calcofi_plot(csv = "https://raw.githubusercontent.com/marinebon/calcofi-analysis/master/data/Anchovy_CINMS.csv", title = "Anchovy - CINMS Region")
-#'
+#' @examples \dontrun{
+#' calcofi_plot(csv = "https://raw.githubusercontent.com/marinebon/calcofi-analysis/master/data/Anchovy_CINMS.csv", title = "Anchovy - CINMS Region")
+#' }
 calcofi_plot <- function(
   csv,
   x_fld       = "year",

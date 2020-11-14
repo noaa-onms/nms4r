@@ -26,6 +26,8 @@ This function generates an interactive figure that shows the area in which
 CALCOFI spring season net samples were located.
 }
 \examples{
+\dontrun{
 calcofi_map()
+}
 
 }

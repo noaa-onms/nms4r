@@ -22,13 +22,13 @@ plot_intertidal_nms(
 
 \item{NMS}{The National Marine Sanctuary code.}
 
-\item{spp}{BEN}
+\item{spp}{The species of interest.}
 
-\item{sp_name}{BEN}
+\item{sp_name}{The species name used in the title of the plot.}
 
-\item{nms_rgns}{BEN}
+\item{nms_rgns}{A table containing the locations within National Marine Sanctuary.}
 
-\item{spp_targets}{BEN}
+\item{spp_targets}{The species that was being looked for when the species of interest was found.}
 
 \item{fld_val}{The column of data to provide the y-axis to be plotted.}
 
@@ -46,6 +46,7 @@ This function generates a plot of time series data collected by the Rocky Intert
 Monitoring program.
 }
 \examples{
+\dontrun{
 nms <- "cinms"
 d_csv <- "/Volumes/GoogleDrive/Shared drives/NMS/data/github_info-intertidal_data/sanctuary_species_percentcover.csv"
 nms_rgns_csv    <- file.path(dir_pfx, "MARINe_graphs.xlsx - sites in regions.csv")
@@ -55,5 +56,6 @@ nms_rgns1 <- readr::read_csv(nms_rgns_csv) \%>\%
   tidyr::fill(region) \%>\%
   dplyr::mutate(rgn = region)
 plot_intertidal_nms(d_csv, "CINMS", "MYTCAL", "California Mussels", nms_rgns1)
+}
 
 }

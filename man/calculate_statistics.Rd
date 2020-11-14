@@ -31,7 +31,9 @@ the server will be down - meaning that for that month's run of this function, th
 that in future months, the server will be up and will fill in the data holes.
 }
 \examples{
+\dontrun{
 calculate_statistics("cinms", "jplMURSST41mday", "sst", "avg-sst_cinms.csv")
 calculate_statistics("cinms", "nesdisVHNSQchlaMonthly", "chlor_a", "avg-chl_cinms.csv")
+}
 
 }

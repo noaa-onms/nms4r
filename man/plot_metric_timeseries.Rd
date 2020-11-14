@@ -21,6 +21,9 @@ The purpose of this function is to generate time series plots of ERRDAP data.
 Currently, this function can plot sea surface temperature and chlorophyll data.
 }
 \examples{
+\dontrun{
 csv_SST <-here::here("data/oceano/statistics_sst_cinms.csv")
 plot_metric_timeseries(csv_SST, "sst")
+}
+
 }

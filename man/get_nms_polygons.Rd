@@ -18,6 +18,8 @@ Given NMS code (see
 extract zip, cache shapefile or read existing shapefile.
 }
 \examples{
+\dontrun{
 get_nms_polygons("cinms")
+}
 
 }

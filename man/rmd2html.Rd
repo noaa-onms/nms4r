@@ -18,5 +18,7 @@ glossary tooltips. Note that this function will break html that contains interac
 figures, as most of the required javascript won't be loaded into the html <head>.
 }
 \examples{
+\dontrun{
 rmd2html(here::here("modals/ca-sheephead.Rmd"))
+}
 }

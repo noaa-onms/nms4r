@@ -17,6 +17,8 @@ The purpose of this function is to generate the hyperlinks for the monitoring pr
 associated with a figure and then to insert them into a gray bar above the figure in the modal window.
 }
 \examples{
+\dontrun{
 get_figure_info("Figure App.E.11.8.")
+}
 
 }

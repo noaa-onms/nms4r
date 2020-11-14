@@ -17,6 +17,8 @@ This function provides the first and last dates for which data is available for
 an ERDDAP data set.
 }
 \examples{
+\dontrun{
 get_dates(rerddap::info('jplMURSST41mday'))
+}
 
 }

@@ -105,7 +105,10 @@ the &amp;lt;head&amp;gt; section of the rmd2html version with the markdown versi
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/debug_cinms-issue57_erddap.html">debug_cinms-issue57_erddap</a>
+      <a href="../articles/HTML_Rendering.html">HTML Rendering</a>
+    </li>
+    <li>
+      <a href="../articles/Introduction.html">Introduction</a>
     </li>
   </ul>
 </li>
@@ -131,7 +134,7 @@ the &amp;lt;head&amp;gt; section of the rmd2html version with the markdown versi
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Generate the html for R markdown files</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marinebon/nms4r/blob/master/R/spatial.R'><code>R/spatial.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/marinebon/nms4r/blob/master/R/render_rmd.R'><code>R/render_rmd.R</code></a></small>
     <div class="hidden name"><code>generate_html_4_rmd.Rd</code></div>
     </div>
 
@@ -149,7 +152,7 @@ by rendering the rmd using both the markdown and rmd2html approaches and then re
 the &lt;head&gt; section of the rmd2html version with the markdown version.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>generate_html_4_rmd</span>(<span class='no'>target_rmd</span>, <span class='kw'>nms</span> <span class='kw'>=</span> <span class='st'>"cinms"</span>)</pre>
+    <pre class="usage"><span class='fu'>generate_html_4_rmd</span><span class='op'>(</span><span class='va'>target_rmd</span>, nms <span class='op'>=</span> <span class='st'>"cinms"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -169,7 +172,10 @@ the &lt;head&gt; section of the rmd2html version with the markdown version.</p>
     <p>The function outputs a html file that is the rendered version of the input rmd file.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>generate_html_4_rmd</span>(<span class='kw pkg'>here</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/here/man/here.html'>here</a></span>(<span class='st'>"modals/tar.Rmd"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: path[1]="/Users/bbest/github/nms4r/modals/tar.Rmd": No such file or directory</span></div><div class='output co'>#&gt; <span class='error'>Error in abs_path(input): The file '/Users/bbest/github/nms4r/modals/tar.Rmd' does not exist.</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>generate_html_4_rmd</span><span class='op'>(</span><span class='fu'>here</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/here/man/here.html'>here</a></span><span class='op'>(</span><span class='st'>"modals/tar.Rmd"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -186,7 +192,7 @@ the &lt;head&gt; section of the rmd2html version with the markdown version.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -21,6 +21,8 @@ generated for every month of the year. Then the average SST value for the approp
 subtracted from every value in the SST dataset.
 }
 \examples{
+\dontrun{
 calculate_SST_anomaly("cinms")
+}
 
 }

@@ -17,6 +17,8 @@ This function produces an interactive map showing where rocky intertidal data
 was collected by the MARINe consortium.
 }
 \examples{
+\dontrun{
 map_nms_sites("cinms")
+}
 
 }

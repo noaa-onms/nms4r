@@ -96,7 +96,10 @@ Currently, this function can plot sea surface temperature and chlorophyll data."
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/debug_cinms-issue57_erddap.html">debug_cinms-issue57_erddap</a>
+      <a href="../articles/HTML_Rendering.html">HTML Rendering</a>
+    </li>
+    <li>
+      <a href="../articles/Introduction.html">Introduction</a>
     </li>
   </ul>
 </li>
@@ -131,7 +134,7 @@ Currently, this function can plot sea surface temperature and chlorophyll data."
 Currently, this function can plot sea surface temperature and chlorophyll data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_metric_timeseries</span>(<span class='no'>csv</span>, <span class='no'>metric</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_metric_timeseries</span><span class='op'>(</span><span class='va'>csv</span>, <span class='va'>metric</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,8 +158,12 @@ Currently, this function can plot sea surface temperature and chlorophyll data.<
     <p>This function outputs a dygraph object of the time series plot.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>csv_SST</span> <span class='kw'>&lt;-</span><span class='kw pkg'>here</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/here/man/here.html'>here</a></span>(<span class='st'>"data/oceano/statistics_sst_cinms.csv"</span>)
-<span class='fu'>plot_metric_timeseries</span>(<span class='no'>csv_SST</span>, <span class='st'>"sst"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: cannot open file '/Users/bbest/github/nms4r/data/oceano/statistics_sst_cinms.csv': No such file or directory</span></div><div class='output co'>#&gt; <span class='error'>Error in file(file, "rt"): cannot open the connection</span></div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>csv_SST</span> <span class='op'>&lt;-</span><span class='fu'>here</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/here/man/here.html'>here</a></span><span class='op'>(</span><span class='st'>"data/oceano/statistics_sst_cinms.csv"</span><span class='op'>)</span>
+<span class='fu'>plot_metric_timeseries</span><span class='op'>(</span><span class='va'>csv_SST</span>, <span class='st'>"sst"</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -172,7 +179,7 @@ Currently, this function can plot sea surface temperature and chlorophyll data.<
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

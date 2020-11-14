@@ -27,6 +27,8 @@ A string containing the caption, with html tags inserted.
 This function generates either a short or expanded caption for a given figure.
 }
 \examples{
+\dontrun{
 md_caption("Figure Ux.Ocean.SST.ERD.map.", get_details = T)
+}
 
 }

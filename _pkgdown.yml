@@ -1,0 +1,40 @@
+url: https://marinebon.org/nms4r/docs/reference/index.html
+
+reference:
+- title: CALCOFI functions
+  desc: Generate figures for CALCOFI data.
+- contents:
+  - calcofi_map
+  - calcofi_plot
+- title: Generate Data
+  desc:  Generate the data that is displayed by the Plot functions.
+- contents:
+  - calculate_SST_anomaly
+  - calculate_statistics
+  - get_dates
+  - get_nms_polygons
+  - ply2erddap
+- title: Plot
+  desc:  Produce interactive maps and plots.
+- contents:
+  - map_nms_sites
+  - plot_intertidal_nms
+  - plot_metric_timeseries
+  - plot_SST_anomaly
+- title: Render
+  desc: Render html for R markdown files that form the modal windows.
+- contents:
+  - generate_html_4_rmd
+  - get_figure_info
+  - get_modal_info
+  - md_caption
+  - render_all_rmd
+  - render_figure
+- title: Internal
+  desc:  Functions used solely internally within the nms4r package.
+- contents:
+  - glossarize_md
+  - insert_tooltip
+  - make_sites_csv
+  - read_csv_fmt
+  - rmd2html

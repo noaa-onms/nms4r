@@ -16,7 +16,9 @@
 #' @param nms The NMS sanctuary, with only "cinms" currently doing anything.
 #' @return The function outputs a html file that is the rendered version of the input rmd file.
 #' @export
-#' @examples generate_html_4_rmd(here::here("modals/tar.Rmd"))
+#' @examples \dontrun{
+#' generate_html_4_rmd(here::here("modals/tar.Rmd"))
+#' }
 #'
 generate_html_4_rmd <- function (target_rmd, nms = "cinms"){
 
@@ -78,7 +80,9 @@ generate_html_4_rmd <- function (target_rmd, nms = "cinms"){
 #' @param figure_id The name of a row in the following google sheet cinms_content::info_figure_links
 #' @return The output is a set of html tags to be inserted into a html file.
 #' @export
-#' @examples get_figure_info("Figure App.E.11.8.")
+#' @examples \dontrun{
+#' get_figure_info("Figure App.E.11.8.")
+#' }
 #'
 get_figure_info <- function (figure_id){
 
@@ -148,7 +152,9 @@ get_figure_info <- function (figure_id){
 #' @param info_modal_links_csv A hyperlink to the google sheet, in csv format, that contains the modal links info.
 #' @return The function returns a string that is a set of html tags to be inserted into a html file.
 #' @export
-#' @examples  get_modal_info()
+#' @examples \dontrun{
+#' get_modal_info()
+#' }
 #'
 get_modal_info <- function(
   rmd = knitr::current_input(),
@@ -304,7 +310,7 @@ glossarize_md <- function(md, md_out = md){
   }
 }
 
-#' Insert tooltips into text
+#' Insert tooltips into text.
 #'
 #' The purpose of the following function is, for a provided section of text, to
 #' insert the required tooltip css around a provided glossary term. The function
@@ -316,7 +322,7 @@ glossarize_md <- function(md, md_out = md){
 #' @param glossary_term The glossary term to be looked for.
 #' @param span_css The css tags to add before the glossary term.
 #' @return The function outputs a string containing the text section with html tags inserted.
-#'
+#
 insert_tooltip<- function(text, glossary_term, span_css){
 
   # We start by splitting the text by the glossary term and then separately saving the glossary terms. This is done
@@ -349,8 +355,9 @@ insert_tooltip<- function(text, glossary_term, span_css){
 #' @param fig_in_report A Boolean variable indicating whether the figure described in the caption is present in the condition report.
 #' @return A string containing the caption, with html tags inserted.
 #' @export
-#' @import tibble dplyr stringr glue tidyr
-#' @examples md_caption("Figure Ux.Ocean.SST.ERD.map.", get_details = T)
+#' @examples \dontrun{
+#' md_caption("Figure Ux.Ocean.SST.ERD.map.", get_details = T)
+#' }
 #'
 md_caption <- function(title, md = here::here("modals/_captions.md"), get_details = F, fig_in_report = T){
 
@@ -435,7 +442,9 @@ md_caption <- function(title, md = here::here("modals/_captions.md"), get_detail
 #' @param interactive_only A Boolean variable indicating whether only rmd files containing interactive figures should be rendered.
 #' @export
 #' @return The function outputs a html file for every rmd file in the modals folder.
-#' @examples render_all_rmd(interactive_only = T)
+#' @examples \dontrun{
+#' render_all_rmd(interactive_only = T)
+#' }
 #'
 render_all_rmd <- function (nms = "cinms", interactive_only = F){
 
@@ -546,7 +555,9 @@ render_all_rmd <- function (nms = "cinms", interactive_only = F){
 #' @param figure_img The path of the figure image.
 #' @return The output is a string containing the html tags to display the figure and figure caption.
 #' @export
-#' @examples render_figure("Figure App.C.4.4.", "../img/cinms_cr/App.C.4.4.Leeworthy_landings.jpg")
+#' @examples \dontrun{
+#' render_figure("Figure App.C.4.4.", "../img/cinms_cr/App.C.4.4.Leeworthy_landings.jpg")
+#' }
 #'
 render_figure <- function(figure_id, figure_img){
   glue::glue(
@@ -566,9 +577,10 @@ render_figure <- function(figure_id, figure_img){
 #' figures, as most of the required javascript won't be loaded into the html <head>.
 #'
 #' @param rmd The R markdown file to be rendered into html.
-#' @export
 #' @return The output is a html file that is the rendered rmd file.
-#' @examples rmd2html(here::here("modals/ca-sheephead.Rmd"))
+#' @examples \dontrun{
+#' rmd2html(here::here("modals/ca-sheephead.Rmd"))
+#' }
 rmd2html <- function(rmd){
 
   md1  <- fs::path_ext_set(rmd, "md")

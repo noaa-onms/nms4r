@@ -24,6 +24,8 @@ containing the introductory information about that window. This function only
 will work within a rmd file to be knitted.
 }
 \examples{
- get_modal_info()
+\dontrun{
+get_modal_info()
+}
 
 }

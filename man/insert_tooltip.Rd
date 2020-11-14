@@ -2,7 +2,7 @@
 % Please edit documentation in R/render_rmd.R
 \name{insert_tooltip}
 \alias{insert_tooltip}
-\title{Insert tooltips into text}
+\title{Insert tooltips into text.}
 \usage{
 insert_tooltip(text, glossary_term, span_css)
 }
