@@ -42,7 +42,7 @@ render_all_rmd("cinms", interactive_only = T)
 Satellite-derived data is displayed in several of the modal windows, such as in the following example:
 
 ```{r sst_time_series, echo=FALSE}
-csv_SST <- "/Users/jai/Documents/cinms/data/oceano/statistics_sst_cinms.csv"
+csv_SST <- "~/Documents/cinms/data/oceano/statistics_sst_cinms.csv"
 nms4r::plot_metric_timeseries(csv_SST, "sst")
 ```
 
