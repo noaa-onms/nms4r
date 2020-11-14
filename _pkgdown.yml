@@ -1,4 +1,9 @@
-url: https://marinebon.org/nms4r/docs/reference/index.html
+articles:
+- title: nms4r Vignettes
+  navbar: ~
+  contents:
+  - Introduction
+  - HTML_Rendering
 
 reference:
 - title: CALCOFI functions
