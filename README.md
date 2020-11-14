@@ -11,6 +11,6 @@ library(nms4r)
 ```
 
 # Getting started
-If you're getting started with **nms4r**, please take a look at the [Introductory vignette](docs/articles/Introduction.html).
+If you're getting started with **nms4r**, please take a look at the [Introductory vignette](articles/Introduction.html).
 
 
