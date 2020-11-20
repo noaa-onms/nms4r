@@ -1,8 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
+pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
   HTML_Rendering: HTML_Rendering.html
   Introduction: Introduction.html
-last_built: 2020-11-14T19:25Z
+last_built: 2020-11-20T21:58Z
 

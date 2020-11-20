@@ -142,12 +142,12 @@ CALCOFI spring season net samples were located." />
 CALCOFI spring season net samples were located.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calcofi_map</span><span class='op'>(</span>
- 
-    geo <span class='op'>=</span> <span class='st'>"https://raw.githubusercontent.com/marinebon/calcofi-analysis/master/data/plys_cinms.geojson"</span>,
-  filter_str <span class='op'>=</span> <span class='st'>"ply_code != \"SoCal\""</span>,
-  colors <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"red"</span>, <span class='st'>"yellow"</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>calcofi_map</span>(
+
+    <span class='kw'>geo</span> <span class='kw'>=</span> <span class='st'>"https://raw.githubusercontent.com/marinebon/calcofi-analysis/master/data/plys_cinms.geojson"</span>,
+  <span class='kw'>filter_str</span> <span class='kw'>=</span> <span class='st'>"ply_code != \"SoCal\""</span>,
+  <span class='kw'>colors</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"red"</span>, <span class='st'>"yellow"</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,11 +171,9 @@ CALCOFI spring season net samples were located.</p>
     <p>The output is an interactive map of CALCOFI sites overlaid on a coastal map of Southern California.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>calcofi_map</span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'>calcofi_map</span>()
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -191,7 +189,7 @@ CALCOFI spring season net samples were located.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
