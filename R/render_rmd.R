@@ -370,7 +370,7 @@ md_caption <- function(title, md = here::here("modals/_captions.md"), get_detail
     dplyr::mutate(
       is_hdr = stringr::str_detect(
         ln,
-        glue::glue('^## {str_replace_all(title, fixed("."), "\\\\.")}'))
+        glue::glue('^## {stringr::str_replace_all(title, stringr::fixed("."), "\\\\.")}'))
       %>% dplyr::na_if(FALSE)) %>%
     # fill down so capturing all starting with title header
     tidyr::fill(is_hdr) %>%
@@ -391,7 +391,7 @@ md_caption <- function(title, md = here::here("modals/_captions.md"), get_detail
     dplyr::mutate(
       ln = stringr::str_replace_all(ln, "\\[(.*?)\\]\\((.*?)\\)", "<a href='\\2' target='_blank'>\\1</a>")) %>%
     # details
-    mutate(
+    dplyr::mutate(
       is_details = stringr::str_detect(ln, "^### Details") %>% dplyr::na_if(F)) %>%
     # fill down
     tidyr::fill(is_details)
