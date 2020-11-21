@@ -137,19 +137,26 @@ plot_intertidal_nms <- function(
       v = mean(v)) %>%
     tidyr::spread(rgn, v) # View(d)
 
+  # create a time series to be plotted and then set it up the way dygraph needs it
+  # for plotting
+  q <- d %>%
+    dplyr::mutate(
+      date = as.Date(paste0(d$yr, "-07-01"), "%Y-%m-%d"),.before = "yr") %>%
+    dplyr::mutate(yr = NULL)
+  q <- xts::xts(x = q[,-1], order.by = q$date)
+
   # line colors
-  if (ncol(d) - 1 > 12){
+  if (ncol(q) - 1 > 12){
     pal <- mapview::colorRampPalette(RColorBrewer::brewer.pal(12, "Set1"))
-    ln_colors <- pal(ncol(d) - 1)
+    ln_colors <- pal(ncol(q))
   } else {
-    ln_colors <- RColorBrewer::brewer.pal(ncol(d) - 1, "Set3")
+    ln_colors <- RColorBrewer::brewer.pal(ncol(q) , "Set3")
   }
-  #filled.contour(volcano, col=ln_colors)
-  ln_colors[which(names(d) == NMS) - 1] <- "black"
+  ln_colors[which(names(q) == NMS)] <- "black"
 
   # plot dygraph
   dygraphs::dygraph(
-    d,
+    q,
     main = glue::glue("{sp_name} in {NMS}"),
     xlab = label_x,
     ylab = label_y) %>%
