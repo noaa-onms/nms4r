@@ -2,20 +2,22 @@
 % Please edit documentation in R/render_rmd.R
 \name{render_all_rmd}
 \alias{render_all_rmd}
-\title{Render all rmd files in the modals folder}
+\title{Render all rmd files in the modals folder that have been changed}
 \usage{
-render_all_rmd(nms = "cinms", interactive_only = F)
+render_all_rmd(nms = "cinms", interactive_only = F, render_all = F)
 }
 \arguments{
 \item{nms}{The NMS sanctuary with only "cinms" currently doing anything.}
 
 \item{interactive_only}{A Boolean variable indicating whether only rmd files containing interactive figures should be rendered.}
+
+\item{render_all}{A Boolean variable indicating whether all rmd files should be rendered, whether or not there have been changes to them.}
 }
 \value{
 The function outputs a html file for every rmd file in the modals folder.
 }
 \description{
-Render all rmd files in the modals folder
+Render all rmd files in the modals folder that have been changed
 }
 \examples{
 \dontrun{

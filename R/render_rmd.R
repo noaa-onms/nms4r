@@ -435,17 +435,18 @@ md_caption <- function(title, md = here::here("modals/_captions.md"), get_detail
   }
 }
 
-#' Render all rmd files in the modals folder
+#' Render all rmd files in the modals folder that have been changed
 #'
 #' @param nms The NMS sanctuary with only "cinms" currently doing anything.
 #' @param interactive_only A Boolean variable indicating whether only rmd files containing interactive figures should be rendered.
+#' @param render_all A Boolean variable indicating whether all rmd files should be rendered, whether or not there have been changes to them.
 #' @export
 #' @return The function outputs a html file for every rmd file in the modals folder.
 #' @examples \dontrun{
 #' render_all_rmd(interactive_only = T)
 #' }
 #'
-render_all_rmd <- function (nms = "cinms", interactive_only = F){
+render_all_rmd <- function (nms = "cinms", interactive_only = F, render_all = F){
 
   # Let's figure out where we are. In my local environment, I am in the directory for
   # the sanctuary. In a docker container though, I won't be. So the following section of
@@ -534,11 +535,12 @@ render_all_rmd <- function (nms = "cinms", interactive_only = F){
       rmd_newer <- T
     }
 
-    # Render the modal window if the associated google spreadsheet has changed or
-    # if the modal window contains interactive figures or if the Rmd file has been
-    # recently modified
-
-    if (rmd_newer | cinms_content_changed | basename(modal_list[i]) %in% interactive_rmd){
+    # Render the modal window if:
+    # 1. the associated google spreadsheet has changed or
+    # 2. if the modal window contains interactive figures or
+    # 3. if the Rmd file has been recently modified or
+    # 4. if the function parameter "render_all" has been set to TRUE
+    if (rmd_newer | cinms_content_changed | basename(modal_list[i]) %in% interactive_rmd | render_all){
       generate_html_4_rmd(modal_list[i])
     }
   }
