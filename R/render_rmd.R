@@ -241,13 +241,13 @@ glossarize_md <- function(md, md_out = md){
         # 3. No tooltips on lines where there is a link for a data download
         # 4. No tooltips on lines that create interactive graphs (no line starting with "<script")
         if (substr(tx[i],1,1) != "#" && stringr::str_sub(tx[i],-4) != "</i>" && stringr::str_sub(tx[i],-5) != "</div>" && substr(tx[i], 1, 24) != "Download timeseries data" && substr(tx[i], 1, 7) != "<script"){
-
           # We also want to avoid inserting tooltips into the path of the image file, which is what the following
           # image_start is looking for. If a line does contain an image path, we want to separate that from the rest of
           # the line, do a glossary word replace on the image-less line, and then - later in this code - paste the image back on to the line
-          image_start = regexpr(pattern = "/img/cinms_cr", tx[i])[1] - 4
+          image_start = regexpr(pattern = "/img/cinms_cr", text = tx[i])[1] - 4
 
           if (image_start > 1) {
+
             line_content = substr(tx[i], 1, image_start)
             image_link = stringr::str_sub(tx[i], -(nchar(tx[i])-image_start))
           }
@@ -265,9 +265,8 @@ glossarize_md <- function(md, md_out = md){
           # the pattern of capitalization). We then run the split text through the tooltip function to add the required
           # span tags around the glossary terms and then paste the split text back together
           if (length(glossary_match)>1){
-
-            split_text_longer <- stringr::str_split(line_content, regex(longer_term, ignore_case = TRUE))[[1]]
-            save_glossary_terms_longer <- c(stringr::str_extract_all(line_content, regex(longer_term, ignore_case = TRUE))[[1]],"")
+            split_text_longer <- stringr::str_split(line_content, stringr::regex(longer_term, ignore_case = TRUE))[[1]]
+            save_glossary_terms_longer <- c(stringr::str_extract_all(line_content, stringr::regex(longer_term, ignore_case = TRUE))[[1]],"")
 
             for (s in 1:length(split_text_longer)){
               split_text_longer[s] <- insert_tooltip(split_text_longer[s], search_term, span_definition)
@@ -327,8 +326,8 @@ insert_tooltip<- function(text, glossary_term, span_css){
 
   # We start by splitting the text by the glossary term and then separately saving the glossary terms. This is done
   # so that we can preserve the pattern of capitalization of the glossary term
-  split_text <- stringr::str_split(text, regex(glossary_term, ignore_case = TRUE))[[1]]
-  save_glossary_terms <- c(stringr::str_extract_all(text, regex(glossary_term, ignore_case = TRUE))[[1]],"")
+  split_text <- stringr::str_split(text, stringr::regex(glossary_term, ignore_case = TRUE))[[1]]
+  save_glossary_terms <- c(stringr::str_extract_all(text, stringr::regex(glossary_term, ignore_case = TRUE))[[1]],"")
 
   # Let's go through every section of the split text and add the required css tags
   for (q in 1:length(split_text)){
