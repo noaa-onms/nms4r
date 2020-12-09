@@ -161,7 +161,7 @@ plot_intertidal_nms <- function(
     xlab = label_x,
     ylab = label_y) %>%
     dygraphs::dyOptions(
-      connectSeparatedPoints = TRUE,
+      connectSeparatedPoints = FALSE,
       colors = ln_colors) %>%
     dygraphs::dySeries(NMS, strokeWidth = 3) %>%
     dygraphs::dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
