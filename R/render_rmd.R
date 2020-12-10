@@ -85,7 +85,6 @@ generate_html_4_rmd <- function (target_rmd, nms = "cinms"){
 #' }
 #'
 get_figure_info <- function (figure_id){
-
   info_csv = "https://docs.google.com/spreadsheets/d/1yEuI7BT9fJEcGAFNPM0mCq16nFsbn0b-bNirYPU5W8c/gviz/tq?tqx=out:csv&sheet=info_figure_links"
 
   d <- readr::read_csv(info_csv)  %>%
@@ -607,5 +606,5 @@ rmd2html <- function(rmd){
   # final cleanup
   file.remove(htm1)
   file.remove(md2)
-  file.remove(paste0(substring(md2,1,str_length(md2)-3),".utf8.md"))
+  file.remove(paste0(substring(md2,1,stringr::str_length(md2)-3),".utf8.md"))
 }
