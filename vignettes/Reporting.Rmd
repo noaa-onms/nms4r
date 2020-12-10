@@ -1,0 +1,14 @@
+---
+title: 'Reporting Functions'
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Reporting Functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Content to be added

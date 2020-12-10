@@ -1,0 +1,14 @@
+---
+title: 'Data: Rocky intertidal (MARINe)'
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data: Rocky intertidal (MARINe)}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Content to be added

@@ -4,6 +4,11 @@ articles:
   contents:
   - Introduction
   - HTML_Rendering
+  - Calcofi
+  - Erddap
+  - Marine
+  - Reporting
+  - Utilities
 
 reference:
 - title: "Data: Fisheries (CalCOFI)"

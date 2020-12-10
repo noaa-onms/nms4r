@@ -437,7 +437,7 @@ md_caption <- function(title, md = here::here("modals/_captions.md"), get_detail
 #' Render all rmd files in the modals folder that have been changed
 #'
 #' @param nms The NMS sanctuary with only "cinms" currently doing anything.
-#' @param interactive_only A Boolean variable indicating whether only rmd files containing interactive figures should be rendered.
+#' @param interactive_only A Boolean variable indicating whether only rmd files containing interactive figures should be rendered. NOTE: If this is set to "TRUE", the rmd files containing interactive figures with MARINe data will be omitted. These latter figures can only be rendered in a local environment as they require connection to a shared Google Drive that is accessed via Google Drive File Stream.
 #' @param render_all A Boolean variable indicating whether all rmd files should be rendered, whether or not there have been changes to them.
 #' @export
 #' @return The function outputs a html file for every rmd file in the modals folder.
@@ -462,22 +462,17 @@ render_all_rmd <- function (nms = "cinms", interactive_only = F, render_all = F)
 
   # Now, let's generate a list of rmd files that need to be skipped.
   if (nms == "cinms"){
-    interactive_rmd <- c("algal-groups.Rmd",
-                         "barnacles.Rmd",
-                         "deep-seafloor_key-climate-ocean.Rmd",
+    interactive_rmd <- c("deep-seafloor_key-climate-ocean.Rmd",
                          "forage-assemblage.Rmd",
                          "forage-fish.Rmd",
                          "forage-inverts.Rmd",
                          "kelp-forest_key-climate-ocean.Rmd",
                          "key-climate-ocean.Rmd",
-                         "mussels.Rmd",
-                         "ochre-stars.Rmd",
                          "pelagic_key-climate-ocean.Rmd",
                          "rocky-map.Rmd",
                          "rocky-shore_key-climate-ocean.Rmd",
                          "sandy-beach_key-climate-ocean.Rmd",
-                         "sandy-seafloor_key-climate-ocean.Rmd",
-                         "tar.Rmd")
+                         "sandy-seafloor_key-climate-ocean.Rmd")
   }
 
   if (interactive_only==T) {
