@@ -1,8 +1,8 @@
 ---
-title: 'Reporting functions'
+title: 'Sanctuaries Utilities'
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Reporting functions}
+  %\VignetteIndexEntry{Sanctuaries Utilities}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
