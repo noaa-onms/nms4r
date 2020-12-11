@@ -64,9 +64,6 @@
       <a href="../articles/Introduction.html">Introduction</a>
     </li>
     <li>
-      <a href="../articles/HTML_Rendering.html">HTML Rendering</a>
-    </li>
-    <li>
       <a href="../articles/Calcofi.html">Data: Fisheries (CALCOFI)</a>
     </li>
     <li>
@@ -115,8 +112,30 @@
 
     
     
-<p>Content to be added</p>
-  </div>
+<p>The reporting functions of the <strong>nms4r</strong> package work together to generate HTML files from the R Markdown files known as modal windows. The process of rendering a R Markdown file to HTML is a multi-step process. The initial step is to render all of the R code within the R Markdown file, creating a temporary Markdown file. Once that process has completed though, there is a big step remaining before the html can be created from that Markdown file. Namely, any words in the Markdown file that are designated as glossary terms need to be flagged and given necessary html codes. Once this is done, the html is rendered from the Markdown file, with all glossary terms getting a Javascript “tooltip” in the html.</p>
+<p>Here’s the steps in the process of rendering the HTML from R Markdown.</p>
+<ol style="list-style-type: decimal">
+<li>Call the master rendering function.
+<ol style="list-style-type: decimal">
+<li>
+<code><a href="../reference/generate_html_4_rmd.html">generate_html_4_rmd()</a></code>: renders a single R Markdown file.</li>
+<li>
+<code><a href="../reference/render_all_rmd.html">render_all_rmd()</a></code>: renders all R Markdown files in “modals” directory using <code><a href="../reference/generate_html_4_rmd.html">generate_html_4_rmd()</a></code>.</li>
+</ol>
+</li>
+<li>
+<code><a href="../reference/generate_html_4_rmd.html">generate_html_4_rmd()</a></code> calls <code><a href="../reference/rmd2html.html">rmd2html()</a></code>, which creates a temporary Markdown file in which all of the R code in the R Markdown File has been executed.</li>
+<li>
+<code><a href="../reference/rmd2html.html">rmd2html()</a></code> opens the temporary Markdown file and then calls <code><a href="../reference/glossarize_md.html">glossarize_md()</a></code>.</li>
+<li>
+<code><a href="../reference/glossarize_md.html">glossarize_md()</a></code> loads up all of the glossary terms in the google sheet where they are stored and then goes through the Markdown file, line by line. Each combination of glossary term and line of the Markdown file is fed into <code>insert_tooltips()</code>.</li>
+<li>If a glossary term is found on a line of the Markdown file, <code>insert_tooltips()</code> inserts tooltip-related tags around that term.</li>
+<li>Once every line of a Markdown file has been gone through, <code><a href="../reference/glossarize_md.html">glossarize_md()</a></code> loads the tooltip Javascript library at the bottom of the file (but only if there is at least one glossary term in the file).</li>
+<li>
+<code><a href="../reference/generate_html_4_rmd.html">generate_html_4_rmd()</a></code> then renders the edited Markdown file to html. This function also renders the original R Markdown file to a temporary html file using <code><a href="https://rdrr.io/pkg/rmarkdown/man/render.html">rmarkdown::render()</a></code>, as this is the only way to know what the right Javascript libraries are for any interactive elements in the final html. The entire <strong>head</strong> section of the second html file rewrites the <strong>head</strong> section of the first html file.</li>
+<li>All temporary html and Markdown files are deleted.</li>
+</ol>
+</div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 

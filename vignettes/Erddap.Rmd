@@ -11,4 +11,26 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Content to be added
+## Data Source
+
+ERDDAP (Environmental Research Division Data Access Portal) data is sourced from 
+the [ERDDAP server](https://coastwatch.pfeg.noaa.gov/erddap/index.html) using the 
+[rerddap R library](https://cran.r-project.org/web/packages/rerddap/index.html).
+
+## Data Preparation
+
+As data on the ERDDAP server is updated regularly this provides the opportunity 
+for interactive figures using ERDDAP data to be updated regularly as well. The first step in 
+this process is to update the relevant tables, which for the Channel Islands Marine
+Sanctuary (CINMS) are located at: <https://github.com/marinebon/cinms/tree/master/data/oceano>. 
+These tables, saved in csv format, are updated monthly via GitHub Actions using 
+the [update_oceano.yml](https://github.com/marinebon/cinms/blob/master/.github/workflows/update-oceano.yml) workflow. This workflow in turn calls the R script [update_oceano-data.R](https://github.com/marinebon/cinms/blob/master/scripts/update_oceano-data.R), which 
+uses the `calculate_statistics()` and `calculate_SST_anomaly` functions from the **nms4r** package to update the relevant csv files.
+
+## Figure Preparation
+
+Once the data tables have been updated, the next step is to update the figures that 
+draw upon those tables. This is done by rerendering the modal windows (which are 
+R Markdown files) that contain those figures. This also occurs on a monthly basis via 
+GitHub Actions using the [update_oceano.yml](https://github.com/marinebon/cinms/blob/master/.github/workflows/update-oceano.yml) workflow. The workflow calls the R script [render_oceano-modals.R](https://github.com/marinebon/cinms/blob/master/scripts/render_oceano-modals.R), which calls the **nms4r** function `render_all_rmd()` to update the relevant modal windows.
+

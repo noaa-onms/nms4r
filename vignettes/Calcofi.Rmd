@@ -11,7 +11,7 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Data sources
+## Data Source
 
 The data used by the two CALCOFI display functions (`calcofi_map()` & `calcofi_plot()`) are found in the [calcofi-analysis folder](https://github.com/marinebon/calcofi-analysis/tree/master/data) within the marinebon GitHub account.
 

@@ -3,7 +3,6 @@ articles:
   navbar: ~
   contents:
   - Introduction
-  - HTML_Rendering
   - Calcofi
   - Erddap
   - Marine
@@ -23,6 +22,7 @@ reference:
   - calculate_statistics
   - get_dates
   - ply2erddap
+  - plot_metric_timeseries
   - plot_SST_anomaly
 - title: "Data: Rocky intertidal (MARINe)"
   desc:  Produce interactive maps and plots.
@@ -31,7 +31,6 @@ reference:
   - make_sites_csv
   - map_nms_sites
   - plot_intertidal_nms
-  - plot_metric_timeseries
 - title: Reporting functions
   desc: Render html for R markdown files that form the modal windows.
   contents:

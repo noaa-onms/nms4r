@@ -64,9 +64,6 @@
       <a href="../articles/Introduction.html">Introduction</a>
     </li>
     <li>
-      <a href="../articles/HTML_Rendering.html">HTML Rendering</a>
-    </li>
-    <li>
       <a href="../articles/Calcofi.html">Data: Fisheries (CALCOFI)</a>
     </li>
     <li>
@@ -115,12 +112,28 @@
 
     
     
-<p>Content to be added</p>
+<div id="data-source" class="section level2">
+<h2 class="hasAnchor">
+<a href="#data-source" class="anchor"></a>Data Source</h2>
+<p>ERDDAP (Environmental Research Division Data Access Portal) data is sourced from the <a href="https://coastwatch.pfeg.noaa.gov/erddap/index.html">ERDDAP server</a> using the <a href="https://cran.r-project.org/web/packages/rerddap/index.html">rerddap R library</a>.</p>
+</div>
+<div id="data-preparation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#data-preparation" class="anchor"></a>Data Preparation</h2>
+<p>As data on the ERDDAP server is updated regularly this provides the opportunity for interactive figures using ERDDAP data to be updated regularly as well. The first step in this process is to update the relevant tables, which for the Channel Islands Marine Sanctuary (CINMS) are located at: <a href="https://github.com/marinebon/cinms/tree/master/data/oceano" class="uri">https://github.com/marinebon/cinms/tree/master/data/oceano</a>. These tables, saved in csv format, are updated monthly via GitHub Actions using the <a href="https://github.com/marinebon/cinms/blob/master/.github/workflows/update-oceano.yml">update_oceano.yml</a> workflow. This workflow in turn calls the R script <a href="https://github.com/marinebon/cinms/blob/master/scripts/update_oceano-data.R">update_oceano-data.R</a>, which uses the <code><a href="../reference/calculate_statistics.html">calculate_statistics()</a></code> and <code>calculate_SST_anomaly</code> functions from the <strong>nms4r</strong> package to update the relevant csv files.</p>
+</div>
+<div id="figure-preparation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#figure-preparation" class="anchor"></a>Figure Preparation</h2>
+<p>Once the data tables have been updated, the next step is to update the figures that draw upon those tables. This is done by rerendering the modal windows (which are R Markdown files) that contain those figures. This also occurs on a monthly basis via GitHub Actions using the <a href="https://github.com/marinebon/cinms/blob/master/.github/workflows/update-oceano.yml">update_oceano.yml</a> workflow. The workflow calls the R script <a href="https://github.com/marinebon/cinms/blob/master/scripts/render_oceano-modals.R">render_oceano-modals.R</a>, which calls the <strong>nms4r</strong> function <code><a href="../reference/render_all_rmd.html">render_all_rmd()</a></code> to update the relevant modal windows.</p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 
