@@ -21,7 +21,6 @@ RoxygenNote: 7.1.1.9000
 Imports: 
     dygraphs,
     fs,
-    ggplot2,
     glue,
     here,
     htmltools,
@@ -29,7 +28,6 @@ Imports:
     leaflet,
     lubridate,
     mapview,
-    plotly,
     raster,
     rerddap,
     rgdal,

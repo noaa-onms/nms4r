@@ -9,7 +9,7 @@ render_all_rmd(nms = "cinms", interactive_only = F, render_all = F)
 \arguments{
 \item{nms}{The NMS sanctuary with only "cinms" currently doing anything.}
 
-\item{interactive_only}{A Boolean variable indicating whether only rmd files containing interactive figures should be rendered.}
+\item{interactive_only}{A Boolean variable indicating whether only rmd files containing interactive figures should be rendered. NOTE: If this is set to "TRUE", the rmd files containing interactive figures with MARINe data will be omitted. These latter figures can only be rendered in a local environment as they require connection to a shared Google Drive that is accessed via Google Drive File Stream.}
 
 \item{render_all}{A Boolean variable indicating whether all rmd files should be rendered, whether or not there have been changes to them.}
 }
