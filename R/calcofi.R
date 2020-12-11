@@ -90,32 +90,17 @@ calcofi_plot <- function(
   z <- dplyr::filter(d, x < max(x) - lubridate::years(yrs_recent))
   y_avg <- mean(z$y)
   y_sd  <- sd(z$y)
-  y_r   <- scales::expand_range(range(d$y), mul=0.05)
-
-  g <- ggplot2::ggplot(d, ggplot2::aes(x = x, y = y)) +
-    ggplot2::annotate(
-      "rect",
-      xmin = max(d$x) - lubridate::years(yrs_recent), xmax = max(d$x) + months(6),
-      ymin = y_r[1], ymax = y_r[2],
-      fill  = "lightblue", alpha=0.5) +
-    ggplot2::geom_line() +
-    ggplot2::geom_point() +
-    ggplot2::geom_hline(
-      yintercept = c(y_avg + y_sd, y_avg,  y_avg - y_sd),
-      linetype   = c("solid", "dashed", "solid"),
-      color       = "darkblue") +
-    ggplot2::coord_cartesian(
-      xlim = c(
-        min(d$x) - months(6),
-        max(d$x) + months(6)), expand = F) +
-    ggplot2::theme_light() +
-    ggplot2::labs(
-      x     = x_lab,
-      y     = y_lab,
-      title = title)
 
   if (interactive){
-    p <- plotly::ggplotly(g)
+    q<-d
+    colnames(q)<-c("year","value")
+    q <- xts::xts(x = q[,-1], order.by = q$year)
+    p <- dygraphs::dygraph(q, main=title, xlab = x_lab, ylab=y_lab)  %>%
+      dygraphs::dyOptions(colors="black") %>%
+      dygraphs::dyRangeSelector(fillColor = " #FFFFFF", strokeColor = "#FFFFFF") %>%
+      dygraphs::dyLimit(y_avg, color = "blue", strokePattern = "solid") %>%
+      dygraphs::dyShading(from = y_avg-y_sd, to = y_avg+y_sd, axis = "y")
+
     if (in_loop){
       # [`ggplotly` from inside `for` loop in `.Rmd` file does not work · Issue #570 · ropensci/plotly](https://github.com/ropensci/plotly/issues/570)
       print(htmltools::tagList(p))
