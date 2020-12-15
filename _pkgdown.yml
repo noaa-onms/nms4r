@@ -44,6 +44,7 @@ reference:
   - glossarize_md
   - insert_tooltip
   - rmd2html
+  - create_website
 - title: Sanctuaries utilities
   desc:  Utility functions for Sanctuary regions.
   contents:

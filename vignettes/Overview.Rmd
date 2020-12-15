@@ -1,8 +1,8 @@
 ---
-title: 'Overview'
+title: 'Creating a new Infographic Website'
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Overview}
+  %\VignetteIndexEntry{Creating}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -11,4 +11,9 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Content to be added
+```{r}
+library(nms4r) # devtools::load_all()
+create_website("MyFirstInfographiq")
+servr::httd("MyFirstInfographiq")
+```
+
