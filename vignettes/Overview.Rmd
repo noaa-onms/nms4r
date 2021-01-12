@@ -15,5 +15,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(nms4r) # devtools::load_all()
 create_website("MyFirstInfographiq")
 servr::httd("MyFirstInfographiq")
+#servr::httd(here::here("inst/template_website"))
 ```
 

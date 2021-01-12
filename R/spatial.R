@@ -3,6 +3,8 @@
 #' This function produces an interactive map showing where rocky intertidal data
 #' was collected by the MARINe consortium.
 #'
+#' NOTE: Since this data has not yet been made publicly available, it depends on a \code{dir_gdrive} path variable
+#'
 #' @param nms The National Marine Sanctuary code.
 #' @return This function returns a mapview object displaying data collection sites.
 #' @export
@@ -10,14 +12,13 @@
 #' map_nms_sites("cinms")
 #' }
 #'
-map_nms_sites <- function(nms){
+map_nms_sites <- function(nms, dir_gdrive="/Volumes/GoogleDrive/Shared drives/NMS/data"){
 
   NMS <- stringr::str_to_upper(nms)
 
   # get sites in nms
-  dir_gdrive <- "/Volumes/GoogleDrive/Shared drives/NMS/data"
-  dir_pfx     <- file.path(dir_gdrive, "github_info-intertidal_data")
-  dir_shp1     <- file.path(dir_pfx, "shp")
+  dir_pfx  <- file.path(dir_gdrive, "github_info-intertidal_data")
+  dir_shp1 <- file.path(dir_pfx, "shp")
 
   sites_nms_shp <- glue::glue("{dir_shp1}/{NMS}_sites.shp")
   nms_ply <- get_nms_polygons(nms)
