@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Overview • nms4r</title>
+<title>Creating a new Infographic Website • nms4r</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Overview">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Creating a new Infographic Website">
 <meta property="og:description" content="nms4r">
 <meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -64,7 +64,7 @@
       <a href="../articles/Introduction.html">Introduction</a>
     </li>
     <li>
-      <a href="../articles/Overview.html">Overview</a>
+      <a href="../articles/Overview.html">Creating a new Infographic Website</a>
     </li>
     <li>
       <a href="../articles/Calcofi.html">Data: Fisheries (CALCOFI)</a>
@@ -105,7 +105,7 @@
 <script src="Overview_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Overview</h1>
+      <h1 data-toc-skip>Creating a new Infographic Website</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/marinebon/nms4r/blob/master/vignettes/Overview.Rmd"><code>vignettes/Overview.Rmd</code></a></small>
@@ -115,12 +115,111 @@
 
     
     
-<p>Content to be added</p>
+<div id="getting-started" class="section level1">
+<h1 class="hasAnchor">
+<a href="#getting-started" class="anchor"></a>Getting started</h1>
+<p>The most straightforward way to get started is to modify the template version of a infographic-based site contained within the nms4r package. To install the website template in a local folder, use the nms4r function <code>create_website</code>. Please note that the template website won’t display properly unless it is being served locally. One method of doing so is through the Viewer Pane of R Studio, via the use of the following command (replacing “template_website” with the relative path to your local location of the site): <code><a href="https://rdrr.io/pkg/servr/man/httd.html">servr::httd(here::here("template_website"))</a></code></p>
+<p>The file structure of the template site can be seen below.</p>
+<p><img src="file_structure.png"></p>
+<p>There are several key elements of the site.</p>
+<ol style="list-style-type: decimal">
+<li>
+<p>The top-level directory. R Markdown files in the top directory should primarily exist to display clickable infographics, with data and figures primarily being provided in the “modals” directory (see below). By default, the html-rendered version of <a href="../../inst/template_website/index.Rmd">index.Rmd</a> in the top-level directory is what the site will initially display.</p>
+<p>If a clickable infographic is to be shown on a page, the associated R Markdown file will need to contain certain YAML front matter. In the example of index.Rmd, the YAML front matter looks as follows at the bottom o:</p>
+</li>
+</ol>
+<pre><code>---
+title: "Subject 1"
+params:
+  csv: "svg/svg_links_template.csv"
+  svg: "svg/example1.svg"
+---</code></pre>
+<p>The two “params” values point respectively to 1) a csv file that provides a list of links and 2) a svg file that is the clickable image (more on both of these further down in these instructions).</p>
+<ol start="2" style="list-style-type: decimal">
+<li>_site.yml. One of the primary roles of this YAML file in the top-level directory is to provide the site navigation via the “navbar”. See below, for the default settings for the navbar in this file:</li>
+</ol>
+<pre><code>navbar:
+  title: "Template"
+  icon: fa-info
+  left:
+    - text: "Subject 1"
+      href: index.html
+    - text: "Subject 2"
+      href: subject2.html
+  right:
+    - text: "About"
+      href: https://marinebon.org/sanctuaries/</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>The svg folder. The svg folder contains the clickable infographics (see section below on the creation of these images) as well as a csv file that maps the elements of each infographic to a link. Here is that csv file for the the template website (“svg_links_template.csv”):</li>
+</ol>
+<pre><code>##            svg     id   title               link not_modal
+## 1 example1.svg topic1 Topic 1 modals/topic1.html        NA
+## 2 example1.svg topic2 Topic 2 modals/topic2.html        NA
+## 3 example2.svg topic3 Topic 3 modals/topic3.html        NA
+## 4 example2.svg topic4 Topic 4 modals/topic4.html        NA</code></pre>
+<ul>
+<li>svg: file name of image</li>
+<li>id: clickable element of image</li>
+<li>title: text to be displayed over clickable element upon mouseover</li>
+<li>link: link to modal window</li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li>The modals folder. The modals folder contains the R Markdown files that primarily exist to display the data and figures for the website.</li>
+</ol>
+</div>
+<div id="creating-infographic-images" class="section level1">
+<h1 class="hasAnchor">
+<a href="#creating-infographic-images" class="anchor"></a>Creating infographic images</h1>
+<p>Here, we discuss the process of creating images in a format that can be used by nms4r. It is recommended that vector-based graphics software be used to create your images and we provide instructions for two such software packages:</p>
+<ul>
+<li><p><a href="https://www.adobe.com/products/illustrator.html">Adobe Illustrator</a> (commercial software that requires a paid license)</p></li>
+<li><p><a href="https://inkscape.org/">Inkscape</a> (open source software that can be used at no cost)</p></li>
+</ul>
+<div id="creating-images-in-adobe-illustrator" class="section level2">
+<h2 class="hasAnchor">
+<a href="#creating-images-in-adobe-illustrator" class="anchor"></a>Creating images in Adobe Illustrator</h2>
+<p>A basic knowledge of Illustrator is assumed (if you need to get up to speed, Adobe has some <a href="https://helpx.adobe.com/illustrator/tutorials.html">great tutorials</a>).</p>
+<p>Below, you can see an example infographic within Illustrator (you can find the example <a href="../../vignettes/illustrator-example.svg">here</a>). There are two key components to a nms4r infographic, when it is served up on a website. First, key elements of the infographic are clickable. Secondly, within-image captions exist for the infographic that can be toggled on and off.</p>
+<p><img src="example_image_illustrator.png"></p>
+<p>To show how images need to be formatted in order to behave as expected, let’s zoom in on the Layer panel in the upper right of the above image. To view the Layer panel from the Menu, select Window &gt; Layers.</p>
+<p><img src="example_image_illustrator_layers.png"></p>
+<ol style="list-style-type: decimal">
+<li><p>Every clickable element of an infographic needs to have a separate name. In this example, the rectangle and circle are both intended to be clickable and they, respectively, have been given the names “topic1” and “topic2”.</p></li>
+<li><p>All within-image captions must be contained within a layer called “text”.</p></li>
+<li><p>Lastly, the image must be saved in svg format.</p></li>
+</ol>
+</div>
+<div id="creating-images-in-inkscape" class="section level2">
+<h2 class="hasAnchor">
+<a href="#creating-images-in-inkscape" class="anchor"></a>Creating images in Inkscape</h2>
+<p>A basic knowledge of Inkscape is assumed (if you need to get up to speed, <a href="https://inkscape.org/learn/tutorials/">here are some great tutorials</a>).</p>
+<p>Below, you can see an example infographic within Inkscape (you can find the example <a href="../../vignettes/inkscape-example.svg">here</a>). There are two key components to a nms4r infographic, when it is served up on a website. First, key elements of the infographic are clickable. Secondly, within-image captions exist for the infographic that can be toggled on and off.</p>
+<p><img src="example_image_inkscape.png"></p>
+<p>To show how images need to be formatted in order to behave as expected, let’s zoom in on the panels to the right. You’ll need to have three panels visible:</p>
+<ol style="list-style-type: decimal">
+<li><p>Layers (to show from Menu, Layer &gt; Layers…)</p></li>
+<li><p>Object Properties (to show from Menu, Object &gt; Object Properties…)</p></li>
+<li><p>XML Editor (to show from Menu, Edit &gt; XML Editor…)</p></li>
+</ol>
+<p><img src="example_image_inkscape_panels.png"></p>
+<ol style="list-style-type: decimal">
+<li><p>Every clickable element of an infographic needs to have a separate id, which can be edited in the Object Properties panel. In this example, the rectangle and circle are both intended to be clickable and they, respectively, have been given the id’s “topic1” and “topic2”.</p></li>
+<li><p>All within-image captions must be contained within a layer called “text”. To move a text element into the “text” layer, right-click on that element and select the “Move to Layer…” option.</p></li>
+<li><p>Two edits need to be made for the “text” layer (see image below). In the XML Editor, click the entry which contains ‘inkscape:label=“text”’. Edit 1: in the box to the right, change the id to “text”. Edit 2: in the box to the right, click the x in the red circle by “style display:inline” (thereby deleting that row).</p></li>
+</ol>
+<p><img src="example_image_inkscape_panels2.png"></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Lastly, the image must be saved in svg format.</li>
+</ol>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 
