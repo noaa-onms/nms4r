@@ -22,7 +22,7 @@ There are several key elements of the site.
 
 1. The top-level directory. R Markdown files in the top directory should primarily exist to display clickable infographics, with data and figures primarily being provided in the "modals" directory (see below). By default, the html-rendered version of [index.Rmd](../../inst/template_website/index.Rmd) in the top-level directory is what the site will initially display. 
 
-   If a clickable infographic is to be shown on a page, the associated R Markdown file will need to contain certain YAML front matter. In the example of index.Rmd, the YAML front matter looks as follows at the bottom o:
+   If a clickable infographic is to be shown on a page, the associated R Markdown file will need to contain certain YAML front matter. In the example of index.Rmd, the YAML front matter looks as follows:
 
 ```
 ---
@@ -36,7 +36,7 @@ params:
    The two "params" values point respectively to 1) a csv file that provides a list of links and 2) a svg file that is the clickable image (more on both of these further down in these instructions).
 
    
-2. _site.yml. One of the primary roles of this YAML file in the top-level directory is to provide the site navigation via the "navbar". See below, for the default settings for the navbar in this file:
+2. _site.yml. One of the primary roles of this YAML file in the top-level directory is to provide the site navigation via the "navbar". See below, for the default settings for the navbar in _site.yml:
 
 ```
 navbar:
