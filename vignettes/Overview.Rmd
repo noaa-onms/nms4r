@@ -20,9 +20,9 @@ The file structure of the template site can be seen below.
 
 There are several key elements of the site.
 
-1. The top-level directory. R Markdown files in the top directory should primarily exist to display clickable infographics, with data and figures primarily being provided in the "modals" directory (see below). By default, the html-rendered version of [index.Rmd](../../inst/template_website/index.Rmd) in the top-level directory is what the site will initially display. 
+1. The top-level directory. R Markdown files in the top directory should primarily exist to display clickable infographics, with data and figures primarily being provided in the "modals" directory (see below). By default, the html-rendered version of index.Rmd in the top-level directory is what the site will initially display. 
 
-   If a clickable infographic is to be shown on a page, the associated R Markdown file will need to contain certain YAML front matter. In the example of index.Rmd, the YAML front matter looks as follows:
+   If a clickable infographic is to be shown on a page, the associated R Markdown file will need to contain certain YAML front matter. In the example of index.Rmd (which does contain a clickable infographic), the YAML front matter looks as follows:
 
 ```
 ---
@@ -77,7 +77,7 @@ Here, we discuss the process of creating images in a format that can be used by 
 
 A basic knowledge of Illustrator is assumed (if you need to get up to speed, Adobe has some [great tutorials](https://helpx.adobe.com/illustrator/tutorials.html)).
 
-Below, you can see an example infographic within Illustrator (you can find the example [here](../../vignettes/illustrator-example.svg)). There are two key components to a nms4r infographic, when it is served up on a website. First, key elements of the infographic are clickable. Secondly, within-image captions exist for the infographic that can be toggled on and off. 
+Below, you can see an example infographic within Illustrator (you can find the example image illustrator-example.svg within the svg folder of the template website). There are two key components to a nms4r infographic, when it is served up on a website. First, key elements of the infographic are clickable. Secondly, within-image captions exist for the infographic that can be toggled on and off. 
 
 ![](example_image_illustrator.png)
 
@@ -95,7 +95,7 @@ To show how images need to be formatted in order to behave as expected, let's zo
 
 A basic knowledge of Inkscape is assumed (if you need to get up to speed, [here are some great tutorials](https://inkscape.org/learn/tutorials/)).
 
-Below, you can see an example infographic within Inkscape (you can find the example [here](../../vignettes/inkscape-example.svg)). There are two key components to a nms4r infographic, when it is served up on a website. First, key elements of the infographic are clickable. Secondly, within-image captions exist for the infographic that can be toggled on and off. 
+Below, you can see an example infographic within Inkscape (you can find the example image inkscape-example.svg in the svg folder within the template website). There are two key components to a nms4r infographic, when it is served up on a website. First, key elements of the infographic are clickable. Secondly, within-image captions exist for the infographic that can be toggled on and off. 
 
 ![](example_image_inkscape.png)
 
