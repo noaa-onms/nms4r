@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 # Getting started
 
-The most straightforward way to get started is to modify the template version of a infographic-based site contained within the nms4r package. To install the website template in a local folder, use the nms4r function `create_website`. Please note that the template website won't display properly unless it is being served locally. One method of doing so is through the Viewer Pane of R Studio, via the use of the following command (replacing "template_website" with the relative path to your local location of the site): `servr::httd(here::here("template_website"))`
+The most straightforward way to get started is to modify the template version of a infographic-based site contained within the nms4r package. To install the website template in a local folder, use the nms4r function `create_website()`. Please note that the template website won't display properly unless it is being served locally. One method of doing so is through the Viewer Pane of R Studio, via the use of the following command (replacing "template_website" with the relative path to your local location of the site): `servr::httd(here::here("template_website"))`
 
 The file structure of the template site can be seen below.
 
