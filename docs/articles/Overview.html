@@ -185,6 +185,7 @@ params:
 <p><img src="example_image_illustrator_layers.png"></p>
 <ol style="list-style-type: decimal">
 <li><p>Every clickable element of an infographic needs to have a separate name. In this example, the rectangle and circle are both intended to be clickable and they, respectively, have been given the names “topic1” and “topic2”.</p></li>
+<li><p>Every clickable element must have no other elements layered above it (below is fine).</p></li>
 <li><p>All within-image captions must be contained within a layer called “text”.</p></li>
 <li><p>Lastly, the image must be saved in svg format.</p></li>
 </ol>
@@ -204,6 +205,7 @@ params:
 <p><img src="example_image_inkscape_panels.png"></p>
 <ol style="list-style-type: decimal">
 <li><p>Every clickable element of an infographic needs to have a separate id, which can be edited in the Object Properties panel. In this example, the rectangle and circle are both intended to be clickable and they, respectively, have been given the id’s “topic1” and “topic2”.</p></li>
+<li><p>Every clickable element must have no other elements layered above it (below is fine).</p></li>
 <li><p>All within-image captions must be contained within a layer called “text”. To move a text element into the “text” layer, right-click on that element and select the “Move to Layer…” option.</p></li>
 <li><p>Two edits need to be made for the “text” layer (see image below). In the XML Editor, click the entry which contains ‘inkscape:label=“text”’. Edit 1: in the box to the right, change the id to “text”. Edit 2: in the box to the right, click the x in the red circle by “style display:inline” (thereby deleting that row).</p></li>
 </ol>

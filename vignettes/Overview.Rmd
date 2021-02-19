@@ -87,9 +87,11 @@ To show how images need to be formatted in order to behave as expected, let's zo
 
 1. Every clickable element of an infographic needs to have a separate name. In this example, the rectangle and circle are both intended to be clickable and they, respectively, have been given the names "topic1" and "topic2".
 
-2. All within-image captions must be contained within a layer called "text". 
+2. Every clickable element must have no other elements layered above it (below is fine).
 
-3. Lastly, the image must be saved in svg format.
+3. All within-image captions must be contained within a layer called "text".
+
+4. Lastly, the image must be saved in svg format.
 
 ## Creating images in Inkscape
 
@@ -112,9 +114,11 @@ To show how images need to be formatted in order to behave as expected, let's zo
 1. Every clickable element of an infographic needs to have a separate id, which can be edited in the
 Object Properties panel. In this example, the rectangle and circle are both intended to be clickable and they, respectively, have been given the id's "topic1" and "topic2".
 
-2. All within-image captions must be contained within a layer called "text". To move a text element into the "text" layer, right-click on that element and select the "Move to Layer..." option.
+2. Every clickable element must have no other elements layered above it (below is fine).
 
-3. Two edits need to be made for the "text" layer (see image below). In the XML Editor, click the entry which contains 'inkscape:label="text"'. Edit 1: in the box to the right, change the id to "text". Edit 2: in the box to the right, click the x in the red circle by "style display:inline" (thereby deleting that row).
+3. All within-image captions must be contained within a layer called "text". To move a text element into the "text" layer, right-click on that element and select the "Move to Layer..." option.
+
+4. Two edits need to be made for the "text" layer (see image below). In the XML Editor, click the entry which contains 'inkscape:label="text"'. Edit 1: in the box to the right, change the id to "text". Edit 2: in the box to the right, click the x in the red circle by "style display:inline" (thereby deleting that row).
 
 ![](example_image_inkscape_panels2.png)
 
