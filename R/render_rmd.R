@@ -460,8 +460,10 @@ render_all_rmd <- function (nms = "cinms", interactive_only = F, render_all = F)
   # let's get a list of all rmd files in the directory
   modal_list<-list.files(path = modal_dir, pattern = ".Rmd", ignore.case = TRUE)
 
+
   # Now, let's generate a list of rmd files that need to be skipped.
   if (nms == "cinms"){
+    modal_list <- modal_list[!modal_list %in% "_key-climate-ocean.Rmd"]
     interactive_rmd <- c("deep-seafloor_key-climate-ocean.Rmd",
                          "forage-assemblage.Rmd",
                          "forage-fish.Rmd",
