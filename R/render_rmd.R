@@ -55,7 +55,7 @@ generate_html_4_rmd <- function (target_rmd, nms = "cinms"){
   # that is to grab everything in the <head> section of the html produced by render and then
   # to replace the <head> section of the html produced by rmd2html with that. The first step
   # here is to read in the two html files
-  target_html <- gsub("Rmd", "html", target_rmd)
+  target_html <- gsub("Rmd", "html", target_rmd, ignore.case = TRUE)
   target_lines  <- readLines(target_html)
   replacement_path <- paste0(modal_dir,"temp_file.html")
   replacement_lines <- readLines(replacement_path)
