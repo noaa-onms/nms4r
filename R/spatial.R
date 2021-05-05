@@ -244,11 +244,17 @@ plot_SST_anomaly <- function(csv_SST){
   # figure that doesn't have gaps in the color fill.
 
   # load in the SST anomaly data
-  SST_data<-read.csv(csv_SST, header = T, colClasses = c("Date", "numeric"))
+  SST_data <- read.csv(csv_SST, header = T, colClasses = c("Date", "numeric"))
+
+  #browser()
+  message(paste(
+    "DEBUG nms4r::plot_SST_anomaly() -- SST_data: ", paste(names(SST_data), collapse = ', '),
+    "; ", paste(dim(SST_data), collapse = " x ")))
+  message(head(SST_data))
 
   # create an output data frame and initialize the row of the data frame to write
   # on to 1
-  output_data<-data.frame(date= SST_data$date,below=NA,above=NA )
+  output_data <- data.frame(date= SST_data$date, below=NA,above=NA )
   write_line <-1
 
   # Let's go through every row of the anomaly data
