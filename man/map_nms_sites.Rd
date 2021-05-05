@@ -4,7 +4,7 @@
 \alias{map_nms_sites}
 \title{Produce a map of where rocky intertidal data was collected}
 \usage{
-map_nms_sites(nms)
+map_nms_sites(nms, dir_gdrive = "/Volumes/GoogleDrive/Shared drives/NMS/data")
 }
 \arguments{
 \item{nms}{The National Marine Sanctuary code.}
@@ -15,6 +15,9 @@ This function returns a mapview object displaying data collection sites.
 \description{
 This function produces an interactive map showing where rocky intertidal data
 was collected by the MARINe consortium.
+}
+\details{
+NOTE: Since this data has not yet been made publicly available, it depends on a \code{dir_gdrive} path variable
 }
 \examples{
 \dontrun{
