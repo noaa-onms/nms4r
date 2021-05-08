@@ -33,12 +33,6 @@ calculate_SST_anomaly <-function(sanct) {
   SST_filepath <- get_filepath("statistics_sst_cinms.csv", sanct)
   SST_data<-read.csv(SST_filepath, header = T)
 
-  #DEBUG
-  print("SST_filepath:")
-  print(SST_filepath)
-  print("SST_data:")
-  print(head(SST_data))
-
   right_dates <- SST_data[as.Date(SST_data$date) >= "2003-01-01" & as.Date(SST_data$date) <= "2017-12-31", ]
 
   # Now let's define a data frame, where for every month of the year, an average SST value is calculated
@@ -48,10 +42,6 @@ calculate_SST_anomaly <-function(sanct) {
     SST_avg$SST_Average_2003_2017[i] <- round(mean(month_slice$average_sst),5)
   }
 
-  #DEBUG
-  print("SST_avg:")
-  print(head(SST_avg))
-
   # Now let's define a data frame, where for every SST in the dataset, we subtract the average SST for the
   # relevant month from that SST. This is the anomaly value.
   SST_anom <- data.frame(date = SST_data$date, sst_anomaly = 0)
@@ -60,10 +50,6 @@ calculate_SST_anomaly <-function(sanct) {
     SST_anomaly <- SST_data$average_sst[q] - SST_avg$SST_Average_2003_2017[correct_month]
     SST_anom$sst_anomaly[q] <- round(SST_anomaly,5)
   }
-
-  #DEBUG
-  print("SST_anom:")
-  print(head(SST_anom))
 
   # Let's write the anomaly data frame to a file
   write_filepath <- get_filepath("sst_anomaly_cinms.csv", sanct)
@@ -113,10 +99,6 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   # let's define the date sequence as every month in the date range
   date_sequence <- seq.Date(t_beg, t_end, by = 'month') # , len = 12)
 
-  # DEBUG
-  print("Date Sequence:")
-  print(head(date_sequence))
-
   # for the following data set, the date is off by 1 day, so let's fix that
   if (erddap_id == "nesdisVHNSQchlaMonthly"){
     date_sequence <- date_sequence -1
@@ -136,16 +118,8 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
     datafile <- here::here(paste0(sanctuary,"/data/oceano/",csv_file))
   }
 
-  # DEBUG
-  print("datafile:")
-  print(datafile)
-
   # load in the csv file containing the SST or chlorophyll data for a given sanctuary
   read_in <- read.csv(datafile, stringsAsFactors = FALSE)
-
-  # DEBUG
-  print("Read In:")
-  print(head(read_in))
 
   # Let's generate the data frame that will ultimately be written back out to overwrite the csv file.
   # The data frame by default sets NA for all metric values for every month, to start. Later in this function, we'll change
@@ -188,10 +162,6 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
       )
     }
   }
-
-  # DEBUG
-  print("Write Out:")
-  print(head(write_out))
 
   # overwrite the existing csv file with the output dataframe
   write.table(write_out, file = datafile, sep =",", row.names=FALSE, quote = FALSE)
