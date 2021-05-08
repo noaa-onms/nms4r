@@ -34,6 +34,8 @@ calculate_SST_anomaly <-function(sanct) {
   SST_data<-read.csv(SST_filepath, header = T)
 
   #DEBUG
+  print("SST_filepath:")
+  print(SST_filepath)
   print("SST_data:")
   print(head(SST_data))
 
