@@ -193,17 +193,9 @@ plot_metric_timeseries <- function(csv, metric, ...){
   lower_value <- data_history[,5]
   upper_value <- data_history[,6]
 
-  #DEBUG
-  print("data_history:")
-  print(head(data_history))
-
   # create a data frame which lines up the data in the way that dygraph needs it
   history <- data.frame(date = as.Date(dates, "%Y-%m-%d"), avg_value = average_value, lower = lower_value, upper = upper_value)
   history <- xts::xts(x = history[,-1], order.by = history$date)
-
-  #DEBUG
-  print("history:")
-  print(head(history))
 
   # create the figure
   if (metric == "sst"){ # plotting sea surface temperature
@@ -253,12 +245,6 @@ plot_SST_anomaly <- function(csv_SST){
 
   # load in the SST anomaly data
   SST_data <- read.csv(csv_SST, header = T, colClasses = c("Date", "numeric"))
-
-  #browser()
-  message(paste(
-    "DEBUG nms4r::plot_SST_anomaly() -- SST_data: ", paste(names(SST_data), collapse = ', '),
-    "; ", paste(dim(SST_data), collapse = " x ")))
-  message(head(SST_data))
 
   # create an output data frame and initialize the row of the data frame to write
   # on to 1

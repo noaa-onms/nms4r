@@ -471,7 +471,6 @@ render_all_rmd <- function (nms = "cinms", interactive_only = F, render_all = F)
                          "kelp-forest_key-climate-ocean.Rmd",
                          "key-climate-ocean.Rmd",
                          "pelagic_key-climate-ocean.Rmd",
-                         "rocky-map.Rmd",
                          "rocky-shore_key-climate-ocean.Rmd",
                          "sandy-beach_key-climate-ocean.Rmd",
                          "sandy-seafloor_key-climate-ocean.Rmd")
