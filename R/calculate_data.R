@@ -98,6 +98,10 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   # let's define the date sequence as every month in the date range
   date_sequence <- seq.Date(t_beg, t_end, by = 'month') # , len = 12)
 
+  # DEBUG
+  print("Date Sequence:")
+  print(head(date_sequence))
+
   # for the following data set, the date is off by 1 day, so let's fix that
   if (erddap_id == "nesdisVHNSQchlaMonthly"){
     date_sequence <- date_sequence -1
@@ -117,8 +121,16 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
     datafile <- here::here(paste0(sanctuary,"/data/oceano/",csv_file))
   }
 
+  # DEBUG
+  print("datafile:")
+  print(datafile)
+
   # load in the csv file containing the SST or chlorophyll data for a given sanctuary
   read_in <- read.csv(datafile, stringsAsFactors = FALSE)
+
+  # DEBUG
+  print("Read In:")
+  print(head(read_in))
 
   # Let's generate the data frame that will ultimately be written back out to overwrite the csv file.
   # The data frame by default sets NA for all metric values for every month, to start. Later in this function, we'll change
@@ -161,6 +173,11 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
       )
     }
   }
+
+  # DEBUG
+  print("Write Out:")
+  print(head(write_out))
+
   # overwrite the existing csv file with the output dataframe
   write.table(write_out, file = datafile, sep =",", row.names=FALSE, quote = FALSE)
   return(invisible())
