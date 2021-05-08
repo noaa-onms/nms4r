@@ -32,6 +32,11 @@ calculate_SST_anomaly <-function(sanct) {
   # Let's read in the SST data file and then pull the data from 2003-2017
   SST_filepath <- get_filepath("statistics_sst_cinms.csv", sanct)
   SST_data<-read.csv(SST_filepath, header = T)
+
+  #DEBUG
+  print("SST_data:")
+  print(head(SST_data))
+
   right_dates <- SST_data[SST_data$date >= "2003-01-01" & SST_data$date <= "2017-12-31", ]
 
   # Now let's define a data frame, where for every month of the year, an average SST value is calculated
