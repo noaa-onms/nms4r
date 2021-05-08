@@ -39,7 +39,7 @@ calculate_SST_anomaly <-function(sanct) {
   print("SST_data:")
   print(head(SST_data))
 
-  right_dates <- SST_data[SST_data$date >= "2003-01-01" & SST_data$date <= "2017-12-31", ]
+  right_dates <- SST_data[as.Date(SST_data$date) >= "2003-01-01" & as.Date(SST_data$date) <= "2017-12-31", ]
 
   # Now let's define a data frame, where for every month of the year, an average SST value is calculated
   SST_avg <- data.frame(Month = month.name, SST_Average_2003_2017 = 0)
@@ -47,6 +47,10 @@ calculate_SST_anomaly <-function(sanct) {
     month_slice <- right_dates[months(as.Date(right_dates$date)) == month.name[i],]
     SST_avg$SST_Average_2003_2017[i] <- round(mean(month_slice$average_sst),5)
   }
+
+  #DEBUG
+  print("SST_avg:")
+  print(head(SST_avg))
 
   # Now let's define a data frame, where for every SST in the dataset, we subtract the average SST for the
   # relevant month from that SST. This is the anomaly value.
@@ -56,6 +60,10 @@ calculate_SST_anomaly <-function(sanct) {
     SST_anomaly <- SST_data$average_sst[q] - SST_avg$SST_Average_2003_2017[correct_month]
     SST_anom$sst_anomaly[q] <- round(SST_anomaly,5)
   }
+
+  #DEBUG
+  print("SST_anom:")
+  print(head(SST_anom))
 
   # Let's write the anomaly data frame to a file
   write_filepath <- get_filepath("sst_anomaly_cinms.csv", sanct)
