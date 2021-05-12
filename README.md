@@ -1,4 +1,4 @@
-# nms4r <img src="man/figures/logo.png" align="right" alt="" width="120" />
+# onmsR <img src="man/figures/onmsR.svg" align="right" alt="" width="120" />
 
 **onmsR** is an R package of common functions for dataset wrangling and plotting used across National Marine Sanctuaries, originally for interactive infographic products per Sanctuary (see [infographiq](https://marinebon.org/infographiq)).
 

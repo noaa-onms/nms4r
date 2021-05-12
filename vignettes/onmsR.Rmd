@@ -18,7 +18,7 @@ The **onmsR** is an R package of common functions for dataset wrangling and plot
 
 To install it, run this once, and for updating in the future:
 
-```{r setup}
+```{r install, eval=F}
 remotes::install_github("noaa-onms/onmsR")
 ```
 

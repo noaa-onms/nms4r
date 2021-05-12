@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.2.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1"
+	 id="Layer_1" inkscape:export-filename="/Users/jai/Downloads/nms4r.png" inkscape:export-xdpi="96" inkscape:export-ydpi="96" inkscape:version="1.0.1 (c497b03c, 2020-09-10)" sodipodi:docname="nms4r.svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 735 852"
+	 style="enable-background:new 0 0 735 852;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_2_);}
+	.st1{fill:url(#circle167_1_);}
+	.st2{opacity:0.25;fill:url(#ellipse169_1_);enable-background:new    ;}
+	.st3{fill:#6CDCFC;}
+	.st4{fill:#E6B35A;}
+	.st5{fill:none;}
+	.st6{fill:#FFFFFF;}
+	.st7{font-family:'Helvetica';}
+	.st8{font-size:204.4265px;}
+</style>
+<sodipodi:namedview  bordercolor="#666666" borderopacity="1" gridtolerance="10" guidetolerance="10" id="namedview236" inkscape:current-layer="Layer_1" inkscape:cx="254.98972" inkscape:cy="585.18752" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-height="1395" inkscape:window-maximized="0" inkscape:window-width="1692" inkscape:window-x="83" inkscape:window-y="40" inkscape:zoom="1.1830986" objecttolerance="10" pagecolor="#ffffff" showgrid="false">
+	</sodipodi:namedview>
+<g>
+	<defs>
+		<polygon id="SVGID_1_" points="369.5,9.1 728.2,216.2 728.2,638.3 369.5,846.7 2.8,638.3 2.8,216.2 		"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	
+		<g id="g171" inkscape:export-filename="/Users/jai/Documents/nms4r/man/figures/logo.png" inkscape:export-xdpi="96" inkscape:export-ydpi="96" class="st0">
+		
+			<radialGradient id="circle167_1_" cx="408.8522" cy="603.5595" r="362.7" gradientTransform="matrix(2.092694e-02 1.3223 1.4262 -2.262240e-02 -514.3345 -111.9628)" gradientUnits="userSpaceOnUse">
+			<stop  offset="0" style="stop-color:#0000C0"/>
+			<stop  offset="1" style="stop-color:#000004"/>
+		</radialGradient>
+		<circle id="circle167" class="st1" cx="365.5" cy="439.2" r="442.1"/>
+		
+			<radialGradient id="ellipse169_1_" cx="408.8522" cy="603.5595" r="362.7" gradientTransform="matrix(2.092694e-02 1.3223 1.4262 -2.262240e-02 -514.3345 -111.9628)" gradientUnits="userSpaceOnUse">
+			<stop  offset="0" style="stop-color:#0000C0"/>
+			<stop  offset="1" style="stop-color:#000004"/>
+		</radialGradient>
+		<ellipse id="ellipse169" class="st2" cx="366.9" cy="107.5" rx="315.2" ry="234.6"/>
+	</g>
+</g>
+<path id="path173" class="st3" d="M705.6,197.9L427.8,37.5L367.5,2.7l-60.3,34.8L29.4,197.9L0.1,214.8v424.3L29.4,656l281.2,162.4
+	l56.9,32.8l56.9-32.8L705.6,656l29.3-16.9V214.8L705.6,197.9z M705.6,623.2L367.5,818.4L29.4,623.2V232.7L367.5,37.5l0,0
+	l338.1,195.2V623.2L705.6,623.2z"/>
+<path id="path175" class="st4" d="M182.4,633.9l0.9-0.9H183L182.4,633.9z"/>
+<path id="path229" class="st5" d="M374.9,305.7c15-4.4,24.7-14.6,24.7-30.8c0-20.9-17.5-29.5-36.3-29.5c-9.7,0-19.6,2.3-29.3,2.3
+	c-5.9-0.1-11.8-0.8-17.5-2.3v10.1l15.6,1.9v91.5h-15.6v10.7H362v-10.7h-18.1v-41.3h18.5l34.6,51.9h20.9v-10.6h-13.7L374.9,305.7z"/>
+<text transform="matrix(0.8377 0 0 1 83.3462 492.7246)" class="st6 st7 st8">onmsR</text>
+</svg>
