@@ -12,6 +12,6 @@ library(onmsR)
 
 ## Getting started
 
-If you're getting started with `onmsR`, please take a look at the **Reference** and **Articles** menus and especially [Get started](articles/onmsR.html) article.
+If you're getting started with `onmsR`, please take a look at the **Reference** and **Articles** menus and especially [Get started](https://noaa-onms.github.io/onmsR/articles/onmsR.html) article.
 
 
