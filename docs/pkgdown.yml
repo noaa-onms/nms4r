@@ -4,10 +4,6 @@ pkgdown_sha: ~
 articles:
   Calcofi: Calcofi.html
   Erddap: Erddap.html
-  Introduction: Introduction.html
   Marine: Marine.html
-  Overview: Overview.html
-  Reporting: Reporting.html
-  Utilities: Utilities.html
-last_built: 2021-02-05T23:26Z
+last_built: 2021-05-12T18:53Z
 

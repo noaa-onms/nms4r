@@ -1,0 +1,32 @@
+---
+title: "Introduction to onmsR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to onmsR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The **onmsR** is an R package of common functions for dataset wrangling and plotting used across National Marine Sanctuaries, originally for interactive infographic products per Sanctuary (see [infographiq](https://marinebon.org/infographiq)).
+
+To install it, run this once, and for updating in the future:
+
+```{r setup}
+remotes::install_github("noaa-onms/onmsR")
+```
+
+```{r setup}
+library(onmsR)
+```
+
+...TBD...
+
+
+

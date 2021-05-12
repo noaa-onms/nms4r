@@ -1,5 +1,5 @@
-Package: nms4r
-Title: National Marine Sanctuaries tools for R
+Package: onmsR
+Title: Office of National Marine Sanctuaries functions for dataset-specific wrangling and plotting in R
 Version: 0.1.4
 Authors@R: 
     c(person(given = "Ben",
