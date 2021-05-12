@@ -12,6 +12,6 @@ library(onmsR)
 
 ## Getting started
 
-If you're getting started with **nms4r**, please take a look at the **Articles** and **Reference** menu from the menu [Introductory vignette](articles/Introduction.html).
+If you're getting started with `onmsR`, please take a look at the **Reference** and **Articles** menus and especially [Get started](articles/onmsR.html) article.
 
 

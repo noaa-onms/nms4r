@@ -46,6 +46,6 @@ Imports:
     tools,
     units,
     xts
-URL: https://github.com/marinebon/nms4r
-BugReports: https://github.com/marinebon/nms4r/issues
+URL: https://github.com/noaa-onms/onmsR
+BugReports: https://github.com/noaa-onms/onmsR/issues
 VignetteBuilder: knitr

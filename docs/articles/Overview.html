@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Creating a new Infographic Website • nms4r</title>
+<title>Creating a new Infographic Website • onmsR</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Creating a new Infographic Website">
-<meta property="og:description" content="nms4r">
+<meta property="og:description" content="onmsR">
 <meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -37,7 +37,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">nms4r</a>
+        <a class="navbar-link" href="../index.html">onmsR</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
@@ -86,7 +86,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/marinebon/nms4r/">
+  <a href="https://github.com/noaa-onms/onmsR/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -108,7 +108,7 @@
       <h1 data-toc-skip>Creating a new Infographic Website</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/marinebon/nms4r/blob/master/vignettes/Overview.Rmd"><code>vignettes/Overview.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/noaa-onms/onmsR/blob/master/vignettes/Overview.Rmd"><code>vignettes/Overview.Rmd</code></a></small>
       <div class="hidden name"><code>Overview.Rmd</code></div>
 
     </div>
@@ -118,7 +118,7 @@
 <div id="getting-started" class="section level1">
 <h1 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting started</h1>
-<p>The most straightforward way to get started is to modify the template version of a infographic-based site contained within the nms4r package. To install the website template in a local folder, use the nms4r function <code><a href="../reference/create_website.html">create_website()</a></code>. Please note that the template website won’t display properly unless it is being served locally. One method of doing so is through the Viewer Pane of R Studio, via the use of the following command (replacing “template_website” with the relative path to your local location of the site): <code><a href="https://rdrr.io/pkg/servr/man/httd.html">servr::httd(here::here("template_website"))</a></code></p>
+<p>The most straightforward way to get started is to modify the template version of a infographic-based site contained within the onmsR package. To install the website template in a local folder, use the onmsR function <code><a href="../reference/create_website.html">create_website()</a></code>. Please note that the template website won’t display properly unless it is being served locally. One method of doing so is through the Viewer Pane of R Studio, via the use of the following command (replacing “template_website” with the relative path to your local location of the site): <code><a href="https://rdrr.io/pkg/servr/man/httd.html">servr::httd(here::here("template_website"))</a></code></p>
 <p>The file structure of the template site can be seen below.</p>
 <p><img src="file_structure.png"></p>
 <p>There are several key elements of the site.</p>
@@ -170,7 +170,7 @@ params:
 <div id="creating-infographic-images" class="section level1">
 <h1 class="hasAnchor">
 <a href="#creating-infographic-images" class="anchor"></a>Creating infographic images</h1>
-<p>Here, we discuss the process of creating images in a format that can be used by nms4r. It is recommended that vector-based graphics software be used to create your images and we provide instructions for two such software packages:</p>
+<p>Here, we discuss the process of creating images in a format that can be used by onmsR. It is recommended that vector-based graphics software be used to create your images and we provide instructions for two such software packages:</p>
 <ul>
 <li><p><a href="https://www.adobe.com/products/illustrator.html">Adobe Illustrator</a> (commercial software that requires a paid license)</p></li>
 <li><p><a href="https://inkscape.org/">Inkscape</a> (open source software that can be used at no cost)</p></li>
@@ -179,7 +179,7 @@ params:
 <h2 class="hasAnchor">
 <a href="#creating-images-in-adobe-illustrator" class="anchor"></a>Creating images in Adobe Illustrator</h2>
 <p>A basic knowledge of Illustrator is assumed (if you need to get up to speed, Adobe has some <a href="https://helpx.adobe.com/illustrator/tutorials.html">great tutorials</a>).</p>
-<p>Below, you can see an example infographic created within Illustrator (you can find this example image illustrator-example.svg within the svg folder of the template website). There are two key components to a nms4r infographic, when it is served up on a website. First, key elements of the infographic are clickable. Secondly, within-image captions exist for the infographic that can be toggled on and off.</p>
+<p>Below, you can see an example infographic created within Illustrator (you can find this example image illustrator-example.svg within the svg folder of the template website). There are two key components to a onmsR infographic, when it is served up on a website. First, key elements of the infographic are clickable. Secondly, within-image captions exist for the infographic that can be toggled on and off.</p>
 <p><img src="example_image_illustrator.png"></p>
 <p>To show how images need to be formatted in order to behave as expected, let’s zoom in on the Layer panel in the upper right of the above image. To view the Layer panel from the Menu, select Window &gt; Layers.</p>
 <p><img src="example_image_illustrator_layers.png"></p>
@@ -194,7 +194,7 @@ params:
 <h2 class="hasAnchor">
 <a href="#creating-images-in-inkscape" class="anchor"></a>Creating images in Inkscape</h2>
 <p>A basic knowledge of Inkscape is assumed (if you need to get up to speed, <a href="https://inkscape.org/learn/tutorials/">here are some great tutorials</a>).</p>
-<p>Below, you can see an example infographic created within Inkscape (you can find this example image inkscape-example.svg in the svg folder within the template website). There are two key components to a nms4r infographic, when it is served up on a website. First, key elements of the infographic are clickable. Secondly, within-image captions exist for the infographic that can be toggled on and off.</p>
+<p>Below, you can see an example infographic created within Inkscape (you can find this example image inkscape-example.svg in the svg folder within the template website). There are two key components to a onmsR infographic, when it is served up on a website. First, key elements of the infographic are clickable. Secondly, within-image captions exist for the infographic that can be toggled on and off.</p>
 <p><img src="example_image_inkscape.png"></p>
 <p>To show how images need to be formatted in order to behave as expected, let’s zoom in on the panels to the right. You’ll need to have three panels visible:</p>
 <ol style="list-style-type: decimal">

@@ -158,7 +158,7 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
       try(
         # note the use of the try function, due to the flaky nature of the server holding the satellite
         # data. If the server is down, this given month will retain NA until a future point that the server is up
-        write_out[i, 2:6]<-round(nms4r::ply2erddap(sanctuary, erddap_id, metric, year, month, c("mean", "sd", "median", "q5", "q95")),5)
+        write_out[i, 2:6]<-round(onmsR::ply2erddap(sanctuary, erddap_id, metric, year, month, c("mean", "sd", "median", "q5", "q95")),5)
       )
     }
   }

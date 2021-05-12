@@ -25,12 +25,12 @@ this process is to update the relevant tables, which for the Channel Islands Mar
 Sanctuary (CINMS) are located at: <https://github.com/marinebon/cinms/tree/master/data/oceano>. 
 These tables, saved in csv format, are updated monthly via GitHub Actions using 
 the [update_oceano.yml](https://github.com/marinebon/cinms/blob/master/.github/workflows/update-oceano.yml) workflow. This workflow in turn calls the R script [update_oceano-data.R](https://github.com/marinebon/cinms/blob/master/scripts/update_oceano-data.R), which 
-uses the `calculate_statistics()` and `calculate_SST_anomaly` functions from the **nms4r** package to update the relevant csv files.
+uses the `calculate_statistics()` and `calculate_SST_anomaly` functions from the **onmsR** package to update the relevant csv files.
 
 ## Figure Preparation
 
 Once the data tables have been updated, the next step is to update the figures that 
 draw upon those tables. This is done by rerendering the modal windows (which are 
 R Markdown files) that contain those figures. This also occurs on a monthly basis via 
-GitHub Actions using the [update_oceano.yml](https://github.com/marinebon/cinms/blob/master/.github/workflows/update-oceano.yml) workflow. The workflow calls the R script [render_oceano-modals.R](https://github.com/marinebon/cinms/blob/master/scripts/render_oceano-modals.R), which calls the **nms4r** function `render_all_rmd()` to update the relevant modal windows.
+GitHub Actions using the [update_oceano.yml](https://github.com/marinebon/cinms/blob/master/.github/workflows/update-oceano.yml) workflow. The workflow calls the R script [render_oceano-modals.R](https://github.com/marinebon/cinms/blob/master/scripts/render_oceano-modals.R), which calls the **onmsR** function `render_all_rmd()` to update the relevant modal windows.
 
