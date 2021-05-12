@@ -28,8 +28,10 @@ Imports:
     htmltools,
     knitr,
     leaflet,
+    librarian,
     lwgeom,
     lubridate,
+    magrittr,
     mapview,
     purrr,
     raster,
@@ -43,9 +45,7 @@ Imports:
     stringr,
     tools,
     units,
-    xts,
-    magrittr,
-    librarian
+    xts
 URL: https://github.com/marinebon/nms4r
 BugReports: https://github.com/marinebon/nms4r/issues
 VignetteBuilder: knitr
