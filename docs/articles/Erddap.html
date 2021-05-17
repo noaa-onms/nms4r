@@ -120,7 +120,7 @@
 <div id="figure-preparation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#figure-preparation" class="anchor"></a>Figure Preparation</h2>
-<p>Once the data tables have been updated, the next step is to update the figures that draw upon those tables. This is done by rerendering the modal windows (which are R Markdown files) that contain those figures. This also occurs on a monthly basis via GitHub Actions using the <a href="https://github.com/marinebon/cinms/blob/master/.github/workflows/update-oceano.yml">update_oceano.yml</a> workflow. The workflow calls the R script <a href="https://github.com/marinebon/cinms/blob/master/scripts/render_oceano-modals.R">render_oceano-modals.R</a>, which calls the <strong>onmsR</strong> function <code>render_all_rmd()</code> to update the relevant modal windows.</p>
+<p>Once the data tables have been updated, the next step is to update the figures that draw upon those tables. This is done by rerendering the modal windows (which are R Markdown files) that contain those figures. This also occurs on a monthly basis via GitHub Actions using the <a href="https://github.com/marinebon/cinms/blob/master/.github/workflows/update-oceano.yml">update_oceano.yml</a> workflow. The workflow calls the R script <a href="https://github.com/marinebon/cinms/blob/master/scripts/render_oceano-modals.R">render_oceano-modals.R</a>, which calls the <strong>onmsR</strong> function <code><a href="../reference/render_all_rmd.html">render_all_rmd()</a></code> to update the relevant modal windows.</p>
 </div>
   </div>
 
