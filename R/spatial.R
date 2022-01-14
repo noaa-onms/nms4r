@@ -78,9 +78,14 @@ map_nms_sites <- function(nms, dir_gdrive="/Volumes/GoogleDrive/Shared drives/NM
 #' }
 #'
 plot_intertidal_nms <- function(
-  d_csv, NMS, spp, sp_name, nms_rgns, spp_targets = NULL,
+  d_csv, NMS, spp, sp_name, nms_rgns = NULL, spp_targets = NULL,
   fld_val = "pct_cover", label_y = "Annual Mean Percent Cover (%)",
   label_x = "Year", nms_skip_regions = c("OCNMS","MBNMS")){
+
+  # d_csv; NMS="OCNMS"; spp="CHTBAL"; sp_name="Acorn Barnacles"
+  # nms_rgns = NULL
+  # spp_targets = NULL; fld_val = "pct_cover"; label_y = "Annual Mean Percent Cover (%)"
+  # label_x = "Year"; nms_skip_regions = c("OCNMS","MBNMS")
 
   d <- readr::read_csv(d_csv) %>%
     dplyr::filter(nms == NMS, sp %in% spp) %>%
@@ -156,15 +161,21 @@ plot_intertidal_nms <- function(
   ln_colors[which(names(q) == NMS)] <- "black"
 
   # plot dygraph
-  dygraphs::dygraph(
+  p <- dygraphs::dygraph(
     q,
     main = glue::glue("{sp_name} in {NMS}"),
     xlab = label_x,
     ylab = label_y) %>%
     dygraphs::dyOptions(
       connectSeparatedPoints = FALSE,
-      colors = ln_colors) %>%
-    dygraphs::dySeries(NMS, strokeWidth = 3) %>%
+      colors = ln_colors)
+
+  if (length(rgns) > 0){
+    p <- p %>%
+      dygraphs::dySeries(NMS, strokeWidth = 3)
+  }
+
+  p %>%
     dygraphs::dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
     dygraphs::dyRangeSelector(fillColor = " #FFFFFF", strokeColor = "#FFFFFF")
 }
