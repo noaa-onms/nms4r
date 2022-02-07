@@ -196,7 +196,6 @@ get_dates <- function(info){
 #'
 #' @param nms The code for a national marine sanctuary.
 #' @return The function returns a sf object containing the polygons of a sanctuary.
-#' @export
 #' @examples \dontrun{
 #' get_nms_polygons("cinms")
 #' }
@@ -232,36 +231,81 @@ get_nms_polygons <- function(nms){
 
     download.file(nms_url, nms_zip)
     unzip(nms_zip, exdir = shp_dir)
-    file_delete(nms_zip)
+    unlink(nms_zip)
   }
   # read and convert to standard geographic projection
   sf::read_sf(nms_shp) %>%
     sf::st_transform(4326)
 }
 
-#' make_sites_csv BEN
+#' Make Sanctuary sites for mapping from raw rocky intertidal (MARINe) data file
 #'
-#' description BEN
+#' @param raw_csv raw data file containing fields: \code{marine_site_name}, \code{longitude}, \code{latitude}.
+#' @param nms_ply optional National Marine Sanctuary polygon, e.g. from \code{get_nms_polygons("ocnms")} to spatially filter from \code{raw_csv} within a 0.01 decimal degrees (≈ 1.11 km). Usually include either parameter \code{nms_ply} or \code{site_regions} to select sites for a given sanctuary.
+#' @param site_regions optional lookup table containing fields for region \code{rgn} and site \code{site} to filter by \code{site} from \code{raw_csv} and append \code{rgn} field. Usually include either parameter \code{nms_ply} or \code{site_regions} to select sites for a given sanctuary.
+#' @param raw_source either "csv" (default) or "erddap" for handling file format differences
+#' @return sites A data frame with 59 rows and 4 variables:
+#' \describe{
+#'   \item{nms}{National Marine Sanctuary code, e.g. CINMS or MBNMS}
+#'   \item{rgn}{region}
+#'   \item{site}{site}
+#' }
 #'
-#' @param raw_csv BEN
-#' @param sites_csv BEN
-#' @return BEN
-#'
-make_sites_csv <- function(raw_csv, sites_csv){
-  raw <- read_csv_fmt(raw_csv, raw_fmt)
+make_rocky_sites <- function(raw_csv, nms_ply=NULL, site_regions = NULL, raw_source=c("csv","erddap")){
+  # raw_csv    = "/Users/bbest/My Drive (ben@ecoquants.com)/projects/nms-web/data/MARINe_Pacific-rocky-intertidal/egnyte_2021-12-06/phototranraw_download_all_20211206.csv"
+  # nms_ply    = get_nms_polygons("ocnms")
+  # sites_csv  = "/Users/bbest/github/noaa-onms/ocnms/data/rocky_sites.csv"
+  #
+  # raw_source = "csv"
 
+  librarian::shelf(dplyr, readr)
+
+  # devtools::load_all()
+
+  # read raw_csv to table
+  if (raw_source[1] == "erddap"){
+    raw <- read_csv_fmt(raw_csv, raw_fmt)
+  } else {
+    raw <- read_csv(raw_csv)
+  }
+
+  # extract all unique sites from raw_csv as spatial points
   sites_pts <- raw %>%
     dplyr::rename(
       site = marine_site_name) %>%
+    filter(
+      !is.na(longitude),
+      !is.na(latitude)) %>%
     dplyr::group_by(site) %>%
     dplyr::summarize(
       lat = dplyr::first(latitude),
       lon = dplyr::first(longitude)) %>%
     sf::st_as_sf(coords = c("lon", "lat"), crs = 4326, remove = F)
+  message(glue("Found {nrow(sites_pts)} sites"))
+
+  # get spatial points by nms_ply
+  if (!is.null(nms_ply)){
+    sites_pts <- sites_pts %>%
+      sf::st_intersection(
+        nms_ply %>%
+          sf::st_buffer(0.01)) # 0.01 dd ≈ 1.11 km
+  }
+
+  # TODO: filter points by intersecting sanctuary if not in rocky_sanctuary_sites
+
+  sites_nms_pts <- sites_pts %>%
+    sf::st_intersection(
+      nms_ply %>%
+        sf::st_buffer(0.01)) # 0.01 dd ≈ 1.11 km
+
+  if (!is.null(sites_geojson))
+    sf::write_sf(sites_pts, sites_geojson)
 
   sites_pts %>%
     sf::st_set_geometry(NULL) %>%
     readr::write_csv(sites_csv)
+
+  sites_csv
 }
 
 #' Extract ERDDAP statistics from polygon by year-month

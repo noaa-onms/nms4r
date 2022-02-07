@@ -23,6 +23,7 @@ map_nms_sites <- function(nms, dir_gdrive="/Volumes/GoogleDrive/Shared drives/NM
   sites_nms_shp <- glue::glue("{dir_shp1}/{NMS}_sites.shp")
   nms_ply <- get_nms_polygons(nms)
 
+  browser()
   if (!file.exists(sites_nms_shp)){
     # BEN: note that the following line of code will fail because raw_csv and sites_csv
     # aren't defined anywhere
@@ -42,7 +43,7 @@ map_nms_sites <- function(nms, dir_gdrive="/Volumes/GoogleDrive/Shared drives/NM
   mapview::mapview(
     nms_ply, legend = TRUE, layer.name = "Sanctuary", zcol = "SANCTUARY") +
     mapview::mapview(
-      sites_nms_pts, legend = TRUE, layer.name = "Site",
+      site_pts, legend = TRUE, layer.name = "Site",
       zcol = "site", col.regions = colorRampPalette(brewer.pal(11, "Set3")))
 }
 

@@ -155,7 +155,7 @@ Monitoring program.</p>
   <span class='va'>NMS</span>,
   <span class='va'>spp</span>,
   <span class='va'>sp_name</span>,
-  <span class='va'>nms_rgns</span>,
+  nms_rgns <span class='op'>=</span> <span class='cn'>NULL</span>,
   spp_targets <span class='op'>=</span> <span class='cn'>NULL</span>,
   fld_val <span class='op'>=</span> <span class='st'>"pct_cover"</span>,
   label_y <span class='op'>=</span> <span class='st'>"Annual Mean Percent Cover (%)"</span>,
@@ -213,19 +213,19 @@ Monitoring program.</p>
     <p>This function returns a dygraph object of the plotted time series data.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>nms</span> <span class='op'>&lt;-</span> <span class='st'>"cinms"</span>
-<span class='va'>d_csv</span> <span class='op'>&lt;-</span> <span class='st'>"/Volumes/GoogleDrive/Shared drives/NMS/data/github_info-intertidal_data/sanctuary_species_percentcover.csv"</span>
-<span class='va'>nms_rgns_csv</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>dir_pfx</span>, <span class='st'>"MARINe_graphs.xlsx - sites in regions.csv"</span><span class='op'>)</span>
-<span class='va'>nms_rgns1</span> <span class='op'>&lt;-</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='va'>nms_rgns_csv</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>tidyr</span><span class='fu'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/fill.html'>fill</a></span><span class='op'>(</span><span class='va'>nms</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>nms</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>tidyr</span><span class='fu'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/fill.html'>fill</a></span><span class='op'>(</span><span class='va'>region</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>rgn <span class='op'>=</span> <span class='va'>region</span><span class='op'>)</span>
-<span class='fu'>plot_intertidal_nms</span><span class='op'>(</span><span class='va'>d_csv</span>, <span class='st'>"CINMS"</span>, <span class='st'>"MYTCAL"</span>, <span class='st'>"California Mussels"</span>, <span class='va'>nms_rgns1</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='va'>nms</span> <span class='op'>&lt;-</span> <span class='st'>"cinms"</span></span>
+<span class='r-in'><span class='va'>d_csv</span> <span class='op'>&lt;-</span> <span class='st'>"/Volumes/GoogleDrive/Shared drives/NMS/data/github_info-intertidal_data/sanctuary_species_percentcover.csv"</span></span>
+<span class='r-in'><span class='va'>nms_rgns_csv</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>dir_pfx</span>, <span class='st'>"MARINe_graphs.xlsx - sites in regions.csv"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>nms_rgns1</span> <span class='op'>&lt;-</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='va'>nms_rgns_csv</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>tidyr</span><span class='fu'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/fill.html'>fill</a></span><span class='op'>(</span><span class='va'>nms</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>nms</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>tidyr</span><span class='fu'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/fill.html'>fill</a></span><span class='op'>(</span><span class='va'>region</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>rgn <span class='op'>=</span> <span class='va'>region</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>plot_intertidal_nms</span><span class='op'>(</span><span class='va'>d_csv</span>, <span class='st'>"CINMS"</span>, <span class='st'>"MYTCAL"</span>, <span class='st'>"California Mussels"</span>, <span class='va'>nms_rgns1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -49,3 +49,7 @@ reference:
   desc:  Utility functions for Sanctuary regions.
   contents:
   - get_nms_polygons
+- title: Other
+  desc: Other functions not defined by concepts above
+  contents:
+  - lacks_concepts(c("utility", "calcofi", "erddap", "rocky"))
