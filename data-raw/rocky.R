@@ -1,6 +1,6 @@
 # TODO:
 # - update and operationalize download from [MARINe_meta - Google Sheets](https://docs.google.com/spreadsheets/d/1XSCfBdIN0r6pWtSF5-TgscdtxrOmYLaJUrk02cwhlIo/edit#gid=643317542)
-# - finish rocky_counts a la rocky_pctcover, but something to do with `method_code` field?
+# - finish rocky_counts a la rocky_cover, but something to do with `method_code` field?
 #   See: old [cinms/rocky.R · noaa-onms/cinms](https://github.com/noaa-onms/cinms/blob/28df6cdb65f4c7439a06f5f3496c0baac1747fe0/scripts/rocky.R)
 librarian::shelf(
   dplyr, here, readr, sf)
@@ -91,7 +91,7 @@ write_sf(site_pts, rocky_sites_geo, delete_dsn=T)
 rocky_sites <- read_sf(rocky_sites_geo)
 usethis::use_data(rocky_sites, overwrite = TRUE)
 
-# rocky_pctcover ----
+# rocky_cover ----
 d <- pctcover %>%
   select(
     site = marine_site_name,
@@ -151,7 +151,7 @@ d_dates <- bind_rows(
       pct_cover = mean(percent_cover),
       .groups = "drop") %>%
     mutate(
-      target_assemblage = "ANY"))
+      target_assemblage = "ALL"))
 
 # average across sites to sanctuary-group-site-year
 d_sites <- d_dates %>%
@@ -163,7 +163,7 @@ d_sites <- d_dates %>%
     .groups = "drop") # View(d_nms)
 
 # average across sites to sanctuary-group-year
-d_groups <- d_dates %>%
+d_clusters <- d_dates %>%
   mutate(
     date = date(glue("{year(date)}-06-15"))) %>%
   group_by(nms, cluster, date, target_assemblage, sp_code) %>%
@@ -171,7 +171,7 @@ d_groups <- d_dates %>%
     pct_cover = mean(pct_cover),
     .groups = "drop") %>%
   mutate(
-    site = "ALL") # View(d_groups)
+    site = "ALL") # View(d_clusters)
 
 # average across sites to sanctuary-year
 d_sanctuaries <- d_dates %>%
@@ -186,12 +186,17 @@ d_sanctuaries <- d_dates %>%
     site  = "ALL") # View(d_sanctuaries)
 
 # combine all dates, and annual averages of sanctuary and cluster
-rocky_pctcover <- bind_rows(
+rocky_cover <- bind_rows(
   d_sites,
   d_clusters,
   d_sanctuaries) # View(d)
 
-usethis::use_data(rocky_pctcover, overwrite = TRUE)
+# rocky_cover <- rocky_pctcover %>%
+#   mutate(
+#     target_assemblage = recode(target_assemblage, ANY="ALL"))
+usethis::use_data(rocky_cover, overwrite = TRUE)
+
+rocky_cover
 
 # rocky_counts ----
 counts <- read_csv(counts_csv)
@@ -223,7 +228,7 @@ d <- counts %>%
     sp_code = species_code,
     percent_cover,
     last_updated) %>%
-# TODO: convert below from rocky_pctcover to rocky_counts...
+# TODO: convert below from rocky_cover to rocky_counts...
   left_join(
     rocky_sites,
     by = c("site"))
@@ -275,7 +280,7 @@ d_dates <- bind_rows(
       pct_cover = mean(percent_cover),
       .groups = "drop") %>%
     mutate(
-      target_assemblage = "ANY"))
+      target_assemblage = "ALL"))
 
 # average across sites to sanctuary-group-site-year
 d_sites <- d_dates %>%
@@ -287,7 +292,7 @@ d_sites <- d_dates %>%
     .groups = "drop") # View(d_nms)
 
 # average across sites to sanctuary-group-year
-d_groups <- d_dates %>%
+d_clusters <- d_dates %>%
   mutate(
     date = date(glue("{year(date)}-06-15"))) %>%
   group_by(nms, cluster, date, target_assemblage, sp_code) %>%
@@ -295,7 +300,7 @@ d_groups <- d_dates %>%
     pct_cover = mean(pct_cover),
     .groups = "drop") %>%
   mutate(
-    site = "ALL") # View(d_groups)
+    site = "ALL") # View(d_clusters)
 
 # average across sites to sanctuary-year
 d_sanctuaries <- d_dates %>%
@@ -310,10 +315,10 @@ d_sanctuaries <- d_dates %>%
     site  = "ALL") # View(d_sanctuaries)
 
 # combine all dates, and annual averages of sanctuary and cluster
-rocky_pctcover <- bind_rows(
+rocky_cover <- bind_rows(
   d_sites,
-  d_groups,
+  d_clusters,
   d_sanctuaries) # View(d)
 
-usethis::use_data(rocky_pctcover, overwrite = TRUE)
+usethis::use_data(rocky_cover, overwrite = TRUE)
 

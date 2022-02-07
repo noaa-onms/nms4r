@@ -30,7 +30,7 @@
 #'
 #' A big table of MARINe intertidal percent cover data summarized annually
 #' across sanctuaries, clusters (including "ALL"), sites (including "ALL"),
-#' target_assemblage (including "ANY") and species code.
+#' target_assemblage (including "ALL") and species code.
 #'
 #' @format A simple features tibble with:
 #' \describe{
@@ -43,7 +43,7 @@
 #'   \item{pct_cover}{percent cover}
 #' }
 #' @source \url{https://marine.ucsc.edu/sites/sites-region/index.html}
-"rocky_pctcover"
+"rocky_cover"
 
 #' Sanctuaries with spatial information
 #'
