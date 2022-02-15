@@ -7,11 +7,11 @@
 \format{
 A simple features tibble with:
 \describe{
+\item{nms}{National Marine Sanctuary acronym, e.g. CINMS}
+\item{cluster}{group to name cluster of sites, e.g. Santa Cruz Island}
 \item{site}{site}
 \item{lat}{latitude}
 \item{lon}{longitude}
-\item{nms}{National Marine Sanctuary acronym, e.g. CINMS}
-\item{cluster}{group to name cluster of sites, e.g. Santa Cruz Island}
 }
 }
 \source{
@@ -21,6 +21,7 @@ A simple features tibble with:
 rocky_sites
 }
 \description{
-A simple features table of MARINe intertidal sites associated with a National Marine Sanctuary.
+A simple features table of MARINe intertidal sites associated
+with a National Marine Sanctuary.
 }
 \keyword{datasets}

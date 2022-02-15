@@ -3,7 +3,7 @@
 \docType{data}
 \name{rocky_clusters}
 \alias{rocky_clusters}
-\title{Rocky intertidal site Sanctuary groupings}
+\title{Rocky intertidal site clusters}
 \format{
 A tibble with the following columns:
 \describe{
@@ -19,6 +19,7 @@ A tibble with the following columns:
 rocky_clusters
 }
 \description{
-A simple table describing groupings per National Marine Sanctuary.
+A simple table clustering sites per National Marine Sanctuary,
+such as by island.
 }
 \keyword{datasets}

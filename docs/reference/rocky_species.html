@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Rocky intertidal percent cover data — rocky_cover • onmsR</title>
+<title>Rocky species — rocky_species • onmsR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,9 @@
 
 
 
-<meta property="og:title" content="Rocky intertidal percent cover data — rocky_cover" />
-<meta property="og:description" content="A table of MARINe intertidal species percent cover summarized annually
-across sanctuaries, clusters (including &quot;ALL&quot;), sites (including &quot;ALL&quot;),
-sp_target (including &quot;ALL&quot;) and species code sp_code." />
+<meta property="og:title" content="Rocky species — rocky_species" />
+<meta property="og:description" content="A table of MARINe species with sp_code to relate to rocky_cover
+and rocky_counts." />
 
 
 
@@ -141,33 +140,22 @@ sp_target (including &quot;ALL&quot;) and species code sp_code." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Rocky intertidal percent cover data</h1>
+    <h1>Rocky species</h1>
     <small class="dont-index">Source: <a href='https://github.com/noaa-onms/onmsR/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>rocky_cover.Rd</code></div>
+    <div class="hidden name"><code>rocky_species.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A table of MARINe intertidal species percent cover summarized annually
-across sanctuaries, clusters (including "ALL"), sites (including "ALL"),
-<code>sp_target</code> (including "ALL") and species code <code>sp_code</code>.</p>
+    <p>A table of MARINe species with <code>sp_code</code> to relate to <a href='rocky_cover.html'>rocky_cover</a>
+and <a href='rocky_counts.html'>rocky_counts</a>.</p>
     </div>
 
-    <pre class="usage"><span class='va'>rocky_cover</span></pre>
+    <pre class="usage"><span class='va'>rocky_species</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A simple features tibble with:</p><dl>
-<dt>nms</dt><dd><p>National Marine Sanctuary acronym, e.g. CINMS</p></dd>
-<dt>cluster</dt><dd><p>grouping of sites, e.g. Santa Cruz Island</p></dd>
-<dt>site</dt><dd><p>MARINe site</p></dd>
-<dt>date</dt><dd><p>annual date YYYY-06-15</p></dd>
-<dt>sp_target</dt><dd><p>MARINe target assemblage</p></dd>
-<dt>sp_code</dt><dd><p>MARINe species code</p></dd>
-<dt>pct_cover</dt><dd><p>percent cover</p></dd>
-
-</dl>
-
+    <p>An object of class <code>spec_tbl_df</code> (inherits from <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 70 rows and 12 columns.</p>
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
     <p><a href='https://marine.ucsc.edu/sites/sites-region/index.html'>https://marine.ucsc.edu/sites/sites-region/index.html</a></p>
