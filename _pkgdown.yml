@@ -28,10 +28,7 @@ reference:
 - title: "Data: Rocky intertidal (MARINe)"
   desc:  Produce interactive maps and plots.
   contents:
-  - read_csv_fmt
-  - make_sites_csv
-  - map_nms_sites
-  - plot_intertidal_nms
+  - starts_with("rocky")
 - title: Reporting functions
   desc: Render html for R markdown files that form the modal windows.
   contents:
