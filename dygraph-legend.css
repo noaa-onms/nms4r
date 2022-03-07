@@ -1,0 +1,5 @@
+/* Moving location of legend for dygraph plots */
+
+.dygraph-legend {
+  left: 675px !important;
+}

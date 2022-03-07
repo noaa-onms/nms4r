@@ -123,5 +123,6 @@ rocky_tsplot <- function(
       highlightSeriesOpts = list(strokeWidth = 6)) %>%
     dygraphs::dyRangeSelector(
       fillColor = " #FFFFFF",
-      strokeColor = "#FFFFFF")
+      strokeColor = "#FFFFFF") %>%
+    dyCSS("dygraph-legend.css")
 }
