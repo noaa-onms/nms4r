@@ -1,81 +1,162 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/index.html</loc>
+    <loc>/404.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/calcofi_map.html</loc>
+    <loc>/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/calcofi_plot.html</loc>
+    <loc>/articles/Calcofi.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/calculate_SST_anomaly.html</loc>
+    <loc>/articles/Erddap.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/calculate_statistics.html</loc>
+    <loc>/articles/Introduction.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/generate_html_4_rmd.html</loc>
+    <loc>/articles/Introduction2.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/get_dates.html</loc>
+    <loc>/articles/Marine.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/get_figure_info.html</loc>
+    <loc>/articles/Overview.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/get_modal_info.html</loc>
+    <loc>/articles/Reporting.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/get_nms_polygons.html</loc>
+    <loc>/articles/Utilities.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/glossarize_md.html</loc>
+    <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/insert_tooltip.html</loc>
+    <loc>/articles/onmsR.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/make_sites_csv.html</loc>
+    <loc>/authors.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/map_nms_sites.html</loc>
+    <loc>/index.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/md_caption.html</loc>
+    <loc>/news/index.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/pipe.html</loc>
+    <loc>/reference/calcofi_map.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/plot_SST_anomaly.html</loc>
+    <loc>/reference/calcofi_plot.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/plot_intertidal_nms.html</loc>
+    <loc>/reference/calculate_SST_anomaly.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/plot_metric_timeseries.html</loc>
+    <loc>/reference/calculate_statistics.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/ply2erddap.html</loc>
+    <loc>/reference/create_website.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/read_csv_fmt.html</loc>
+    <loc>/reference/generate_html_4_rmd.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/render_all_rmd.html</loc>
+    <loc>/reference/get_dates.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/render_figure.html</loc>
+    <loc>/reference/get_figure_info.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/reference/rmd2html.html</loc>
+    <loc>/reference/get_modal_info.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/articles/HTML_Rendering.html</loc>
+    <loc>/reference/get_nms_polygons.html</loc>
   </url>
   <url>
-    <loc>https://noaa-onms.github.io/onmsR/docs/reference/index.html/articles/Introduction.html</loc>
+    <loc>/reference/glossarize_md.html</loc>
+  </url>
+  <url>
+    <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/initial_build.html</loc>
+  </url>
+  <url>
+    <loc>/reference/insert_tooltip.html</loc>
+  </url>
+  <url>
+    <loc>/reference/make_rocky_sites.html</loc>
+  </url>
+  <url>
+    <loc>/reference/make_sites_csv.html</loc>
+  </url>
+  <url>
+    <loc>/reference/map_nms_sites.html</loc>
+  </url>
+  <url>
+    <loc>/reference/md_caption.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_SST_anomaly.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_intertidal_nms.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_metric_timeseries.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ply2erddap.html</loc>
+  </url>
+  <url>
+    <loc>/reference/read_csv_fmt.html</loc>
+  </url>
+  <url>
+    <loc>/reference/render_all_rmd.html</loc>
+  </url>
+  <url>
+    <loc>/reference/render_figure.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rmd2html.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rocky_clusters.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rocky_counts.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rocky_cover.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rocky_map.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rocky_pctcover.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rocky_site_groups.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rocky_sites.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rocky_species.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rocky_timeseries.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rocky_tsplot.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sanctuaries.html</loc>
   </url>
 </urlset>

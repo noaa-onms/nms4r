@@ -25,6 +25,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -37,18 +39,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">onmsR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/onmsR.html">Get started</a>
 </li>
@@ -56,7 +52,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -79,7 +75,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/noaa-onms/onmsR/">
+  <a href="https://github.com/noaa-onms/onmsR/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -94,33 +90,52 @@
 
       
 
-      </header><script src="Erddap_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Data: Oceanography (ERDDAP)</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/noaa-onms/onmsR/blob/master/vignettes/Erddap.Rmd"><code>vignettes/Erddap.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/noaa-onms/onmsR/blob/HEAD/vignettes/Erddap.Rmd" class="external-link"><code>vignettes/Erddap.Rmd</code></a></small>
       <div class="hidden name"><code>Erddap.Rmd</code></div>
 
     </div>
 
     
     
-<div id="data-source" class="section level2">
-<h2 class="hasAnchor">
-<a href="#data-source" class="anchor"></a>Data Source</h2>
-<p>ERDDAP (Environmental Research Division Data Access Portal) data is sourced from the <a href="https://coastwatch.pfeg.noaa.gov/erddap/index.html">ERDDAP server</a> using the <a href="https://cran.r-project.org/web/packages/rerddap/index.html">rerddap R library</a>.</p>
+<div class="section level2">
+<h2 id="data-source">Data Source<a class="anchor" aria-label="anchor" href="#data-source"></a>
+</h2>
+<p>ERDDAP (Environmental Research Division Data Access Portal) data is
+sourced from the <a href="https://coastwatch.pfeg.noaa.gov/erddap/index.html" class="external-link">ERDDAP
+server</a> using the <a href="https://cran.r-project.org/web/packages/rerddap/index.html" class="external-link">rerddap
+R library</a>.</p>
 </div>
-<div id="data-preparation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#data-preparation" class="anchor"></a>Data Preparation</h2>
-<p>As data on the ERDDAP server is updated regularly this provides the opportunity for interactive figures using ERDDAP data to be updated regularly as well. The first step in this process is to update the relevant tables, which for the Channel Islands Marine Sanctuary (CINMS) are located at: <a href="https://github.com/marinebon/cinms/tree/master/data/oceano" class="uri">https://github.com/marinebon/cinms/tree/master/data/oceano</a>. These tables, saved in csv format, are updated monthly via GitHub Actions using the <a href="https://github.com/marinebon/cinms/blob/master/.github/workflows/update-oceano.yml">update_oceano.yml</a> workflow. This workflow in turn calls the R script <a href="https://github.com/marinebon/cinms/blob/master/scripts/update_oceano-data.R">update_oceano-data.R</a>, which uses the <code><a href="../reference/calculate_statistics.html">calculate_statistics()</a></code> and <code>calculate_SST_anomaly</code> functions from the <strong>onmsR</strong> package to update the relevant csv files.</p>
+<div class="section level2">
+<h2 id="data-preparation">Data Preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
+</h2>
+<p>As data on the ERDDAP server is updated regularly this provides the
+opportunity for interactive figures using ERDDAP data to be updated
+regularly as well. The first step in this process is to update the
+relevant tables, which for the Channel Islands Marine Sanctuary (CINMS)
+are located at: <a href="https://github.com/marinebon/cinms/tree/master/data/oceano" class="external-link uri">https://github.com/marinebon/cinms/tree/master/data/oceano</a>.
+These tables, saved in csv format, are updated monthly via GitHub
+Actions using the <a href="https://github.com/marinebon/cinms/blob/master/.github/workflows/update-oceano.yml" class="external-link">update_oceano.yml</a>
+workflow. This workflow in turn calls the R script <a href="https://github.com/marinebon/cinms/blob/master/scripts/update_oceano-data.R" class="external-link">update_oceano-data.R</a>,
+which uses the <code><a href="../reference/calculate_statistics.html">calculate_statistics()</a></code> and
+<code>calculate_SST_anomaly</code> functions from the
+<strong>onmsR</strong> package to update the relevant csv files.</p>
 </div>
-<div id="figure-preparation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#figure-preparation" class="anchor"></a>Figure Preparation</h2>
-<p>Once the data tables have been updated, the next step is to update the figures that draw upon those tables. This is done by rerendering the modal windows (which are R Markdown files) that contain those figures. This also occurs on a monthly basis via GitHub Actions using the <a href="https://github.com/marinebon/cinms/blob/master/.github/workflows/update-oceano.yml">update_oceano.yml</a> workflow. The workflow calls the R script <a href="https://github.com/marinebon/cinms/blob/master/scripts/render_oceano-modals.R">render_oceano-modals.R</a>, which calls the <strong>onmsR</strong> function <code>render_all_rmd()</code> to update the relevant modal windows.</p>
+<div class="section level2">
+<h2 id="figure-preparation">Figure Preparation<a class="anchor" aria-label="anchor" href="#figure-preparation"></a>
+</h2>
+<p>Once the data tables have been updated, the next step is to update
+the figures that draw upon those tables. This is done by rerendering the
+modal windows (which are R Markdown files) that contain those figures.
+This also occurs on a monthly basis via GitHub Actions using the <a href="https://github.com/marinebon/cinms/blob/master/.github/workflows/update-oceano.yml" class="external-link">update_oceano.yml</a>
+workflow. The workflow calls the R script <a href="https://github.com/marinebon/cinms/blob/master/scripts/render_oceano-modals.R" class="external-link">render_oceano-modals.R</a>,
+which calls the <strong>onmsR</strong> function
+<code>render_all_rmd()</code> to update the relevant modal windows.</p>
 </div>
   </div>
 
@@ -135,11 +150,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Ben Best, Jai Ranganathan.</p>
+  <p></p>
+<p>Developed by Ben Best, Jai Ranganathan.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>
@@ -147,6 +164,8 @@
 
   
 
+
+  
 
   </body>
 </html>

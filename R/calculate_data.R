@@ -196,6 +196,7 @@ get_dates <- function(info){
 #'
 #' @param nms The code for a national marine sanctuary.
 #' @return The function returns a sf object containing the polygons of a sanctuary.
+#' @export
 #' @examples \dontrun{
 #' get_nms_polygons("cinms")
 #' }
