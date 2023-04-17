@@ -82,13 +82,20 @@ calculate_SST_anomaly <-function(sanct) {
 #'
 calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
 
+  # sanctuary="cinms"; erddap_id="nesdisVHNSQchlaMonthly"; metric="chlor_a";
+  # csv_file="statistics_chl_cinms.csv"
+
+  print('Starting calculate_statistics()')
+
+  erddap_ids_valid <- c("jplMURSST41mday", "nesdisVHNSQchlaMonthly", "erdMWchlamday")
+
   # the first step is to check if the function knows how to handle the dataset being called. If it doesn't, stop everything.
-  if (!(erddap_id == "jplMURSST41mday" | erddap_id == "nesdisVHNSQchlaMonthly" | erddap_id == "erdMWchlamday")) {
-    stop("Error in erddap_id: this function only currently knows how to handle the datasets jplMURSST41mday, erdMWchlamday, and nesdisVHNSQchlaMonthly")
+  if (!erddap_id %in% erddap_ids_valid) {
+    stop("Error in erddap_id: this function only currently knows how to handle the following datasets: ", paste(erddap_ids_valid, collapse=", "))
   }
 
   # Next, let's pull in the starting date of the dataset
-  dataset_info   <- rerddap::info(erddap_id)
+  dataset_info   <- rerddap::info(erddap_id, url = "https://coastwatch.pfeg.noaa.gov/erddap/")
   dataset_global <- dataset_info$alldata$NC_GLOBAL
   tt <- dataset_global[
     dataset_global$attribute_name %in%
@@ -117,6 +124,7 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   } else {
     datafile <- here::here(paste0(sanctuary,"/data/oceano/",csv_file))
   }
+  # datafile <- "/Users/bbest/Github/noaa-onms/cinms/data/oceano/statistics_chl_cinms.csv"
 
   # load in the csv file containing the SST or chlorophyll data for a given sanctuary
   read_in <- read.csv(datafile, stringsAsFactors = FALSE)
@@ -133,7 +141,7 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
   names(write_out) <- c("date", col2, col3, col4, col5, col6)
 
   # let's go through every month in the date range
-  for (i in 1:length(date_sequence)){
+  for (i in 1:length(date_sequence)){ # i = 1
 
     # create a flag to keep track of whether the data for a particular month needs to be calculated
     need_to_calculate = FALSE
@@ -155,6 +163,7 @@ calculate_statistics <-function(sanctuary, erddap_id, metric, csv_file) {
       # if not, then we need to calculate the statistics from the satellite data, using the ply2erddap function
       year <- as.numeric(substr(write_out$date[i],1,4))
       month <- as.numeric(substr(write_out$date[i],6,7))
+      # browser() # DEBUG
       try(
         # note the use of the try function, due to the flaky nature of the server holding the satellite
         # data. If the server is down, this given month will retain NA until a future point that the server is up
@@ -328,11 +337,15 @@ make_rocky_sites <- function(raw_csv, nms_ply=NULL, site_regions = NULL, raw_sou
 #' }
 ply2erddap <- function(sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
 
+  # sanctuary_code="cinms"; erddap_id="nesdisVHNSQchlaMonthly"
+  # erddap_fld="chlor_a"; year=2022; month=6; stats=c("mean", "sd", "median", "q5", "q95")
+
   # check inputs
   stopifnot(all(is.numeric(year), is.numeric(month)))
 
   # Get the polygons for the sanctuary.
   sanctuary_ply <-   sf::as_Spatial(sf::st_union(get_nms_polygons(sanctuary_code)))
+  #sanctuary_ply <-   sf::as_Spatial(sf::st_union(sf::read_sf("/Users/bbest/Github/noaa-onms/cinms/data/shp/cinms_py.shp")))
 
   # set the x and y limits of the raster to be pulled based upon the sanctuary polygons
   bb <- sf::st_bbox(sanctuary_ply)
@@ -371,7 +384,7 @@ ply2erddap <- function(sanctuary_code, erddap_id, erddap_fld, year, month, stats
 
   nc <- try(
     rerddap::griddap(
-      rerddap::info(erddap_id),
+      rerddap::info(erddap_id, url = "https://coastwatch.pfeg.noaa.gov/erddap/"),
       url = "https://coastwatch.pfeg.noaa.gov/erddap/",
       time = m_dates,
       latitude = latitude_range, longitude = longitude_range,
