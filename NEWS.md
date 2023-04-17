@@ -1,3 +1,7 @@
+# onmsR 0.2.2
+
+* Force ERDDAP URL of https://coastwatch.pfeg.noaa.gov/erddap/ vs default `rerddap::eurl()` of https://upwell.pfeg.noaa.gov/erddap/.
+
 # onmsR 0.2.1
 
 * Replaced all instances of "nms4R" with "onmsR".
