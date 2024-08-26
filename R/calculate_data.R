@@ -338,6 +338,8 @@ make_rocky_sites <- function(raw_csv, nms_ply=NULL, site_regions = NULL, raw_sou
 ply2erddap <- function(sanctuary_code, erddap_id, erddap_fld, year, month, stats) {
 
   # sanctuary_code="cinms"; erddap_id="nesdisVHNSQchlaMonthly"
+  # sanctuary_code="cinms"; erddap_id="jplMURSST41mday"
+  # erddap_fld="sst"; year=2010; month=6; stats=c("mean", "sd")
   # erddap_fld="chlor_a"; year=2022; month=6; stats=c("mean", "sd", "median", "q5", "q95")
 
   # check inputs
@@ -386,7 +388,7 @@ ply2erddap <- function(sanctuary_code, erddap_id, erddap_fld, year, month, stats
     rerddap::griddap(
       rerddap::info(erddap_id, url = "https://coastwatch.pfeg.noaa.gov/erddap/"),
       url = "https://coastwatch.pfeg.noaa.gov/erddap/",
-      time = m_dates,
+      time = as.character(m_dates),
       latitude = latitude_range, longitude = longitude_range,
       fields = erddap_fld, fmt = 'nc'))
   if ("try-error" %in% class(nc)){
@@ -398,14 +400,14 @@ ply2erddap <- function(sanctuary_code, erddap_id, erddap_fld, year, month, stats
     # TODO: delete this chunk since this dataset now seems gone or renamed?, per https://coastwatch.pfeg.noaa.gov/erddap/griddap/nesdisVHNSQchlaMonthly.graph
     ylim <- range(nc$data$lat, na.rm = TRUE)
     xlim <- range(nc$data$lon, na.rm = TRUE)
-    ext <- raster::extent(xlim[1], xlim[2], ylim[1], ylim[2])
+    ext <- terra::ext(xlim[1], xlim[2], ylim[1], ylim[2])
 
     #create raster
     d <- dplyr::arrange(nc$data, desc(nc$data$lat), nc$data$lon)
-    r <- raster::raster(nrows = length(unique(nc$data$lat)), ncols = length(unique(nc$data$lon)),
+    r <- terra::rast(nrows = length(unique(nc$data$lat)), ncols = length(unique(nc$data$lon)),
                         ext = ext, vals = d[,erddap_fld])
   } else {
-    r <- raster::raster(nc$summary$filename)
+    r <- terra::rast(nc$summary$filename)
   }
 
   # The following get_stat function extracts a statistical value (eg. mean or standard deviation) from the raster
@@ -428,11 +430,11 @@ ply2erddap <- function(sanctuary_code, erddap_id, erddap_fld, year, month, stats
 
   # Let's run the function get_stat for every statistic asked for by the parameter value stats - this is the overall function output
   # stats = c("mean", "sd", "q5", "q95")
-  r_v <- raster::extract(
-    r, sanctuary_ply, layer = 1,
+  r_v <- terra::extract(
+    r, terra::vect(sanctuary_ply),
     method = "simple", na.rm=TRUE)[[1]]
 
-  # The raster::extract function above is supposed to remove NA values, but (at least
+  # The extract::extract function above is supposed to remove NA values, but (at least
   # in the case of the nesdisVHNSQchlaMonthly dataset) it doesn't. I have no idea why.
   # So, let's get rid of NA values for sure
   r_v <- na.omit(r_v)

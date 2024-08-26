@@ -1,3 +1,8 @@
+# onmsR 0.2.3
+
+* Drop dependencies on deprecated `rgdal` and `raster` packages in favor of `terra`. 
+This only affects the `ply2erddap()` function.
+
 # onmsR 0.2.2
 
 * Force ERDDAP URL of https://coastwatch.pfeg.noaa.gov/erddap/ vs default `rerddap::eurl()` of https://upwell.pfeg.noaa.gov/erddap/.

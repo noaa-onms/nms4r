@@ -1,6 +1,6 @@
 Package: onmsR
 Title: Office of National Marine Sanctuaries functions for dataset-specific wrangling and plotting in R
-Version: 0.2.2
+Version: 0.2.3
 Authors@R: 
     c(person(given = "Ben",
            family = "Best",
@@ -34,15 +34,14 @@ Imports:
     magrittr,
     mapview,
     purrr,
-    raster,
     rerddap,
-    rgdal,
     rlang,
     rmarkdown,
     scales,
     sf,
     shiny,
     stringr,
+    terra,
     tools,
     units,
     xts
